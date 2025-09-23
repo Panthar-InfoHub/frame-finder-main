@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}>
         <Suspense fallback={null}>{children}</Suspense>
       </body>
     </html>

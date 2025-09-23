@@ -27,7 +27,7 @@ export function CategorySection({ title, categories, showSeeMore = false }: Cate
                   alt={category.name}
                   width={80}
                   height={80}
-                  className="object-cover"
+                  className="object-cover h-full w-full"
                 />
               </div>
               <p className="text-sm text-gray-700 font-medium">{category.name}</p>

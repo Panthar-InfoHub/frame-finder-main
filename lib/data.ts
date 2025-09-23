@@ -142,7 +142,7 @@ export const footerData = {
   socialLinks: [
     { name: "Instagram", href: "#", icon: "instagram" },
     { name: "LinkedIn", href: "#", icon: "linkedin" },
-    { name: "Pinterest", href: "#", icon: "pinterest" },
+    { name: "Facebook", href: "#", icon: "facebook" },
     { name: "Twitter", href: "#", icon: "twitter" },
   ],
 }

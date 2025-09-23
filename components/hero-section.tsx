@@ -13,12 +13,12 @@ export function HeroSection() {
       </div>
 
       <div className="absolute top-8 left-0 right-0 z-20">
-        <div className="container mx-auto px-4">
+        <div className=" w-full px-4">
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
             <Link href="/" className="flex items-center">
-              <div className="w-32 h-8 bg-emerald-500 rounded flex items-center justify-center">
-                <span className="text-white text-sm font-bold">FRAME FINDER</span>
+              <div className="w-56 h-16 flex items-center justify-center relative">
+                <Image src="/assest/logo.svg" fill className="w-full h-full object-cover" alt="logo"/>
               </div>
             </Link>
 
@@ -28,7 +28,7 @@ export function HeroSection() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-white hover:text-emerald-300 transition-colors text-xs font-medium uppercase tracking-wide"
+                  className="text-white hover:text-emerald-300 transition-colors  uppercase tracking-wide font-normal text-base"
                 >
                   {item.name}
                 </Link>
