@@ -83,7 +83,7 @@ export const eyewareCategories = [
   },
   {
     name: "Blue Computer Glasses",
-    image: "/blue-light-blocking-glasses.png",
+    image: "/blue-light-blocking-glasses.jpg",
   },
   {
     name: "Metalwork",
