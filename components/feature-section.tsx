@@ -1,9 +1,15 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { Lexend_Deca } from "next/font/google";
+
+const lexendDeca = Lexend_Deca({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export function FeatureSection() {
   return (
-    <section className="py-12 bg-gray-50">
+    <section className={` ${lexendDeca.className} py-12 bg-gray-50`}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative">

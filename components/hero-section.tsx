@@ -68,8 +68,8 @@ export function HeroSection() {
         <div className="absolute inset-0 bg-black/30" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 h-full flex items-center justify-center">
-        <div className="text-center text-white">
+      <div className="relative z-10 container mx-auto px-4 h-full flex items-end justify-center">
+        <div className="text-center text-white mb-10">
           <div className="flex items-center justify-center mb-4">
             <div className="w-8 h-8 border-2 border-white rounded-full flex items-center justify-center mr-3">
               <span className="text-sm font-bold">Z</span>
