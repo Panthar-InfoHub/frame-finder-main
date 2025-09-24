@@ -5,10 +5,12 @@ import { CategorySection } from "@/components/category-section"
 import { FeatureSection } from "@/components/feature-section"
 import { Footer } from "@/components/footer"
 import { eyewareCategories, sunglassCategories } from "@/lib/data"
+import { Header } from "@/components/header"
 
 export default function HomePage() {
   return (
     <div className="min-h-screen">
+      <Header/>
       <HeroSection />
       <CategorySection title="Eyeware Glasses" categories={eyewareCategories} />
       <TopPicks />

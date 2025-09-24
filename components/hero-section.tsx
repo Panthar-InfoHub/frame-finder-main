@@ -3,18 +3,15 @@ import Image from "next/image"
 import Link from "next/link"
 import { navigationItems } from "@/lib/data"
 import { Search, User, Menu } from "lucide-react"
+import { NavigationItem } from "@/components/navigation/navigation-item"
 
 export function HeroSection() {
   return (
-    <section className="relative h-[500px] md:h-[600px] overflow-hidden">
+    <section className="relative h-[600px] md:h-screen overflow-hidden">
       {/* Top banner */}
-      <div className="absolute top-0 left-0 right-0 bg-emerald-500 text-white text-center py-2 text-sm z-20">
-        New edit: Eco-Acetate - Shop For 2 Pay For 1 🛍️
-      </div>
-
-      <div className="absolute top-8 left-0 right-0 z-20">
+      <div className="absolute left-0 right-0 z-20">
         <div className=" w-full px-4">
-          <div className="flex items-center justify-between py-4">
+          <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <div className="w-56 h-16 flex items-center justify-center relative">
@@ -25,13 +22,7 @@ export function HeroSection() {
             {/* Navigation */}
             <nav className="hidden lg:flex items-center space-x-6">
               {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-white hover:text-emerald-300 transition-colors  uppercase tracking-wide font-normal text-base"
-                >
-                  {item.name}
-                </Link>
+                <NavigationItem key={item.name} name={item.name} href={item.href} />
               ))}
             </nav>
 

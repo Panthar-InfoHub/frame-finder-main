@@ -83,7 +83,7 @@ export const eyewareCategories = [
   },
   {
     name: "Blue Computer Glasses",
-    image: "/blue-light-blocking-glasses.jpg",
+    image: "/blue-light-blocking-glasses.png",
   },
   {
     name: "Metalwork",
@@ -142,7 +142,127 @@ export const footerData = {
   socialLinks: [
     { name: "Instagram", href: "#", icon: "instagram" },
     { name: "LinkedIn", href: "#", icon: "linkedin" },
-    { name: "Facebook", href: "#", icon: "facebook" },
+    { name: "Pinterest", href: "#", icon: "pinterest" },
     { name: "Twitter", href: "#", icon: "twitter" },
   ],
+}
+
+export const navigationMenuData = {
+  EYEGLASSES: {
+    type: "mega",
+    sections: [
+      {
+        title: "Gender",
+        type: "image-list",
+        items: [
+          {
+            name: "Men",
+            href: "/eyeglasses/men",
+            image: "/professional-man-wearing-glasses.jpg",
+          },
+          {
+            name: "Women",
+            href: "/eyeglasses/women",
+            image: "/professional-woman-wearing-glasses.jpg",
+          },
+          {
+            name: "Kids",
+            href: "/eyeglasses/kids",
+            image: "/placeholder-kkch7.png",
+          },
+        ],
+      },
+      {
+        title: "Frame Type",
+        type: "text-list",
+        items: [
+          { name: "Rectangle Frame", href: "/eyeglasses/rectangle" },
+          { name: "Square Frame", href: "/eyeglasses/square" },
+          { name: "Round Frame", href: "/eyeglasses/round" },
+          { name: "Cat-Eye Frame", href: "/eyeglasses/cat-eye" },
+          { name: "Oval Frame", href: "/eyeglasses/oval" },
+        ],
+      },
+      {
+        title: "Style",
+        type: "text-list",
+        items: [
+          { name: "Rimmed", href: "/eyeglasses/rimmed" },
+          { name: "Semi-Rimmed", href: "/eyeglasses/semi-rimmed" },
+          { name: "Rimless", href: "/eyeglasses/rimless" },
+        ],
+      },
+    ],
+    featuredImage: "/stylish-eyeglasses-on-elegant-background.jpg",
+  },
+  "COMPUTER GLASSES": {
+    type: "simple",
+    items: [
+      { name: "Blue Light Blocking", href: "/computer-glasses/blue-light" },
+      { name: "Anti-Glare", href: "/computer-glasses/anti-glare" },
+      { name: "Gaming Glasses", href: "/computer-glasses/gaming" },
+      { name: "Office Collection", href: "/computer-glasses/office" },
+    ],
+  },
+  SUNGLASSES: {
+    type: "mega",
+    sections: [
+      {
+        title: "Gender",
+        type: "image-list",
+        items: [
+          {
+            name: "Men",
+            href: "/sunglasses/men",
+            image: "/man-wearing-sunglasses.jpg",
+          },
+          {
+            name: "Women",
+            href: "/sunglasses/women",
+            image: "/woman-wearing-sunglasses.jpg",
+          },
+        ],
+      },
+      {
+        title: "Shape",
+        type: "text-list",
+        items: [
+          { name: "Aviator", href: "/sunglasses/aviator" },
+          { name: "Way farer", href: "/sunglasses/wayfarer" },
+          { name: "Wraparound", href: "/sunglasses/wraparound" },
+          { name: "Rectangle", href: "/sunglasses/rectangle" },
+          { name: "Round", href: "/sunglasses/round" },
+        ],
+      },
+    ],
+    featuredImage: "/premium-sunglasses-on-luxury-background.jpg",
+  },
+  "POWER SUNGLASSES": {
+    type: "simple",
+    items: [
+      { name: "Prescription Sunglasses", href: "/power-sunglasses/prescription" },
+      { name: "Progressive Sunglasses", href: "/power-sunglasses/progressive" },
+      { name: "Reading Sunglasses", href: "/power-sunglasses/reading" },
+      { name: "Distance Sunglasses", href: "/power-sunglasses/distance" },
+    ],
+  },
+  "CONTACT LENSES": {
+    type: "simple",
+    items: [
+      { name: "Contact lens Solutions", href: "/contact-lenses/solutions" },
+      { name: "Chains", href: "/contact-lenses/chains" },
+      { name: "Lens Cleaner", href: "/contact-lenses/cleaner" },
+      { name: "Packaging Case", href: "/contact-lenses/packaging" },
+    ],
+  },
+  ACCESSORIES: {
+    type: "simple",
+    items: [
+      { name: "Glasses Cases", href: "/accessories/cases" },
+      { name: "Cleaning Cloths", href: "/accessories/cloths" },
+      { name: "Chains & Straps", href: "/accessories/chains" },
+      { name: "Repair Kits", href: "/accessories/repair" },
+      { name: "Lens Cleaners", href: "/accessories/cleaners" },
+    ],
+  },
 }
