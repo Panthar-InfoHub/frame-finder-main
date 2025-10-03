@@ -10,7 +10,7 @@ interface DropdownMenuProps {
 }
 
 export function DropdownMenu({ menuKey, isOpen, onClose }: DropdownMenuProps) {
-  const menuData = navigationMenuData[menuKey as keyof typeof navigationMenuData]
+  const menuData = navigationMenuData[menuKey]
 
   if (!menuData || !isOpen) return null
 

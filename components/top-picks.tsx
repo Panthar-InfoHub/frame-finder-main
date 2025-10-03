@@ -21,12 +21,12 @@ export function TopPicks() {
             </h2>
 
             <div className="w-full mb-8">
-              <div className="grid grid-cols-[1fr_auto_auto] items-center gap-4">
+              <div className="flex justify-end gap-80">
                 <div className="justify-self-center p-0.5 rounded-full border border-[#00AA78]">
-                  <TabsList className="rounded-full bg-transparent p-1 gap-3">
+                  <TabsList className="rounded-full bg-transparent p-2 gap-4">
                     <TabsTrigger
                       value="new-arrival"
-                      className="rounded-full px-12 py-3 text-[16px] font-medium
+                      className="rounded-full px-12 py-4 text-[16px] font-medium
                               bg-white text-foreground shadow-sm
                               data-[state=active]:bg-[#00AA78] data-[state=active]:text-white data-[state=active]:shadow-none
                               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00AA78]/40
@@ -36,7 +36,7 @@ export function TopPicks() {
                     </TabsTrigger>
                     <TabsTrigger
                       value="best-seller"
-                      className=" rounded-full px-12 py-3 text-[16px] font-medium
+                      className=" rounded-full px-12 py-4 text-[16px] font-medium
                                 bg-white text-foreground shadow-sm
                                 data-[state=active]:bg-[#00AA78] data-[state=active]:text-white data-[state=active]:shadow-none
                                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00AA78]/40

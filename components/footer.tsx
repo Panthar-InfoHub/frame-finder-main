@@ -69,7 +69,6 @@ export function Footer() {
                 const IconComponent = socialIcons[social.icon as keyof typeof socialIcons]
                 return (
                   <Link key={social.name} href={social.href} className="hover:text-emerald-200 transition-colors">
-                    
                   </Link>
                 )
               })}

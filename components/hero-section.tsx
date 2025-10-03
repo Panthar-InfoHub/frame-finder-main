@@ -1,11 +1,43 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import { navigationItems } from "@/lib/data"
 import { Search, User, Menu } from "lucide-react"
 import { NavigationItem } from "@/components/navigation/navigation-item"
+import { DropdownMenu } from "./navigation/dropdown-menu"
+import { useState, useRef, useEffect } from "react"
+
 
 export function HeroSection() {
+  const [isOpen, setIsOpen] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const itemRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    setIsOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false)
+    }, 150)
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
   return (
     <section className="relative h-[600px] md:h-screen overflow-hidden">
       {/* Top banner */}
@@ -19,7 +51,7 @@ export function HeroSection() {
               </div>
             </Link>
 
-            {/* Navigation */}
+            {/* Navigation */}  
             <nav className="hidden lg:flex items-center space-x-6">
               {navigationItems.map((item) => (
                 <NavigationItem key={item.name} name={item.name} href={item.href} />
@@ -31,11 +63,15 @@ export function HeroSection() {
               <Button variant="ghost" size="icon" className="text-white hover:text-emerald-300 hover:bg-white/10">
                 <Search className="h-4 w-4" />
               </Button>
-              <Link href="/login">
-                <Button variant="ghost" size="icon" className="text-white hover:text-emerald-300 hover:bg-white/10">
-                  <User className="h-4 w-4" />
-                </Button>
-              </Link>
+              
+                <div ref={itemRef} className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                  <Link href="/login" className="text-white hover:text-emerald-300 transition-colors text-xs font-medium uppercase tracking-wide">
+                  <Button variant="ghost" size="icon" className="text-white hover:text-emerald-300 hover:bg-white/10">
+                    <User className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <DropdownMenu menuKey={name} isOpen={isOpen} onClose={handleClose} />
+                </div>
               <Button
                 variant="ghost"
                 size="icon"

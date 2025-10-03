@@ -15,6 +15,7 @@ export const navigationItems = [
   { name: "POWER SUNGLASSES", href: "/power-sunglasses" },
   { name: "CONTACT LENSES", href: "/contact-lenses" },
   { name: "ACCESSORIES", href: "/accessories" },
+  { name: "User", href: "/user" },
 ]
 
 export const topPicks = [
@@ -265,4 +266,222 @@ export const navigationMenuData = {
       { name: "Lens Cleaners", href: "/accessories/cleaners" },
     ],
   },
+  "User": {
+    type: "simple",
+    items: [
+      { name: "Your Account", href: "#" },
+      { name: "sign out", href: "#" },
+    ],
+  },
 }
+export interface Product {
+  id: string
+  name: string
+  price: number
+  category: "eyeglasses" | "sunglasses" | "frames"
+  brand: string
+  style: string
+  material: string
+  colors: string[]
+  badge?: string
+  image?: string
+}
+
+export interface FilterOption {
+  label: string
+  value: string
+  count?: number
+}
+
+export const products: Product[] = [
+  {
+    id: "1",
+    name: "Tecla",
+    price: 5000,
+    category: "eyeglasses",
+    brand: "Clarity",
+    style: "Classic",
+    material: "Metal",
+    colors: ["#87CEEB", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "2",
+    name: "Tecla",
+    price: 5000,
+    category: "eyeglasses",
+    brand: "Barnspecs",
+    style: "Modern",
+    material: "Plastic",
+    colors: ["#000000", "#8B4513"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "3",
+    name: "Tecla",
+    price: 5000,
+    category: "frames",
+    brand: "HarrisView",
+    style: "Retro",
+    material: "Metal",
+    colors: ["#FFFFFF", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "4",
+    name: "Tecla",
+    price: 5000,
+    category: "eyeglasses",
+    brand: "SunQuest",
+    style: "Classic",
+    material: "Mixed",
+    colors: ["#87CEEB", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "5",
+    name: "Tecla",
+    price: 5000,
+    category: "sunglasses",
+    brand: "Visionary",
+    style: "Modern",
+    material: "Titanium",
+    colors: ["#000000", "#8B4513"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "6",
+    name: "Tecla",
+    price: 5000,
+    category: "eyeglasses",
+    brand: "Clarity",
+    style: "Retro",
+    material: "Plastic",
+    colors: ["#FFFFFF", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "7",
+    name: "Tecla",
+    price: 5000,
+    category: "frames",
+    brand: "Barnspecs",
+    style: "Classic",
+    material: "Metal",
+    colors: ["#87CEEB", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "8",
+    name: "Tecla",
+    price: 5000,
+    category: "sunglasses",
+    brand: "HarrisView",
+    style: "Modern",
+    material: "Mixed",
+    colors: ["#000000", "#8B4513"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "9",
+    name: "Tecla",
+    price: 5000,
+    category: "eyeglasses",
+    brand: "SunQuest",
+    style: "Retro",
+    material: "Titanium",
+    colors: ["#FFFFFF", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "10",
+    name: "Tecla",
+    price: 5000,
+    category: "frames",
+    brand: "Visionary",
+    style: "Classic",
+    material: "Plastic",
+    colors: ["#87CEEB", "#000000"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "11",
+    name: "Tecla",
+    price: 5000,
+    category: "sunglasses",
+    brand: "Clarity",
+    style: "Modern",
+    material: "Metal",
+    colors: ["#000000", "#8B4513"],
+    badge: "New Eyeglasses",
+  },
+  {
+    id: "12",
+    name: "Tecla",
+    price: 5000,
+    category: "eyeglasses",
+    brand: "Barnspecs",
+    style: "Retro",
+    material: "Mixed",
+    colors: ["#FFFFFF", "#000000"],
+    badge: "New Eyeglasses",
+  },
+]
+
+export const categories: FilterOption[] = [
+  { label: "Eyeglasses", value: "eyeglasses" },
+  { label: "Sunglasses", value: "sunglasses" },
+  { label: "Frames", value: "frames" },
+]
+
+export const brands: FilterOption[] = [
+  { label: "Clarity", value: "Clarity" },
+  { label: "Barnspecs", value: "Barnspecs" },
+  { label: "HarrisView", value: "HarrisView" },
+  { label: "SunQuest", value: "SunQuest" },
+  { label: "Visionary", value: "Visionary" },
+]
+
+export const styles: FilterOption[] = [
+  { label: "Classic", value: "Classic" },
+  { label: "Modern", value: "Modern" },
+  { label: "Retro", value: "Retro" },
+  { label: "Sporty", value: "Sporty" },
+]
+
+export const materials: FilterOption[] = [
+  { label: "Metal", value: "Metal" },
+  { label: "Plastic", value: "Plastic" },
+  { label: "Mixed", value: "Mixed" },
+  { label: "Titanium", value: "Titanium" },
+]
+
+export const footerLinks = {
+  shop: [
+    { label: "EyeGlasses", href: "/eyeglasses" },
+    { label: "SunGlasses", href: "/sunglasses" },
+    { label: "Collections", href: "/collections" },
+    { label: "Size Guide", href: "/size-guide" },
+  ],
+  aboutUs: [
+    { label: "Our Story", href: "/our-story" },
+    { label: "Careers", href: "/careers" },
+    { label: "Press", href: "/press" },
+    { label: "Blog", href: "/blog" },
+    { label: "Store Locator", href: "/store-locator" },
+  ],
+  information: [
+    { label: "Help", href: "/help" },
+    { label: "Shipping Handling", href: "/shipping" },
+    { label: "Exchange & Returns", href: "/returns" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
+  ],
+}
+
+export const socialLinks = [
+  { name: "Instagram", icon: "instagram", href: "#" },
+  { name: "LinkedIn", icon: "linkedin", href: "#" },
+  { name: "Threads", icon: "threads", href: "#" },
+  { name: "X", icon: "x", href: "#" },
+]
