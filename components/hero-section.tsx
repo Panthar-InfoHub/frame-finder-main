@@ -70,7 +70,7 @@ export function HeroSection() {
                     <User className="h-4 w-4" />
                   </Button>
                 </Link>
-                <DropdownMenu menuKey={name} isOpen={isOpen} onClose={handleClose} />
+                {/* <DropdownMenu menuKey={name} isOpen={isOpen} onClose={handleClose} /> */}
                 </div>
               <Button
                 variant="ghost"

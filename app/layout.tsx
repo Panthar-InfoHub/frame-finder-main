@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   description:
     "Discover premium eyeglasses, sunglasses, and computer glasses with eco-acetate frames",
   generator: "v0.app",
-};
+}
 
 export default function RootLayout({
   children,
