@@ -274,159 +274,97 @@ export const navigationMenuData = {
     ],
   },
 }
-export interface Product {
-  id: string
-  name: string
-  price: number
-  category: "eyeglasses" | "sunglasses" | "frames"
-  brand: string
-  style: string
-  material: string
-  colors: string[]
-  badge?: string
-  image?: string
+// primitives
+export type ObjectId = string;
+export type ISODateString = string;
+export type CurrencyAmount = number;
+
+// top-level response
+export interface ProductsResponse {
+  products: Product[];
+  pagination: Pagination;
 }
+
+export interface Pagination {
+  totalProducts: number;
+  totalPages: number;
+}
+
+// product entity (keys unchanged)
+export interface Product {
+  _id: ObjectId;
+  productCode: string;
+  brand_name: string;
+  material: string[];
+  shape: string[];
+  style: string[];
+  hsn_code: string;
+  sizes: string[];
+  gender: string[];
+  vendorId: ObjectId;
+  rating?: number;
+  total_reviews?: number;
+  status: "active" | "inactive" | string; // keep open for future statuses
+  is_Power: boolean;
+  type: "Product" | string;
+  variants: Variant[];
+  createdAt: ISODateString;
+  updatedAt: ISODateString;
+  __v: number;
+
+  // only present on some items
+  dimension?: Dimension;
+}
+
+// optional nested dimension block
+export interface Dimension {
+  lens_width: string;
+  bridge_width: string;
+  temple_length: string;
+  lens_height: string;
+}
+
+// variant entity
+export interface Variant {
+  frame_color: string;
+  temple_color: string;
+  price: Price;
+  images: ImageItem[];
+  stock: Stock;
+  _id: ObjectId;
+}
+
+// price breakdown (keys unchanged)
+export interface Price {
+  base_price: CurrencyAmount;
+  mrp: CurrencyAmount;
+  shipping_price: ShippingPrice;
+  total_price: CurrencyAmount;
+}
+
+export interface ShippingPrice {
+  custom: boolean;
+  value: CurrencyAmount;
+}
+
+// image item (keys unchanged)
+export interface ImageItem {
+  url: string;
+  _id: ObjectId;
+}
+
+// stock info
+export interface Stock {
+  current: number;
+  minimum: number;
+}
+
 
 export interface FilterOption {
   label: string
   value: string
   count?: number
 }
-
-export const products: Product[] = [
-  {
-    id: "1",
-    name: "Tecla",
-    price: 5000,
-    category: "eyeglasses",
-    brand: "Clarity",
-    style: "Classic",
-    material: "Metal",
-    colors: ["#87CEEB", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "2",
-    name: "Tecla",
-    price: 5000,
-    category: "eyeglasses",
-    brand: "Barnspecs",
-    style: "Modern",
-    material: "Plastic",
-    colors: ["#000000", "#8B4513"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "3",
-    name: "Tecla",
-    price: 5000,
-    category: "frames",
-    brand: "HarrisView",
-    style: "Retro",
-    material: "Metal",
-    colors: ["#FFFFFF", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "4",
-    name: "Tecla",
-    price: 5000,
-    category: "eyeglasses",
-    brand: "SunQuest",
-    style: "Classic",
-    material: "Mixed",
-    colors: ["#87CEEB", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "5",
-    name: "Tecla",
-    price: 5000,
-    category: "sunglasses",
-    brand: "Visionary",
-    style: "Modern",
-    material: "Titanium",
-    colors: ["#000000", "#8B4513"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "6",
-    name: "Tecla",
-    price: 5000,
-    category: "eyeglasses",
-    brand: "Clarity",
-    style: "Retro",
-    material: "Plastic",
-    colors: ["#FFFFFF", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "7",
-    name: "Tecla",
-    price: 5000,
-    category: "frames",
-    brand: "Barnspecs",
-    style: "Classic",
-    material: "Metal",
-    colors: ["#87CEEB", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "8",
-    name: "Tecla",
-    price: 5000,
-    category: "sunglasses",
-    brand: "HarrisView",
-    style: "Modern",
-    material: "Mixed",
-    colors: ["#000000", "#8B4513"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "9",
-    name: "Tecla",
-    price: 5000,
-    category: "eyeglasses",
-    brand: "SunQuest",
-    style: "Retro",
-    material: "Titanium",
-    colors: ["#FFFFFF", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "10",
-    name: "Tecla",
-    price: 5000,
-    category: "frames",
-    brand: "Visionary",
-    style: "Classic",
-    material: "Plastic",
-    colors: ["#87CEEB", "#000000"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "11",
-    name: "Tecla",
-    price: 5000,
-    category: "sunglasses",
-    brand: "Clarity",
-    style: "Modern",
-    material: "Metal",
-    colors: ["#000000", "#8B4513"],
-    badge: "New Eyeglasses",
-  },
-  {
-    id: "12",
-    name: "Tecla",
-    price: 5000,
-    category: "eyeglasses",
-    brand: "Barnspecs",
-    style: "Retro",
-    material: "Mixed",
-    colors: ["#FFFFFF", "#000000"],
-    badge: "New Eyeglasses",
-  },
-]
 
 export const categories: FilterOption[] = [
   { label: "Eyeglasses", value: "eyeglasses" },
@@ -485,3 +423,5 @@ export const socialLinks = [
   { name: "Threads", icon: "threads", href: "#" },
   { name: "X", icon: "x", href: "#" },
 ]
+
+

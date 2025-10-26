@@ -37,6 +37,7 @@ export function SignupForm() {
                 id="firstName"
                 type="text"
                 value={firstName}
+                placeholder="Gagan"
                 onChange={(e) => setFirstName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50"
                 required
@@ -50,6 +51,7 @@ export function SignupForm() {
                 id="lastName"
                 type="text"
                 value={lastName}
+                placeholder="Singh"
                 onChange={(e) => setLastName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50"
                 required
@@ -66,9 +68,10 @@ export function SignupForm() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="someone@gmail.com"
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50"
               required
-            />
+            /> 
           </div>
 
           <div className="space-y-2">
@@ -80,6 +83,7 @@ export function SignupForm() {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              placeholder="+91 9026819208"
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50"
               required
             />

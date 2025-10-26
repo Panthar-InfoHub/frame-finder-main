@@ -127,7 +127,7 @@ export const getAllColorContactLens = async () => {
     }
 }
 
-// now from here are all the get functionds of the particular single product page  
+// now from here are all the get functions of the particular single product page  
 
 
 export const getFrameById = async (id : any) => {
@@ -138,9 +138,13 @@ export const getFrameById = async (id : any) => {
         if (resp.status!=200 || !data.success){
             throw new Error("Failed to load the page")
         }
-        return data;
+        return data;    
     }
     catch (error) {
-
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message,
+        }
     }
 }
