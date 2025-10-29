@@ -8,11 +8,11 @@ export function BlueLightFeature() {
         <div className="bg-card rounded-lg overflow-hidden shadow-lg">
           <div className="grid md:grid-cols-2 items-center gap-0">
             {/* Left side - Image */}
-            <div className="relative h-64 md:h-96 lg:h-[500px] bg-gradient-to-b from-muted via-muted-foreground/20 to-muted-foreground/40">
+            <div className="relative h-64 md:h-96 lg:h-[500px] bg-linear-to-b from-muted via-muted-foreground/20 to-muted-foreground/40">
               <div className="absolute inset-0 flex items-center justify-center p-8">
                 <div className="relative w-full h-full max-w-sm">
                   <Image
-                    src="/folded-eyeglasses-artistic-minimal.png"
+                    src="/folded-eyeglasses-artistic-minimal.jpg"
                     alt="Blue light blocking glasses"
                     fill
                     className="object-contain"

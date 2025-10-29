@@ -304,7 +304,7 @@ export const navigationMenuData = {
         type: "text-list",
         items: [
           { name: "Aviator", href: "/sunglasses/aviator" },
-          { name: "Way farer", href: "/sunglasses/wayfarer" },
+          { name: "Wayfarer", href: "/sunglasses/wayfarer" },
           { name: "Wraparound", href: "/sunglasses/wraparound" },
           { name: "Rectangle", href: "/sunglasses/rectangle" },
           { name: "Round", href: "/sunglasses/round" },
@@ -323,117 +323,114 @@ export const navigationMenuData = {
     ],
   },
   "CONTACT LENSES": {
-    type: "simple",
-    items: [
-      { name: "Contact lens Solutions", href: "/contact-lenses/solutions" },
-      { name: "Chains", href: "/contact-lenses/chains" },
-      { name: "Lens Cleaner", href: "/contact-lenses/cleaner" },
-      { name: "Packaging Case", href: "/contact-lenses/packaging" },
+    type: "simple-categories",
+    categories: [
+      { name: "By Disposibility", href: "/contact-lenses/disposibility" },
+      { name: "By Color", href: "/contact-lenses/color" },
     ],
   },
   ACCESSORIES: {
-    type: "simple",
-    items: [
-      { name: "Glasses Cases", href: "/accessories/cases" },
-      { name: "Cleaning Cloths", href: "/accessories/cloths" },
-      { name: "Chains & Straps", href: "/accessories/chains" },
-      { name: "Repair Kits", href: "/accessories/repair" },
-      { name: "Lens Cleaners", href: "/accessories/cleaners" },
+    type: "simple-categories",
+    categories: [
+      { name: "Contact lens Solutions", href: "/accessories/solutions" },
+      { name: "Chains", href: "/accessories/chains" },
+      { name: "Packaging Case", href: "/accessories/packaging" },
     ],
   },
-  "User": {
-    type: "simple",
+  USER: {
+    type: "user-menu",
     items: [
-      { name: "Your Account", href: "#" },
-      { name: "sign out", href: "#" },
+      { name: "Your Account", href: "/account" },
+      { name: "Your orders", href: "/orders" },
+      { name: "Sign Out", href: "/logout" },
     ],
   },
 }
+
 // primitives
-export type ObjectId = string;
-export type ISODateString = string;
-export type CurrencyAmount = number;
+export type ObjectId = string
+export type ISODateString = string
+export type CurrencyAmount = number
 
 // top-level response
 export interface ProductsResponse {
-  products: Product[];
-  pagination: Pagination;
+  products: Product[]
+  pagination: Pagination
 }
 
 export interface Pagination {
-  totalProducts: number;
-  totalPages: number;
+  totalProducts: number
+  totalPages: number
 }
 
 // product entity (keys unchanged)
 export interface Product {
-  _id: ObjectId;
-  productCode: string;
-  brand_name: string;
-  material: string[];
-  shape: string[];
-  style: string[];
-  hsn_code: string;
-  sizes: string[];
-  gender: string[];
-  vendorId: ObjectId;
-  rating?: number;
-  total_reviews?: number;
-  status: "active" | "inactive" | string; // keep open for future statuses
-  is_Power: boolean;
-  type: "Product" | string;
-  variants: Variant[];
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
-  __v: number;
+  _id: ObjectId
+  productCode: string
+  brand_name: string
+  material: string[]
+  shape: string[]
+  style: string[]
+  hsn_code: string
+  sizes: string[]
+  gender: string[]
+  vendorId: ObjectId
+  rating?: number
+  total_reviews?: number
+  status: "active" | "inactive" | string // keep open for future statuses
+  is_Power: boolean
+  type: "Product" | string
+  variants: Variant[]
+  createdAt: ISODateString
+  updatedAt: ISODateString
+  __v: number
 
   // only present on some items
-  dimension?: Dimension;
+  dimension?: Dimension
 }
 
 // optional nested dimension block
 export interface Dimension {
-  lens_width: string;
-  bridge_width: string;
-  temple_length: string;
-  lens_height: string;
+  lens_width: string
+  bridge_width: string
+  temple_length: string
+  lens_height: string
 }
 
 // variant entity
 export interface Variant {
-  frame_color: string;
-  temple_color: string;
-  price: Price;
-  images: ImageItem[];
-  stock: Stock;
-  _id: ObjectId;
+  frame_color: string
+  temple_color: string
+  price: Price
+  images: ImageItem[]
+  stock: Stock
+  _id: ObjectId
 }
 
 // price breakdown (keys unchanged)
 export interface Price {
-  base_price: CurrencyAmount;
-  mrp: CurrencyAmount;
-  shipping_price: ShippingPrice;
-  total_price: CurrencyAmount;
+  base_price: CurrencyAmount
+  mrp: CurrencyAmount
+  shipping_price: ShippingPrice
+  total_price: CurrencyAmount
 }
 
 export interface ShippingPrice {
-  custom: boolean;
-  value: CurrencyAmount;
+  custom: boolean
+  value: CurrencyAmount
 }
 
 // image item (keys unchanged)
 export interface ImageItem {
-  url: string;
-  _id: ObjectId;
+  url: string
+  _id: ObjectId
 }
 
 // stock info
 export interface Stock {
-  current: number;
-  minimum: number;
+  current: number
+  minimum: number
 }
-
 
 export interface FilterOption {
   label: string

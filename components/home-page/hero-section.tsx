@@ -10,7 +10,7 @@ export function HeroSection() {
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }))
 
   return (
-    <section className="relative h-screen w-full">
+    <section className="absolute top-0 left-0 right-0 h-[100dvh] w-full overflow-hidden z-0">
       <Carousel
         opts={{
           align: "start",
@@ -19,9 +19,9 @@ export function HeroSection() {
         plugins={[plugin.current]}
         className="w-full h-full"
       >
-        <CarouselContent className="h-screen">
+        <CarouselContent className="h-[100dvh]">
           {heroSlides.map((slide) => (
-            <CarouselItem key={slide.id} className="h-screen">
+            <CarouselItem key={slide.id} className="h-[100dvh]">
               <div className="relative h-full w-full">
                 <Image
                   src={slide.image || "/placeholder.svg"}

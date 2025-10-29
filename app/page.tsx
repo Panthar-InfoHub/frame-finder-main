@@ -2,7 +2,7 @@ import { TopBanner } from "@/components/home-page/top-banner"
 import { Navigation } from "@/components/home-page/navigation"
 import { HeroSection } from "@/components/home-page/hero-section"
 import { ProductCategories } from "@/components/home-page/product-categories"
-import { TopOurPicks } from "@/components/home-page/top-picks"
+import { TopOurPicks } from "@/components/home-page/top-our-picks"
 import { SunGlassesSection } from "@/components/home-page/sun-glasses-section"
 import { CuttingEdgeDesign } from "@/components/home-page/cutting-edge-design"
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature"
@@ -13,8 +13,8 @@ import { Footer } from "@/components/home-page/footer"
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
-      <TopBanner />
-      <div className="relative">
+      <div className="relative h-dvh">
+        <TopBanner />
         <Navigation />
         <HeroSection />
       </div>

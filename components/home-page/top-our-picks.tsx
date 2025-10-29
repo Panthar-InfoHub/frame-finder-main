@@ -1,7 +1,7 @@
 "use client"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ProductCard } from "./product-card"
+import { ProductCard } from "@/components/home-page/product-card"
 import { newArrivals, bestSellers } from "@/lib/data"
 import Link from "next/link"
 
@@ -40,7 +40,7 @@ export function TopOurPicks() {
           {/* New Arrivals Content */}
           <TabsContent value="new-arrivals" className="mt-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {newArrivals?.map((product) => (
+              {newArrivals.map((product) => (
                 <ProductCard key={product.id} {...product} />
               ))}
             </div>
