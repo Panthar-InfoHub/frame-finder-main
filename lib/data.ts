@@ -8,87 +8,162 @@ export const siteConfig = {
   },
 }
 
-export const navigationItems = [
-  { name: "EYEGLASSES", href: "/eyeglasses" },
-  { name: "COMPUTER GLASSES", href: "/computer-glasses" },
-  { name: "SUNGLASSES", href: "/sunglasses" },
-  { name: "POWER SUNGLASSES", href: "/power-sunglasses" },
-  { name: "CONTACT LENSES", href: "/contact-lenses" },
-  { name: "ACCESSORIES", href: "/accessories" },
-  { name: "User", href: "/user" },
+export const heroSlides = [
+  {
+    id: 1,
+    title: "ECO-ACETATE",
+    subtitle: "From Nature, With Love",
+    image: "/couple-wearing-stylish-eyeglasses-fashion-photogra.jpg",
+  },
+  {
+    id: 2,
+    title: "PREMIUM COLLECTION",
+    subtitle: "Crafted for Perfection",
+    image: "/premium-eyewear-collection-modern-lifestyle.jpg",
+  },
+  {
+    id: 3,
+    title: "TIMELESS STYLE",
+    subtitle: "Elegance Redefined",
+    image: "/elegant-eyewear-fashion-photography.jpg",
+  },
 ]
 
-export const topPicks = [
+export const promoData = {
+  text: "New edit: Eco-Acetate - Shop For 2 Pay For 1",
+  icon: "🎁",
+}
+
+export const navigationLinks = [
+  { label: "EYEGLASSES", href: "/eyeglasses" },
+  { label: "READING GLASSES", href: "/reading-glasses" },
+  { label: "SUNGLASSES", href: "/sunglasses" },
+  { label: "POWER SUNGLASSES", href: "/power-sunglasses" },
+  { label: "CONTACT LENSES", href: "/contact-lenses" },
+  { label: "CONTACT LENSES SOLUTIONS", href: "/contact-lenses-solutions" },
+  { label: "ACCESSORIES", href: "/accessories" },
+]
+
+export const newArrivals = [
   {
     id: 1,
     name: "Tecla",
     price: 5000,
-    rating: 4.5,
-    colors: ["#EF4444", "#000000"],
-    image: "/black-rimless-glasses.jpg",
+    rating: 4.8,
+    image: "/black-round-eyeglasses.jpg",
   },
   {
     id: 2,
     name: "Tecla",
     price: 5000,
-    rating: 4.5,
-    colors: ["#06B6D4", "#000000"],
-    image: "/colorful-rainbow-frame-glasses.jpg",
+    rating: 4.8,
+    image: "/colorful-rainbow-eyeglasses.jpg",
   },
   {
     id: 3,
     name: "Tecla",
     price: 5000,
-    rating: 4.5,
-    colors: ["#84CC16", "#000000"],
-    image: "/gray-metallic-glasses.jpg",
+    rating: 4.8,
+    image: "/silver-metal-eyeglasses.jpg",
   },
   {
     id: 4,
     name: "Tecla",
     price: 5000,
-    rating: 4.5,
-    colors: ["#EF4444", "#000000"],
-    image: "/black-rimless-glasses.jpg",
+    rating: 4.8,
+    image: "/black-round-eyeglasses.jpg",
   },
   {
     id: 5,
     name: "Tecla",
     price: 5000,
-    rating: 4.5,
-    colors: ["#06B6D4", "#000000"],
-    image: "/colorful-rainbow-frame-glasses.jpg",
+    rating: 4.8,
+    image: "/colorful-rainbow-eyeglasses.jpg",
   },
   {
     id: 6,
     name: "Tecla",
     price: 5000,
-    rating: 4.5,
-    colors: ["#84CC16", "#000000"],
-    image: "/gray-metallic-glasses.jpg",
+    rating: 4.8,
+    image: "/silver-metal-eyeglasses.jpg",
   },
 ]
 
-export const eyewareCategories = [
+export const bestSellers = [
   {
+    id: 7,
+    name: "Tecla",
+    price: 5000,
+    rating: 4.8,
+    image: "/tortoise-shell-eyeglasses.jpg",
+  },
+  {
+    id: 8,
+    name: "Tecla",
+    price: 5000,
+    rating: 4.8,
+    image: "/blue-transparent-eyeglasses.jpg",
+  },
+  {
+    id: 9,
+    name: "Tecla",
+    price: 5000,
+    rating: 4.8,
+    image: "/gold-aviator-eyeglasses.jpg",
+  },
+  {
+    id: 10,
+    name: "Tecla",
+    price: 5000,
+    rating: 4.8,
+    image: "/tortoise-shell-eyeglasses.jpg",
+  },
+  {
+    id: 11,
+    name: "Tecla",
+    price: 5000,
+    rating: 4.8,
+    image: "/blue-transparent-eyeglasses.jpg",
+  },
+  {
+    id: 12,
+    name: "Tecla",
+    price: 5000,
+    rating: 4.8,
+    image: "/gold-aviator-eyeglasses.jpg",
+  },
+]
+
+export const productCategories = [
+  {
+    id: 1,
     name: "Rimless Glasses",
-    image: "/rimless-glasses-icon.jpg",
+    image: "/rimless-eyeglasses-line-drawing.jpg",
+    href: "/category/rimless",
   },
   {
+    id: 2,
     name: "Transparent Frame",
-    image: "/transparent-frame-glasses.jpg",
+    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
+    href: "/category/transparent",
   },
   {
+    id: 3,
     name: "Rich Acetate eyeglass",
-    image: "/acetate-frame-glasses.jpg",
+    image: "/acetate-eyeglasses-line-drawing.jpg",
+    href: "/category/acetate",
   },
   {
+    id: 4,
     name: "Blue Computer Glasses",
-    image: "/blue-light-blocking-glasses.png",
+    image: "/blue-light-computer-glasses-line-drawing.jpg",
+    href: "/category/computer",
   },
   {
+    id: 5,
     name: "Metalwork",
-    image: "/metal-frame-glasses.jpg",
+    image: "/metal-frame-eyeglasses-line-drawing.jpg",
+    href: "/category/metal",
   },
 ]
 
@@ -229,7 +304,7 @@ export const navigationMenuData = {
         type: "text-list",
         items: [
           { name: "Aviator", href: "/sunglasses/aviator" },
-          { name: "Way farer", href: "/sunglasses/wayfarer" },
+          { name: "Wayfarer", href: "/sunglasses/wayfarer" },
           { name: "Wraparound", href: "/sunglasses/wraparound" },
           { name: "Rectangle", href: "/sunglasses/rectangle" },
           { name: "Round", href: "/sunglasses/round" },
@@ -248,117 +323,114 @@ export const navigationMenuData = {
     ],
   },
   "CONTACT LENSES": {
-    type: "simple",
-    items: [
-      { name: "Contact lens Solutions", href: "/contact-lenses/solutions" },
-      { name: "Chains", href: "/contact-lenses/chains" },
-      { name: "Lens Cleaner", href: "/contact-lenses/cleaner" },
-      { name: "Packaging Case", href: "/contact-lenses/packaging" },
+    type: "simple-categories",
+    categories: [
+      { name: "By Disposibility", href: "/contact-lenses/disposibility" },
+      { name: "By Color", href: "/contact-lenses/color" },
     ],
   },
   ACCESSORIES: {
-    type: "simple",
-    items: [
-      { name: "Glasses Cases", href: "/accessories/cases" },
-      { name: "Cleaning Cloths", href: "/accessories/cloths" },
-      { name: "Chains & Straps", href: "/accessories/chains" },
-      { name: "Repair Kits", href: "/accessories/repair" },
-      { name: "Lens Cleaners", href: "/accessories/cleaners" },
+    type: "simple-categories",
+    categories: [
+      { name: "Contact lens Solutions", href: "/accessories/solutions" },
+      { name: "Chains", href: "/accessories/chains" },
+      { name: "Packaging Case", href: "/accessories/packaging" },
     ],
   },
-  "User": {
-    type: "simple",
+  USER: {
+    type: "user-menu",
     items: [
-      { name: "Your Account", href: "#" },
-      { name: "sign out", href: "#" },
+      { name: "Your Account", href: "/account" },
+      { name: "Your orders", href: "/orders" },
+      { name: "Sign Out", href: "/logout" },
     ],
   },
 }
+
 // primitives
-export type ObjectId = string;
-export type ISODateString = string;
-export type CurrencyAmount = number;
+export type ObjectId = string
+export type ISODateString = string
+export type CurrencyAmount = number
 
 // top-level response
 export interface ProductsResponse {
-  products: Product[];
-  pagination: Pagination;
+  products: Product[]
+  pagination: Pagination
 }
 
 export interface Pagination {
-  totalProducts: number;
-  totalPages: number;
+  totalProducts: number
+  totalPages: number
 }
 
 // product entity (keys unchanged)
 export interface Product {
-  _id: ObjectId;
-  productCode: string;
-  brand_name: string;
-  material: string[];
-  shape: string[];
-  style: string[];
-  hsn_code: string;
-  sizes: string[];
-  gender: string[];
-  vendorId: ObjectId;
-  rating?: number;
-  total_reviews?: number;
-  status: "active" | "inactive" | string; // keep open for future statuses
-  is_Power: boolean;
-  type: "Product" | string;
-  variants: Variant[];
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
-  __v: number;
+  _id: ObjectId
+  productCode: string
+  brand_name: string
+  material: string[]
+  shape: string[]
+  style: string[]
+  hsn_code: string
+  sizes: string[]
+  gender: string[]
+  vendorId: ObjectId
+  rating?: number
+  total_reviews?: number
+  status: "active" | "inactive" | string // keep open for future statuses
+  is_Power: boolean
+  type: "Product" | string
+  variants: Variant[]
+  createdAt: ISODateString
+  updatedAt: ISODateString
+  __v: number
 
   // only present on some items
-  dimension?: Dimension;
+  dimension?: Dimension
 }
 
 // optional nested dimension block
 export interface Dimension {
-  lens_width: string;
-  bridge_width: string;
-  temple_length: string;
-  lens_height: string;
+  lens_width: string
+  bridge_width: string
+  temple_length: string
+  lens_height: string
 }
 
 // variant entity
 export interface Variant {
-  frame_color: string;
-  temple_color: string;
-  price: Price;
-  images: ImageItem[];
-  stock: Stock;
-  _id: ObjectId;
+  frame_color: string
+  temple_color: string
+  price: Price
+  images: ImageItem[]
+  stock: Stock
+  _id: ObjectId
 }
 
 // price breakdown (keys unchanged)
 export interface Price {
-  base_price: CurrencyAmount;
-  mrp: CurrencyAmount;
-  shipping_price: ShippingPrice;
-  total_price: CurrencyAmount;
+  base_price: CurrencyAmount
+  mrp: CurrencyAmount
+  shipping_price: ShippingPrice
+  total_price: CurrencyAmount
 }
 
 export interface ShippingPrice {
-  custom: boolean;
-  value: CurrencyAmount;
+  custom: boolean
+  value: CurrencyAmount
 }
 
 // image item (keys unchanged)
 export interface ImageItem {
-  url: string;
-  _id: ObjectId;
+  url: string
+  _id: ObjectId
 }
 
 // stock info
 export interface Stock {
-  current: number;
-  minimum: number;
+  current: number
+  minimum: number
 }
-
 
 export interface FilterOption {
   label: string
@@ -424,4 +496,77 @@ export const socialLinks = [
   { name: "X", icon: "x", href: "#" },
 ]
 
+export const sunglassesCategories = [
+  { id: 1, name: "Rimless Glasses", icon: "🕶️" },
+  { id: 2, name: "Transparent Frame", icon: "🕶️" },
+  { id: 3, name: "Rich Acetate eyeglass", icon: "🕶️" },
+  { id: 4, name: "Blue Computer Glasses", icon: "🕶️" },
+  { id: 5, name: "Metalwork", icon: "🕶️" },
+]
 
+export const vendors = [
+  {
+    id: 1,
+    name: "Armen Sargsyan",
+    initial: "A",
+    rating: "5 point ratings",
+    review:
+      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    location: "1,234/Now",
+  },
+  {
+    id: 2,
+    name: "Arora Optical",
+    initial: "A",
+    rating: "5 point ratings",
+    review:
+      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    location: "1,234/Now",
+  },
+  {
+    id: 3,
+    name: "Armen Sargsyan",
+    initial: "A",
+    rating: "5 point ratings",
+    review:
+      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    location: "1,234/Now",
+  },
+  {
+    id: 4,
+    name: "Armen Sargsyan",
+    initial: "A",
+    rating: "5 point ratings",
+    review:
+      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    location: "1,234/Now",
+  },
+]
+
+export const shapes = [
+  {
+    id: 1,
+    name: "Round",
+    image: "/round-eyeglasses-frame-outline.jpg",
+  },
+  {
+    id: 2,
+    name: "Square",
+    image: "/square-eyeglasses-frame-outline.jpg",
+  },
+  {
+    id: 3,
+    name: "Cat Eyes",
+    image: "/cat-eye-eyeglasses-frame-outline.jpg",
+  },
+  {
+    id: 4,
+    name: "Wayfarer",
+    image: "/wayfarer-eyeglasses-frame-outline.jpg",
+  },
+  {
+    id: 5,
+    name: "Hexagon",
+    image: "/hexagon-eyeglasses-frame-outline.jpg",
+  },
+]
