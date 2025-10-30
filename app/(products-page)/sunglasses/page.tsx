@@ -1,5 +1,5 @@
-import { Footer } from "@/components/home-page/footer"
-import { TopBanner } from "@/components/home-page/top-banner"
+import { Footer } from "@/components/footer"
+import { Header } from "@/components/header"
 import { ProductCard } from "@/components/products-page/product-card";
 import { FilterSidebar } from "@/components/products-page/filter-sidebar";
 import { Button } from "@/components/ui/button"
@@ -21,7 +21,7 @@ export default async function Sunglasses() {
   const FilterContent = () => <FilterSidebar />
   return (
     <main className="min-h-screen">
-      <TopBanner />
+      <Header />
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
@@ -104,7 +104,6 @@ export default async function Sunglasses() {
       </div>
     </div>
       <Footer />
-      <pre>{JSON.stringify(response, null, 2)}</pre>
     </main>
   )
 } 

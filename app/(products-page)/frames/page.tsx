@@ -1,6 +1,6 @@
 import { HeroSection } from "@/components/products-page/hero-section";
-import { Header } from "@/components/home-page/header";
-import { Footer } from "@/components/home-page/footer";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { ProductCard } from "@/components/products-page/product-card";
 import { FilterSidebar } from "@/components/products-page/filter-sidebar";
 import { Button } from "@/components/ui/button"
