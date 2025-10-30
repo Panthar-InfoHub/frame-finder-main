@@ -1,6 +1,6 @@
+import axios from "axios";
 const API_VERSION = `/api/v1`;
 const API_URL = `${process.env.SERVER_URL}${API_VERSION}`;
-import axios from "axios";
 
 // From here till line 128 these are all the get fuctions of the product
 // This is the get request for the frames
