@@ -1,20 +1,49 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import Link from "next/link"
 import { navigationItems } from "@/lib/data"
 import { Search, User, Menu } from "lucide-react"
+import { NavigationItem } from "@/components/navigation/navigation-item"
+import { DropdownMenu } from "./navigation/dropdown-menu"
+import { useState, useRef, useEffect } from "react"
+
 
 export function HeroSection() {
-  return (
-    <section className="relative h-[500px] md:h-[600px] overflow-hidden">
-      {/* Top banner */}
-      <div className="absolute top-0 left-0 right-0 bg-emerald-500 text-white text-center py-2 text-sm z-20">
-        New edit: Eco-Acetate - Shop For 2 Pay For 1 🛍️
-      </div>
+  const [isOpen, setIsOpen] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const itemRef = useRef<HTMLDivElement>(null)
 
-      <div className="absolute top-8 left-0 right-0 z-20">
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+    }
+    setIsOpen(true)
+  }
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false)
+    }, 150)
+  }
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [])
+  return (
+    <section className="relative h-[600px] md:h-screen overflow-hidden">
+      {/* Top banner */}
+      <div className="absolute left-0 right-0 z-20">
         <div className=" w-full px-4">
-          <div className="flex items-center justify-between py-4">
+          <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <div className="w-56 h-16 flex items-center justify-center relative">
@@ -22,16 +51,10 @@ export function HeroSection() {
               </div>
             </Link>
 
-            {/* Navigation */}
+            {/* Navigation */}  
             <nav className="hidden lg:flex items-center space-x-6">
               {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-white hover:text-emerald-300 transition-colors  uppercase tracking-wide font-normal text-base"
-                >
-                  {item.name}
-                </Link>
+                <NavigationItem key={item.name} name={item.name} href={item.href} />
               ))}
             </nav>
 
@@ -40,11 +63,15 @@ export function HeroSection() {
               <Button variant="ghost" size="icon" className="text-white hover:text-emerald-300 hover:bg-white/10">
                 <Search className="h-4 w-4" />
               </Button>
-              <Link href="/login">
-                <Button variant="ghost" size="icon" className="text-white hover:text-emerald-300 hover:bg-white/10">
-                  <User className="h-4 w-4" />
-                </Button>
-              </Link>
+              
+                <div ref={itemRef} className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                  <Link href="/login" className="text-white hover:text-emerald-300 transition-colors text-xs font-medium uppercase tracking-wide">
+                  <Button variant="ghost" size="icon" className="text-white hover:text-emerald-300 hover:bg-white/10">
+                    <User className="h-4 w-4" />
+                  </Button>
+                </Link>
+                {/* <DropdownMenu menuKey={name} isOpen={isOpen} onClose={handleClose} /> */}
+                </div>
               <Button
                 variant="ghost"
                 size="icon"

@@ -1,6 +1,6 @@
+import { API_URL } from "@/lib/apiUtils";
 import axios from "axios";
-const API_VERSION = `/api/v1`;
-const API_URL = `${process.env.SERVER_URL}${API_VERSION}`;
+import { getAccessToken } from "./auth";
 
 // From here till line 128 these are all the get fuctions of the product
 // This is the get request for the frames
@@ -170,3 +170,25 @@ export const getbestseller = async () => {
         }
     }
 }
+export const getFramePkgByVendorId = async (id: string) => {
+    try {
+      const token = await getAccessToken();
+      const resp = await axios.get(`${API_URL}/lens-package/?vendorId=${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = resp.data;
+  
+      if (resp.status != 200 || !data.success) {
+        throw new Error("Failed to load the page");
+      }
+      return data;
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to load the page";
+      console.log("Error Message:", message);
+      return {
+        success: false,
+        message,
+      };
+    }
+  };

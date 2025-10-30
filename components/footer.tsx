@@ -11,7 +11,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-emerald-500 text-white py-12">
+    <footer className=" h-[800px] md:h-screen bg-emerald-500 text-white py-12">
       <div className="container mx-auto px-4">
         <div className= " flex justify-center items-center mb-8 w-full">
           <h2 className="text-4xl md:text-[150px]  font-normal mb-8 font-(family-name:--font-bona_nova)">FRAME FINDER</h2>
@@ -69,7 +69,6 @@ export function Footer() {
                 const IconComponent = socialIcons[social.icon as keyof typeof socialIcons]
                 return (
                   <Link key={social.name} href={social.href} className="hover:text-emerald-200 transition-colors">
-                    <IconComponent />
                   </Link>
                 )
               })}

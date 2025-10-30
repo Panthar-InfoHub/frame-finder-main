@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Bona_Nova, Geist, Geist_Mono, Lexend_Deca } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
+import { Toaster } from "@/components/ui/sonner";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +26,10 @@ const bona_nova = Bona_Nova({
   variable: "--font-bona_nova",
 });
 
-
 export const metadata: Metadata = {
   title: "Frame Finder - Premium Eyewear Collection",
   description:
     "Discover premium eyeglasses, sunglasses, and computer glasses with eco-acetate frames",
-  generator: "v0.app",
 };
 
 export default function RootLayout({
@@ -39,8 +39,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}>
+      <body
+        className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}
+      >
         <Suspense fallback={null}>{children}</Suspense>
+        <Toaster/>
       </body>
     </html>
   );
