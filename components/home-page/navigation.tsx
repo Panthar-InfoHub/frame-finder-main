@@ -85,13 +85,15 @@ export function Navigation() {
 
                   return (
                     <NavigationMenuItem key={link.href}>
-                      <Link href={link.href} legacyBehavior passHref>
+                      <Link href={link.href}>
+                        {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                        }
                         <NavigationMenuLink className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide whitespace-nowrap">
                           {link.label}
                         </NavigationMenuLink>
                       </Link>
                     </NavigationMenuItem>
-                  )
+                  );
                 })}
               </NavigationMenuList>
             </NavigationMenu>
@@ -101,7 +103,7 @@ export function Navigation() {
             <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
               <Search className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
-            <UserAccountMenu />
+            <Link href="/login"><UserAccountMenu /></Link>
             <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
               <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
@@ -134,5 +136,5 @@ export function Navigation() {
         )}
       </div>
     </nav>
-  )
+  );
 }
