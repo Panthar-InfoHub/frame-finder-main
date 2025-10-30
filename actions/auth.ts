@@ -11,18 +11,27 @@ export const getAccessToken = async () => {
   return session?.user?.accessToken;
 };
 
-export const loginUser = async (email: string, password: string) => {
+export const loginUser = async (email: string, password?: string) => {
   try {
-    const resp = await axios.post(`${API_URL}/auth/login`, {
-      loginId: email,
-      password,
-      type: "USER",
-    });
+    let resp;
+    if (password) {
+      resp = await axios.post(`${API_URL}/auth/login`, {
+        loginId: email,
+        password,
+        type: "USER",
+      });
+    } else {
+      resp = await axios.post(`${API_URL}/auth/login`, {
+        loginId: email,
+        type: "USER",
+      });
+    }
 
     if (!resp.data.success) throw new Error("Invalid credentials");
-    return resp.data.data; // contains user + accessToken
+    const data = resp.data.data;
+    return { success: true, data: data }; // contains user + accessToken
   } catch (error) {
     console.error("Error logging in:", error);
-    return null;
+    return { success: false, message: "Login failed" };
   }
 };

@@ -13,9 +13,10 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
   const res = await getFrameById(id);
+  
 
   if (!res?.success || !res.data) {
-    return <p>{JSON.stringify(res)}</p>;
+    return <p>{`product not found - ${id}`}</p>;
   }
 
   const product = res.data;
