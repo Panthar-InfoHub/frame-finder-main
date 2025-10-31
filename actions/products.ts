@@ -173,6 +173,9 @@ export const getbestseller = async () => {
 export const getFramePkgByVendorId = async (id: string) => {
     try {
       const token = await getAccessToken();
+      if(!token){
+        throw new Error("No access token found");
+      }
       const resp = await axios.get(`${API_URL}/lens-package/?vendorId=${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -185,7 +188,7 @@ export const getFramePkgByVendorId = async (id: string) => {
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to load the page";
-      console.log("Error Message:", message);
+        console.error("Error in getFramePkgByVendorId:", message);
       return {
         success: false,
         message,

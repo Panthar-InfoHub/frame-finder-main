@@ -18,7 +18,6 @@ export default async function Frames() {
     return <p>Error : failed to load the page</p>;
   }
   const data = response.data;
-  console.log("Frames data:", data);
   return (
     <main className="min-h-screen">
       <Header />

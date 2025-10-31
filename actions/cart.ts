@@ -103,6 +103,7 @@ export const getPkgFromProductId = async (productId: string) => {
     }
     const prooductdetails = resp.data;
     const vendrorId = prooductdetails.vendorId._id;
+    console.log("Vendor ID:", vendrorId);
 
     const resp2 = await getFramePkgByVendorId(vendrorId);
     if (!resp2 || !resp2.success) {
@@ -115,7 +116,7 @@ export const getPkgFromProductId = async (productId: string) => {
       data: { product: prooductdetails, packages: pkgDetails },
     }; // package details
   } catch (error) {
-    console.error(error);
+    console.error("Error:", error);
     return {
       success: false,
       message: "Failed to fetch package details",
