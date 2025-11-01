@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getFrameById } from "@/actions/products";
+import {  getSunglassesById } from "@/actions/products";
 import { AddToCartBtn } from "@/components/products-page/add-to-cart-btn";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await getFrameById(id);
+  const res = await getSunglassesById(id);
   
 
   if (!res?.success || !res.data) {
@@ -91,11 +91,11 @@ export default async function ProductPage({
               className="bg-blue-600 hover:bg-blue-700 text-white"
               asChild
             >
-              <Link href={`/cart/onboarding/frames/${product._id}`}>
+              <Link href={`/cart/onboarding/sunglasses/${product._id}`}>
                 Select Lenses and Purchase
               </Link>
             </Button>
-            <AddToCartBtn productId={product._id} variantId={variant?._id} productType="Product" />
+            <AddToCartBtn productId={product._id} variantId={variant?._id} productType="Sunglass" />
           </div>
 
           <div className="border-t pt-6 space-y-3 text-sm text-gray-700">

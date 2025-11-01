@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { clearWishlist, removeFromWishlist } from "@/actions/cart";
@@ -9,22 +9,27 @@ import { useRouter } from "next/navigation";
 
 export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [removingItemId, setRemovingItemId] = useState<string | null>(null);
+  const [isClearing, setIsClearing] = useState(false);
 
   const handleRemove = async (itemId: string) => {
-    startTransition(async () => {
+    setRemovingItemId(itemId);
+    try {
       await removeFromWishlist(itemId);
-
       router.refresh();
-    });
+    } finally {
+      setRemovingItemId(null);
+    }
   };
 
   const handleClear = async () => {
-    startTransition(async () => {
+    setIsClearing(true);
+    try {
       await clearWishlist();
-
       router.refresh();
-    });
+    } finally {
+      setIsClearing(false);
+    }
   };
 
   if (!wishlist?.length) {
@@ -63,9 +68,9 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
                 variant="destructive"
                 size="sm"
                 onClick={() => handleRemove(item._id)}
-                disabled={isPending}
+                disabled={removingItemId === item._id || isClearing}
               >
-                {isPending ? "Removing..." : "Remove"}
+                {removingItemId === item._id ? "Removing..." : "Remove"}
               </Button>
             </div>
           ))}
@@ -75,9 +80,9 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
           variant="outline"
           className="mt-4"
           onClick={handleClear}
-          disabled={isPending}
+          disabled={isClearing || removingItemId !== null}
         >
-          {isPending ? "Clearing..." : "Clear Cart"}
+          {isClearing ? "Clearing..." : "Clear Cart"}
         </Button>
       </div>
 

@@ -1,7 +1,7 @@
-import { getPkgFromProductId } from "@/actions/cart";
 import { getSignedViewUrl } from "@/actions/cloud-storage";
 import AddToCartForm from "@/components/cart/cart-form";
 import { Suspense } from "react";
+import { getFrameById } from "@/actions/products";
 
 export default async function AddToCartPage({
   params,
@@ -18,11 +18,11 @@ export default async function AddToCartPage({
 }
 
 const CartPage = async ({ id }: { id: string }) => {
-  const resp = await getPkgFromProductId(id);
+  const resp = await getFrameById(id);
   if (!resp?.success || !resp.data) {
     return <p className="text-red-500 font-semibold text-lg">Oops! No Details Found</p>;
   }
-  const { product, packages } = resp.data as any;
+  const product: any = resp.data;
   const rawProductImg: string | undefined = product?.variants?.[0]?.images?.[0]?.url;
   const productImg = rawProductImg && /^https?:\/\//i.test(rawProductImg)
     ? rawProductImg
@@ -30,15 +30,11 @@ const CartPage = async ({ id }: { id: string }) => {
     ? await getSignedViewUrl(rawProductImg)
     : "https://placehold.co/400x300";
 
-  // Pre-sign any package image URLs that are paths
-  const lensPackages = await Promise.all((packages?.lensPackages || []).map(async (pkg: any) => {
-    const raw = pkg?.images?.[0]?.url;
-    const img = raw && /^https?:\/\//i.test(raw) ? raw : raw ? await getSignedViewUrl(raw) : "https://placehold.co/120x80";
-    return { ...pkg, _signedImage: img };
-  }));
+  const vendorId: string | undefined = product?.vendorId?._id;
+
   return (
     <div className="h-full w-full p-6">
-      <AddToCartForm product={{ ...product, _signedImage: productImg }} packages={lensPackages} />
+      <AddToCartForm product={{ ...product, _signedImage: productImg }} vendorId={vendorId} productType="Product" />
     </div>
   );
 };
