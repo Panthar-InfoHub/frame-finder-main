@@ -41,11 +41,18 @@ export const removeFromWishlist = async (itemId: string) => {
 
     const data = resp.data;
     revalidatePath("/cart");
-    if (!data.success) throw new Error("Failed to remove item");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to remove item";
+      throw new Error(errorMsg);
+    }
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { success: false };
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to remove item";
+    return { success: false, message: errorMsg };
   }
 };
 
@@ -61,11 +68,18 @@ export const clearWishlist = async () => {
 
     const data = resp.data;
     revalidatePath("/cart");
-    if (!data.success) throw new Error("Failed to clear wishlist");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to clear wishlist";
+      throw new Error(errorMsg);
+    }
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { success: false };
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to clear wishlist";
+    return { success: false, message: errorMsg };
   }
 };
 
@@ -79,25 +93,32 @@ export const addDirectToWishlist = async (
 ) => {
   try {
     const token = await getAccessToken();
-    const resp = await axios.post(
-      `${API_URL}/wishlist/add`,
-      {
-        item: {
-          productId,
-          variantId,
-          quantity,
-          type: productType,
-        },
+    const payload = {
+      item: {
+        productId,
+        variantId,
+        quantity,
+        type: productType,
       },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    };
+    console.log("Add direct to wishlist payload:", payload);
+    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     const data = resp.data;
-    if (!data.success) throw new Error("Failed to add item");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to add item";
+      throw new Error(errorMsg);
+    }
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { success: false };
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to add item";
+    return { success: false, message: errorMsg };
   }
 };
 
@@ -110,13 +131,20 @@ export const addItemToWishlist = async (payload: any) => {
     });
 
     const data = resp.data;
-    if (!data.success) throw new Error("Failed to add item");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to add item";
+      throw new Error(errorMsg);
+    }
     return { success: true } as const;
   } catch (error: any) {
     console.error(error);
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to add item";
     return {
       success: false,
-      message: error?.message || "Failed to add item",
+      message: errorMsg,
     } as const;
   }
 };

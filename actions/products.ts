@@ -167,6 +167,82 @@ export const getSunglassesById = async (id : any) => {
     }
 }
 
+export const getAccessoryById = async (id: any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/accessories/${id}`)
+        const data = resp.data;
+
+        if (resp.status != 200 || !data.success) {
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success: false,
+            message,
+        }
+    }
+}
+
+export const getReaderById = async (id: any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/reader/${id}`)
+        const data = resp.data;
+
+        if (resp.status != 200 || !data.success) {
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success: false,
+            message,
+        }
+    }
+}
+
+export const getContactLensById = async (id: any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/contact-lens/${id}`)
+        const data = resp.data;
+
+        if (resp.status != 200 || !data.success) {
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success: false,
+            message,
+        }
+    }
+}
+
+export const getColorContactLensById = async (id: any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/color-contact-lens/${id}`)
+        const data = resp.data;
+
+        if (resp.status != 200 || !data.success) {
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success: false,
+            message,
+        }
+    }
+}
+
 
 // now from here is the function for getting the data from the api of the best seller 
 

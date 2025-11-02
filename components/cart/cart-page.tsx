@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { clearWishlist, removeFromWishlist } from "@/actions/cart";
-
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
@@ -15,8 +15,17 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
   const handleRemove = async (itemId: string) => {
     setRemovingItemId(itemId);
     try {
-      await removeFromWishlist(itemId);
-      router.refresh();
+      const res = await removeFromWishlist(itemId);
+      if (res?.success) {
+        toast.success("Item removed from cart");
+        router.refresh();
+      } else {
+        const errorMsg = res?.message || "Failed to remove item";
+        toast.error(errorMsg);
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || "Failed to remove item";
+      toast.error(errorMsg);
     } finally {
       setRemovingItemId(null);
     }
@@ -25,8 +34,17 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
   const handleClear = async () => {
     setIsClearing(true);
     try {
-      await clearWishlist();
-      router.refresh();
+      const res = await clearWishlist();
+      if (res?.success) {
+        toast.success("Cart cleared successfully");
+        router.refresh();
+      } else {
+        const errorMsg = res?.message || "Failed to clear cart";
+        toast.error(errorMsg);
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || "Failed to clear cart";
+      toast.error(errorMsg);
     } finally {
       setIsClearing(false);
     }

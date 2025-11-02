@@ -8,6 +8,7 @@ const StepSummaryAny: any = StepSummary as any;
 import { useRouter } from "next/navigation";
 import { addItemToWishlist } from "@/actions/cart";
 import { ProductType } from "@/types/product";
+import { toast } from "sonner";
 
 export default function AddToCartForm({
   product,
@@ -27,7 +28,6 @@ export default function AddToCartForm({
   });
   const [packages, setPackages] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const productImg = useMemo(
     () =>
@@ -89,16 +89,19 @@ export default function AddToCartForm({
       },
     };
     console.log("Final Payload:", payload);
-    setSubmitError(null);
     setIsSubmitting(true);
     try {
       const resp = await addItemToWishlist(payload);
-      if (!resp?.success)
-        throw new Error(resp?.message || "Failed to add to wishlist");
-      // On success, navigate or show a confirmation. For now, go back to cart.
+      if (!resp?.success) {
+        const errorMsg = resp?.message || "Failed to add to wishlist";
+        toast.error(errorMsg);
+        return;
+      }
+      toast.success("Product added to cart successfully!");
       router.push("/cart");
     } catch (err: any) {
-      setSubmitError(err?.message || "Something went wrong");
+      const errorMsg = err?.message || "Something went wrong";
+      toast.error(errorMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -132,21 +135,14 @@ export default function AddToCartForm({
         />
       )}
       {step === 4 && (
-        <>
-          <StepSummaryAny
-            product={product}
-            packages={packages}
-            data={formData}
-            onBack={prevStep}
-            onFinish={handleFinish}
-            isSubmitting={isSubmitting}
-          />
-          {submitError && (
-            <div className="mt-3 text-sm text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded-lg">
-              {submitError}
-            </div>
-          )}
-        </>
+        <StepSummaryAny
+          product={product}
+          packages={packages}
+          data={formData}
+          onBack={prevStep}
+          onFinish={handleFinish}
+          isSubmitting={isSubmitting}
+        />
       )}
 
       <div className="flex justify-center text-sm text-gray-500 mt-4">
