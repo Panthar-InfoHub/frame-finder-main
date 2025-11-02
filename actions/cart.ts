@@ -3,7 +3,13 @@ import { API_URL } from "@/lib/apiUtils";
 import axios from "axios";
 import { getAccessToken } from "./auth";
 import { revalidatePath } from "next/cache";
-import { getFrameById, getFramePkgByVendorId } from "./products";
+import {
+  getFrameById,
+  getFramePkgByVendorId,
+  getSunglassesPkgByVendorId,
+} from "./products";
+import { getSignedViewUrl } from "./cloud-storage";
+import { ProductType } from "@/types/product";
 
 export const getWishlist = async () => {
   try {
@@ -35,11 +41,18 @@ export const removeFromWishlist = async (itemId: string) => {
 
     const data = resp.data;
     revalidatePath("/cart");
-    if (!data.success) throw new Error("Failed to remove item");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to remove item";
+      throw new Error(errorMsg);
+    }
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { success: false };
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to remove item";
+    return { success: false, message: errorMsg };
   }
 };
 
@@ -55,70 +68,127 @@ export const clearWishlist = async () => {
 
     const data = resp.data;
     revalidatePath("/cart");
-    if (!data.success) throw new Error("Failed to clear wishlist");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to clear wishlist";
+      throw new Error(errorMsg);
+    }
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { success: false };
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to clear wishlist";
+    return { success: false, message: errorMsg };
   }
 };
 
 // ✅ Add item to wishlist only frame
 
-export const addOnlyFrameToWishlist = async (
+export const addDirectToWishlist = async (
   productId: string,
   variantId: string,
-  quantity: number
+  quantity: number,
+  productType: ProductType
 ) => {
   try {
     const token = await getAccessToken();
-    const resp = await axios.post(
-      `${API_URL}/wishlist/add`,
-      {
-        item: {
-          productId,
-          variantId,
-          quantity,
-          type: "Product",
-        },
+    const payload = {
+      item: {
+        productId,
+        variantId,
+        quantity,
+        type: productType,
       },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    };
+    console.log("Add direct to wishlist payload:", payload);
+    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
     const data = resp.data;
-    if (!data.success) throw new Error("Failed to add item");
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to add item";
+      throw new Error(errorMsg);
+    }
     return { success: true };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
-    return { success: false };
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to add item";
+    return { success: false, message: errorMsg };
   }
 };
 
-export const getPkgFromProductId = async (productId: string) => {
+// ✅ Add full item (with prescription and/or lens package) to wishlist
+export const addItemToWishlist = async (payload: any) => {
   try {
-    const resp = await getFrameById(productId);
+    const token = await getAccessToken();
+    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-    if (!resp || !resp.success) {
-      throw new Error("Failed to fetch product details");
+    const data = resp.data;
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to add item";
+      throw new Error(errorMsg);
     }
-    const prooductdetails = resp.data;
-    const vendrorId = prooductdetails.vendorId._id;
-
-    const resp2 = await getFramePkgByVendorId(vendrorId);
-    if (!resp2 || !resp2.success) {
-      throw new Error("Failed to fetch package details");
-    }
-    const pkgDetails = resp2.data;
-
-    return {
-      success: true,
-      data: { product: prooductdetails, packages: pkgDetails },
-    }; // package details
-  } catch (error) {
+    return { success: true } as const;
+  } catch (error: any) {
     console.error(error);
+    const errorMsg = error?.response?.data?.error?.message || 
+                     error?.response?.data?.message || 
+                     error?.message || 
+                     "Failed to add item";
     return {
       success: false,
-      message: "Failed to fetch package details",
-    };
+      message: errorMsg,
+    } as const;
+  }
+};
+
+// Lazily fetch lens packages by vendor and optional lens type filter
+export const getLensPackages = async (
+  vendorId: string,
+  lensType?: string,
+  productType?: ProductType
+) => {
+  try {
+    let resp;
+    if (productType === "Product") {
+      resp = await getFramePkgByVendorId(vendorId, lensType);
+    } else if (productType === "Sunglass") {
+      resp = await getSunglassesPkgByVendorId(vendorId, lensType);
+    }
+    if (!resp || !resp.success) {
+      throw new Error("Failed to fetch lens package details");
+    }
+    const raw = resp.data as any;
+    const list = Array.isArray(raw)
+      ? raw
+      : raw && Array.isArray(raw.lensPackages)
+      ? raw.lensPackages
+      : [];
+    const signed = await Promise.all(
+      list.map(async (pkg: any) => {
+        const rawUrl: string | undefined = pkg?.images?.[0]?.url;
+        const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl);
+        const signedUrl = rawUrl
+          ? isHttp
+            ? rawUrl
+            : await getSignedViewUrl(rawUrl)
+          : "https://placehold.co/120x80";
+        return { ...pkg, _signedImage: signedUrl };
+      })
+    );
+    return { success: true, data: signed } as const;
+  } catch (error) {
+    console.error("Error in getLensPackages:", error);
+    return {
+      success: false,
+      message: "Failed to fetch lens packages",
+    } as const;
   }
 };

@@ -1,30 +1,53 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { clearWishlist, removeFromWishlist } from "@/actions/cart";
-
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [removingItemId, setRemovingItemId] = useState<string | null>(null);
+  const [isClearing, setIsClearing] = useState(false);
 
   const handleRemove = async (itemId: string) => {
-    startTransition(async () => {
-      await removeFromWishlist(itemId);
-
-      router.refresh();
-    });
+    setRemovingItemId(itemId);
+    try {
+      const res = await removeFromWishlist(itemId);
+      if (res?.success) {
+        toast.success("Item removed from cart");
+        router.refresh();
+      } else {
+        const errorMsg = res?.message || "Failed to remove item";
+        toast.error(errorMsg);
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || "Failed to remove item";
+      toast.error(errorMsg);
+    } finally {
+      setRemovingItemId(null);
+    }
   };
 
   const handleClear = async () => {
-    startTransition(async () => {
-      await clearWishlist();
-
-      router.refresh();
-    });
+    setIsClearing(true);
+    try {
+      const res = await clearWishlist();
+      if (res?.success) {
+        toast.success("Cart cleared successfully");
+        router.refresh();
+      } else {
+        const errorMsg = res?.message || "Failed to clear cart";
+        toast.error(errorMsg);
+      }
+    } catch (error: any) {
+      const errorMsg = error?.message || "Failed to clear cart";
+      toast.error(errorMsg);
+    } finally {
+      setIsClearing(false);
+    }
   };
 
   if (!wishlist?.length) {
@@ -63,9 +86,9 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
                 variant="destructive"
                 size="sm"
                 onClick={() => handleRemove(item._id)}
-                disabled={isPending}
+                disabled={removingItemId === item._id || isClearing}
               >
-                {isPending ? "Removing..." : "Remove"}
+                {removingItemId === item._id ? "Removing..." : "Remove"}
               </Button>
             </div>
           ))}
@@ -75,9 +98,9 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
           variant="outline"
           className="mt-4"
           onClick={handleClear}
-          disabled={isPending}
+          disabled={isClearing || removingItemId !== null}
         >
-          {isPending ? "Clearing..." : "Clear Cart"}
+          {isClearing ? "Clearing..." : "Clear Cart"}
         </Button>
       </div>
 

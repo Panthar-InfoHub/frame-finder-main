@@ -2,11 +2,19 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { loginUser } from "@/actions/auth";
+import { DefaultSession } from "next-auth";
 
-// ---- 🔐 AUTH.JS CONFIG ---- //
+// ============================================
+// 🔐 AUTH CONFIGURATION
+// ============================================
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    Google,
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+
     Credentials({
       credentials: {
         email: {
@@ -30,12 +38,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         const res = await loginUser(credentials.email, credentials.password);
-
         if (!res || !res.success) return null;
 
         const data = res.data;
 
-        // ✅ Return shape of user stored in JWT
+        // ✅ Return user shape to store in JWT
         return {
           id: data.user._id,
           email: data.user.email,
@@ -50,37 +57,57 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   callbacks: {
+    // ============================================
+    // ✅ SIGN-IN CALLBACK
+    // Used to allow or block sign-in before JWT is created
+    // ============================================
     async signIn({ account, profile }) {
-      // ✅ just return true or false here
-      if (account?.provider === "google" && !profile?.email) {
-        return false;
+      if (account?.provider === "google") {
+        if (!profile?.email) return false;
+
+        // Call backend login logic for Google user
+        const res = await loginUser(profile.email);
+
+        if (!res?.success) {
+          console.error("❌ Google login failed for:", profile.email);
+          return false; // Stop login if backend fails
+        }
+
+        // Temporarily attach backend response to account
+        // (used later in jwt callback)
+        account.backendData = res.data;
       }
+
       return true;
     },
-    
 
-    async jwt({ token, user, account, profile }) {
-      // ✅ When user logs in, attach the accessToken to the token
+    // ============================================
+    // ✅ JWT CALLBACK
+    // Runs whenever a JWT is created or updated
+    // ============================================
+    async jwt({ token, user, account }) {
+      // -- Credentials login --
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.accessToken = user.accessToken;
       }
 
-       // ✅ For Google login
-       if (account?.provider === "google" && profile?.email) {
-        const res = await loginUser(profile.email);
-        if (res?.success) {
-          token.id = res.data.user._id;
-          token.email = res.data.user.email;
-          token.accessToken = res.data.accessToken;
-        }
+      // -- Google login --
+      if (account?.provider === "google" && account.backendData) {
+        token.id = account.backendData.user._id;
+        token.email = account.backendData.user.email;
+        token.accessToken = account.backendData.accessToken;
       }
+
       return token;
     },
 
+    // ============================================
+    // ✅ SESSION CALLBACK
+    // Expose JWT data to the client session
+    // ============================================
     async session({ session, token }) {
-      // ✅ Expose accessToken inside client session
       if (token && session.user) {
         session.user.id = token.id;
         session.user.email = token.email;
@@ -88,8 +115,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-
-    
   },
 
   pages: {
@@ -97,8 +122,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 });
 
-// ---- 🧠 TYPE AUGMENTATION ---- //
-import { DefaultSession } from "next-auth";
+// ============================================
+// 🧠 TYPE AUGMENTATION
+// ============================================
 
 declare module "next-auth" {
   interface Session {
@@ -113,6 +139,13 @@ declare module "next-auth" {
     id?: string;
     email?: string;
     accessToken?: string;
+  }
+
+  interface Account {
+    backendData?: {
+      user: { _id: string; email: string };
+      accessToken: string;
+    };
   }
 }
 

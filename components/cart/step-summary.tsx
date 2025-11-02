@@ -1,4 +1,13 @@
-export default function StepSummary({ product, packages, data, onBack, onFinish }) {
+type StepSummaryProps = {
+  product: any;
+  packages: any;
+  data: any;
+  onBack: any;
+  onFinish: any;
+  isSubmitting?: boolean;
+};
+
+export default function StepSummary({ product, packages, data, onBack, onFinish, isSubmitting = false }: StepSummaryProps) {
   const productImg = product?._signedImage || product?.variants?.[0]?.images?.[0]?.url || "https://placehold.co/400x300";
   const price = product?.variants?.[0]?.price?.total_price || product?.variants?.[0]?.price?.base_price;
 
@@ -52,6 +61,7 @@ export default function StepSummary({ product, packages, data, onBack, onFinish 
                     <div className="text-sm">{prescription?.values?.leftAXIS || "0"}</div>
                   </div>
                   <div className="text-sm">PD: {prescription?.values?.pd || "—"}</div>
+                  <div className="text-sm">Under 18: {prescription?.values?.under18 ? "Yes" : "No"}</div>
                 </div>
               )}
             </div>
@@ -70,14 +80,15 @@ export default function StepSummary({ product, packages, data, onBack, onFinish 
       </div>
 
       <div className="flex justify-between mt-6">
-        <button className="text-gray-600" onClick={onBack}>
+        <button className="text-gray-600 disabled:opacity-60" onClick={onBack} disabled={isSubmitting}>
           ← Back
         </button>
         <button
-          className="bg-green-600 text-white px-4 py-2 rounded-lg"
+          className="bg-green-600 text-white px-4 py-2 rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
           onClick={onFinish}
+          disabled={isSubmitting}
         >
-          Continue →
+          {isSubmitting ? "Adding..." : "Add to Cart →"}
         </button>
       </div>
     </div>
