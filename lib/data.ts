@@ -384,6 +384,10 @@ export interface Product {
   createdAt: ISODateString
   updatedAt: ISODateString
   __v: number
+  price: {
+    base_price: number;
+    mrp: number;
+  };
 
   // only present on some items
   dimension?: Dimension

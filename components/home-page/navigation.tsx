@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Menu, Search, ShoppingCart } from "lucide-react"
-import { navigationLinks } from "@/lib/data"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, Search, ShoppingCart } from "lucide-react";
+import { navigationLinks } from "@/lib/data";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,16 +12,15 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu"
-import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu"
-import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu"
-import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu"
-import { UserAccountMenu } from "./dropdown-components/user-account-menu"
-
+} from "@/components/ui/navigation-menu";
+import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu";
+import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu";
+import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu";
+import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu";
+import { UserAccountMenu } from "./dropdown-components/user-account-menu";
 
 export function Navigation() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <nav className="absolute top-10 left-0 right-0 z-40 bg-transparent">
@@ -41,7 +40,7 @@ export function Navigation() {
                           <EyeglassesMegaMenu />
                         </NavigationMenuContent>
                       </NavigationMenuItem>
-                    )
+                    );
                   }
 
                   if (link.label === "SUNGLASSES") {
@@ -54,7 +53,7 @@ export function Navigation() {
                           <SunglassesMegaMenu />
                         </NavigationMenuContent>
                       </NavigationMenuItem>
-                    )
+                    );
                   }
 
                   if (link.label === "CONTACT LENSES") {
@@ -67,7 +66,7 @@ export function Navigation() {
                           <ContactLensesMegaMenu />
                         </NavigationMenuContent>
                       </NavigationMenuItem>
-                    )
+                    );
                   }
 
                   if (link.label === "ACCESSORIES") {
@@ -80,18 +79,17 @@ export function Navigation() {
                           <AccessoriesMegaMenu />
                         </NavigationMenuContent>
                       </NavigationMenuItem>
-                    )
+                    );
                   }
 
                   return (
                     <NavigationMenuItem key={link.href}>
-                      <Link href={link.href}>
-                        {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
-                        }
-                        <NavigationMenuLink className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide whitespace-nowrap">
-                          {link.label}
-                        </NavigationMenuLink>
-                      </Link>
+                      <NavigationMenuLink
+                        asChild
+                        className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide whitespace-nowrap"
+                      >
+                        <Link href={link.href}>{link.label}</Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                   );
                 })}
@@ -100,11 +98,21 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center gap-3 md:gap-4 lg:ml-auto w-full lg:w-auto justify-end">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/10"
+            >
               <Search className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
-            <Link href="/login"><UserAccountMenu /></Link>
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+            <Link href="/login">
+              <UserAccountMenu />
+            </Link>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/10"
+            >
               <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
             <Button

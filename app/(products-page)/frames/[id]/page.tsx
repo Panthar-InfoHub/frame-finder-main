@@ -1,10 +1,24 @@
 import Image from "next/image";
-
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getFrameById } from "@/actions/products";
-import { AddFrameButton } from "@/components/products-page/add-frame-btn";
+import { AddFrameButton } from "@/components/multiple-products-page-component/add-frame-btn";
 import Link from "next/link";
+import { Heart, Share2 } from "lucide-react";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
+import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
+import {
+  mockSimilarProducts,
+  frameDimensions,
+  trustBadges,
+} from "@/lib/mock-data";
+// import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
 export default async function ProductPage({
   params,
@@ -13,7 +27,6 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
   const res = await getFrameById(id);
-  
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
@@ -24,134 +37,123 @@ export default async function ProductPage({
   const images = variant?.images || [];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Left section - Images */}
-        <div>
-          <div className="rounded-2xl shadow-md overflow-hidden mb-4">
-            <Image
-              //   src={images[0]?.url || "/placeholder.jpg"}
-              src={"https://placehold.co/600x400/png"}
-              alt={product.brand_name}
-              width={600}
-              height={400}
-              className="object-contain w-full h-[400px] bg-white"
-            />
-          </div>
-
-          <div className="grid grid-cols-4 gap-3">
-            {images.map((img: any, i: number) => (
-              <div
-                key={i}
-                className="border rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-400"
-              >
-                <Image
-                  //   src={img.url}
-                  src={"https://placehold.co/120x80/png"}
-                  alt={`Image ${i + 1}`}
-                  width={120}
-                  height={80}
-                  className="object-contain w-full h-[80px]"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right section - Details */}
-        <div>
-          <h1 className="text-3xl font-semibold mb-2">{product.brand_name}</h1>
-          <p className="text-gray-600 text-sm mb-4">{product.productCode}</p>
-
-          <div className="flex items-center gap-2 mb-4">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={18}
-                className={
-                  i < product.rating ? "text-yellow-400" : "text-gray-300"
-                }
-                fill={i < product.rating ? "currentColor" : "none"}
-              />
-            ))}
-            <span className="text-sm text-gray-600">
-              ({product.total_reviews} reviews)
-            </span>
-          </div>
-
-          <p className="text-2xl font-bold mb-3">
-            ₹{variant?.price?.total_price || variant?.price?.base_price}/-
+    <div className="min-h-screen bg-background">
+      {/* Breadcrumb */}
+      <div className="border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p className="text-sm text-muted-foreground">
+            Home | Eyeware | {product.brand_name}
           </p>
-          <p className="text-sm text-gray-500 mb-6">
-            MRP: ₹{variant?.price?.mrp} (Incl. of all taxes)
-          </p>
-
-          <div className="flex gap-4 mb-6">
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-              asChild
-            >
-              <Link href={`/cart/onboarding/${product._id}`}>
-                Select Lenses and Purchase
-              </Link>
-            </Button>
-            <AddFrameButton productId={product._id} variantId={variant?._id} />
-          </div>
-
-          <div className="border-t pt-6 space-y-3 text-sm text-gray-700">
-            <p>
-              <strong>Material:</strong> {product.material.join(", ")}
-            </p>
-            <p>
-              <strong>Shape:</strong> {product.shape.join(", ")}
-            </p>
-            <p>
-              <strong>Style:</strong> {product.style.join(", ")}
-            </p>
-            <p>
-              <strong>Gender:</strong> {product.gender.join(", ")}
-            </p>
-            <p>
-              <strong>Sizes:</strong> {product.sizes.join(", ")}
-            </p>
-            <p>
-              <strong>Vendor:</strong> {product.vendorId?.business_name} (
-              {product.vendorId?.email})
-            </p>
-            <p>
-              <strong>Status:</strong> {product.status}
-            </p>
-            <p>
-              <strong>Created:</strong>{" "}
-              {new Date(product.createdAt).toLocaleDateString()}
-            </p>
-          </div>
         </div>
       </div>
 
-      {/* Similar Products */}
-      <div className="mt-14">
-        <h2 className="text-xl font-semibold mb-4">Similar Products</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((_, i) => (
-            <div
-              key={i}
-              className="border rounded-2xl shadow-sm hover:shadow-lg p-3 transition"
-            >
-              <Image
-                src={"https://placehold.co/200x150/png"}
-                alt="Similar Product"
-                width={200}
-                height={150}
-                className="object-contain w-full h-[150px] mb-3"
-              />
-              <p className="text-sm text-gray-600">{product.brand_name}</p>
-              <p className="font-semibold text-base">
-                ₹{variant?.price?.total_price}/-
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {/* Main Product Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Left: Image Gallery */}
+          <div>
+            <ProductImageGallery
+              images={variant.images}
+              brandName={product.brand_name}
+            />
+          </div>
+
+          {/* Right: Product Details */}
+          <div className="space-y-6">
+            <ProductInfo
+              brandName={product.brand_name}
+              productCode={product.productCode}
+              status={product.status}
+              vendor={product.vendorId}
+              createdAt={product.createdAt}
+            />
+
+            <ProductRating
+              rating={product.rating}
+              totalReviews={product.total_reviews}
+            />
+
+            <ProductPrice
+              totalPrice={variant.price.total_price}
+              mrp={variant.price.mrp}
+              basePrice={variant.price.base_price}
+            />
+
+            {/* Color Selection */}
+            <div className="space-y-2">
+              <p className="text-sm font-medium">
+                Frame Color:{" "}
+                <span className="text-muted-foreground capitalize">
+                  {variant.frame_color}
+                </span>
+              </p>
+              <p className="text-sm font-medium">
+                Temple Color:{" "}
+                <span className="text-muted-foreground capitalize">
+                  {variant.temple_color}
+                </span>
               </p>
             </div>
-          ))}
+
+            {/* Stock Status */}
+            {variant.stock.current > 0 ? (
+              <p className="text-sm text-green-600 font-medium">
+                In Stock ({variant.stock.current} available)
+              </p>
+            ) : (
+              <p className="text-sm text-destructive font-medium">
+                Out of Stock
+              </p>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <Button
+                size="lg"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+              >
+                Select Lenses and Purchase
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="flex-1 bg-transparent"
+              >
+                Only Frame
+              </Button>
+            </div>
+
+            <div className="flex gap-3">
+              <Button variant="outline" size="icon">
+                <Heart size={20} />
+              </Button>
+              <Button variant="outline" size="icon">
+                <Share2 size={20} />
+              </Button>
+            </div>
+
+            {/* Frame Dimensions */}
+            <FrameDimensions dimensions={frameDimensions} />
+
+            {/* Accordion Details */}
+            <ProductDetailsAccordion
+              material={product.material}
+              shape={product.shape}
+              style={product.style}
+              gender={product.gender}
+              sizes={product.sizes}
+              isPower={product.is_Power}
+            />
+          </div>
         </div>
+
+        {/* Trust Badges */}
+        <div className="mt-12">
+          <TrustBadges badges={trustBadges} />
+        </div>
+
+        {/* Similar Products */}
+        <SimilarProducts products={mockSimilarProducts} />
       </div>
     </div>
   );

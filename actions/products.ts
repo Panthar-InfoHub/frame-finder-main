@@ -65,7 +65,7 @@ export const getAllAccessories = async () => {
 }
 
 // This is the get request for the Reader glasses
-export const getAllReader = async () => {
+export const getAllReadingGlass = async () => {
     try{
         const resp = await axios.get(`${API_URL}/reader/`)
         const data = resp.data; 
@@ -127,6 +127,25 @@ export const getAllColorContactLens = async () => {
     }
 }
 
+
+export const getAllLensSolution = async () => {
+    try{
+        const resp = await axios.get(`${API_URL}/lens-solution`)
+        const data = resp.data;
+
+        if (resp.status!= 200 || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+    catch (error){
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message,
+        }
+    }
+}
 // now from here are all the get functions of the particular single product page  
 
 
@@ -149,13 +168,140 @@ export const getFrameById = async (id : any) => {
     }
 }
 
+// here is the funtion to get the sunglasses by id 
+
+export const getSunglassesById = async (id : any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/sunglass/${id}`)
+        const data = resp.data;
+
+        if (resp.status!=200  || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message, 
+        }
+    }
+}
+
+
+// here  is the function to get the data for a particular accesrroies by id 
+
+export const getAccessoriesById = async (id : any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/accessories/${id}`)
+        const data = resp.data;
+
+        if (resp.status!=200  || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message, 
+        }
+    }
+}
+
+// here  is the function to get the data for a particular colorContactLens by id
+
+export const getColorContactLensById = async (id : any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/color-contact-lens/${id}`)
+        const data = resp.data;
+
+        if (resp.status!=200  || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message, 
+        }
+    }
+}
+
+export const getContactLensById = async (id : any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/contact-lens/${id}`)
+        const data = resp.data;
+
+        if (resp.status!=200  || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message, 
+        }
+    }
+}
+
+export const getReadingGlassById = async (id : any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/reader/${id}`)
+        const data = resp.data;
+
+        if (resp.status!=200  || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message, 
+        }
+    }
+}
+
+export const getLensSolutionId = async (id : any) => {
+    try {
+        const resp = await axios.get(`${API_URL}/lens-solution/${id}`)
+        const data = resp.data;
+
+        if (resp.status!=200  || !data.success){
+            throw new Error("Failed to load the page")
+        }
+        return data;
+    }
+
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Failed to load the page"
+        return {
+            success : false,
+            message, 
+        }
+    }
+}
+
 
 // now from here is the function for getting the data from the api of the best seller 
 
 export const getbestseller = async () => {
     try {
-        const resp = await axios.get(`https://spiteful-unstraight-joannie.ngrok-free.dev/api/v1/best-seller/search`)
-        const data = resp.data;
+        const resp = await axios.get(`${API_URL}/api/v1/best-seller/search`)
+        const data = resp.data; 
 
         if (resp.status!=200 || !data.success){
             throw new Error("Failed to load the page")

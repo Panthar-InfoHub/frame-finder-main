@@ -1,3 +1,4 @@
+import { Header } from "@/components/home-page/header"
 import { TopBanner } from "@/components/home-page/top-banner"
 import { Navigation } from "@/components/home-page/navigation"
 import { HeroSection } from "@/components/home-page/hero-section"
@@ -14,9 +15,8 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="relative h-dvh">
-        <TopBanner />
-        <Navigation />
-        <HeroSection />
+        <Header/>
+        <HeroSection/>
       </div>
       <main className="flex-1">
         <ProductCategories />
