@@ -1,22 +1,22 @@
-import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import { ProductCard } from "@/components/products-page/product-card";
-import { FilterSidebar } from "@/components/products-page/filter-sidebar";
+import { Footer } from "@/components/footer";
+import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
+import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
 import { categories } from "@/lib/data";
-import { getAllReader } from "@/actions/products";
+import Link from "next/link";
+import { getAllReadingGlass } from "@/actions/products";
 
-export default async function Accessories() {
-  const response = await getAllReader();
+export default async function Frames() {
+  const FilterContent = () => <FilterSidebar />;
+  const response = await getAllReadingGlass();
 
   if (!response.success) {
     return <p>Error : failed to load the page</p>;
   }
   const data = response.data.result;
-
-  const FilterContent = () => <FilterSidebar />;
   return (
     <main className="min-h-screen">
       <Header />
@@ -24,7 +24,7 @@ export default async function Accessories() {
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
           {/* Placeholder for hero image */}
-          <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900" />
+          <div className="w-full h-full bg-linear-to-br from-neutral-700 to-neutral-900" />
         </div>
         <div className="relative z-20 flex items-center justify-center h-full">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
@@ -35,7 +35,7 @@ export default async function Accessories() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Desktop Sidebar - Always visible and static */}
-          <aside className="hidden lg:block flex-shrink-0 w-64">
+          <aside className="hidden lg:block shrink-0 w-64">
             <div className="sticky top-8">
               <FilterContent />
             </div>
@@ -92,8 +92,10 @@ export default async function Accessories() {
 
             {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {data.products.map((product, i) => (
-                <ProductCard key={i} product={product} />
+              {data.products.map((product) => (
+                <Link href={`/readingGlasses/${product._id}`} key={product._id}>
+                  <ProductCard key={product._id} product={product} />
+                </Link>
               ))}
             </div>
 
@@ -115,7 +117,6 @@ export default async function Accessories() {
         </div>
       </div>
       <Footer />
-      {/* <pre>{JSON.stringify(response, null, 2)}</pre> */}
     </main>
   );
 }

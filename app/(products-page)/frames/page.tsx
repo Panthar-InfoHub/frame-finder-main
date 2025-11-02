@@ -1,14 +1,13 @@
-import { HeroSection } from "@/components/products-page/hero-section";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ProductCard } from "@/components/products-page/product-card";
-import { FilterSidebar } from "@/components/products-page/filter-sidebar";
+import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
+import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
 import { categories } from "@/lib/data";
-import { getAllFrames } from "@/actions/products";
 import Link from "next/link";
+import { getAllFrames } from "@/actions/products";
 
 export default async function Frames() {
   const FilterContent = () => <FilterSidebar />;
@@ -25,7 +24,7 @@ export default async function Frames() {
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
           {/* Placeholder for hero image */}
-          <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900" />
+          <div className="w-full h-full bg-linear-to-br from-neutral-700 to-neutral-900" />
         </div>
         <div className="relative z-20 flex items-center justify-center h-full">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
@@ -36,7 +35,7 @@ export default async function Frames() {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Desktop Sidebar - Always visible and static */}
-          <aside className="hidden lg:block flex-shrink-0 w-64">
+          <aside className="hidden lg:block shrink-0 w-64">
             <div className="sticky top-8">
               <FilterContent />
             </div>

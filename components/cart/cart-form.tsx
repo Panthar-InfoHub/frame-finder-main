@@ -4,7 +4,6 @@ import StepLensType from "./step-lens-type";
 import StepPrescription from "./step-prescription";
 import StepLensPackage from "./step-lens-package";
 import StepSummary from "./step-summary";
-const StepSummaryAny: any = StepSummary as any;
 import { useRouter } from "next/navigation";
 import { addItemToWishlist } from "@/actions/cart";
 import { ProductType } from "@/types/product";
@@ -135,7 +134,7 @@ export default function AddToCartForm({
         />
       )}
       {step === 4 && (
-        <StepSummaryAny
+        <StepSummary
           product={product}
           packages={packages}
           data={formData}

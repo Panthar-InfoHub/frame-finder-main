@@ -1,128 +1,127 @@
-import Image from "next/image";
-import { Star } from "lucide-react";
-import { getAccessoryById } from "@/actions/products";
-import { AddToCartBtn } from "@/components/products-page/add-to-cart-btn";
+import { Button } from "@/components/ui/button";
+import { getAccessoriesById } from "@/actions/products";
+import { Heart, Share2 } from "lucide-react";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
+import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
+import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
+import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const res = await getAccessoryById(id);
+  const res = await getAccessoriesById(id);
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
 
   const product = res.data;
-  const variant = product.variants?.[0] || product.variant || {};
-  const images = variant?.images || product.images || [];
-
-  // Safely extract price information
-  const price = variant?.price?.total_price || variant?.price?.base_price || product.price || 0;
-  const mrp = variant?.price?.mrp || product.mrp || price;
-  const brandName = product.brand_name || product.name || "Product";
-  const productCode = product.productCode || product.code || "";
-  const rating = product.rating || 0;
-  const totalReviews = product.total_reviews || 0;
+  const variant = product.variants?.[0]; // default variant
+  const images = variant?.images || [];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Left section - Images */}
-        <div>
-          <div className="rounded-2xl shadow-md overflow-hidden mb-4">
-            <Image
-              src={"https://placehold.co/600x400/png"}
-              alt={brandName}
-              width={600}
-              height={400}
-              className="object-contain w-full h-[400px] bg-white"
+    <div className="min-h-screen bg-background">
+      {/* Breadcrumb */}
+      <div className="border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <p className="text-sm text-muted-foreground">Home | Eyeware | {product.brand_name}</p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {/* Main Product Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Left: Image Gallery */}
+          <div>
+            <ProductImageGallery images={variant.images} brandName={product.brand_name} />
+          </div>
+
+          {/* Right: Product Details */}
+          <div className="space-y-6">
+            <ProductInfo
+              brandName={product.brand_name}
+              productCode={product.productCode}
+              status={product.status}
+              vendor={product.vendorId}
+              createdAt={product.createdAt}
+            />
+
+            <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
+
+            <ProductPrice
+              totalPrice={variant.price.total_price}
+              mrp={variant.price.mrp}
+              basePrice={variant.price.base_price}
+            />
+
+            {/* Color Selection */}
+            <div className="space-y-2">
+              <p className="text-sm font-medium">
+                Frame Color:{" "}
+                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
+              </p>
+              <p className="text-sm font-medium">
+                Temple Color:{" "}
+                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
+              </p>
+            </div>
+
+            {/* Stock Status */}
+            {variant.stock.current > 0 ? (
+              <p className="text-sm text-green-600 font-medium">
+                In Stock ({variant.stock.current} available)
+              </p>
+            ) : (
+              <p className="text-sm text-destructive font-medium">Out of Stock</p>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <AddToCartBtn
+                productId={product._id}
+                variantId={product.vendorId._id}
+                productType="Accessories"
+                btnText="Add to Cart"
+              />
+            </div>
+
+            <div className="flex gap-3">
+              <Button variant="outline" size="icon">
+                <Heart size={20} />
+              </Button>
+              <Button variant="outline" size="icon">
+                <Share2 size={20} />
+              </Button>
+            </div>
+
+            {/* Frame Dimensions */}
+            <FrameDimensions dimensions={frameDimensions} />
+
+            {/* Accordion Details */}
+            <ProductDetailsAccordion
+              material={product.material}
+              shape={product.shape}
+              style={product.style}
+              gender={product.gender}
+              sizes={product.sizes}
+              isPower={product.is_Power}
             />
           </div>
-
-          {images.length > 0 && (
-            <div className="grid grid-cols-4 gap-3">
-              {images.map((img: any, i: number) => (
-                <div
-                  key={i}
-                  className="border rounded-xl overflow-hidden cursor-pointer hover:ring-2 hover:ring-blue-400"
-                >
-                  <Image
-                    src={"https://placehold.co/120x80/png"}
-                    alt={`Image ${i + 1}`}
-                    width={120}
-                    height={80}
-                    className="object-contain w-full h-[80px]"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* Right section - Details */}
-        <div>
-          <h1 className="text-3xl font-semibold mb-2">{brandName}</h1>
-          {productCode && <p className="text-gray-600 text-sm mb-4">{productCode}</p>}
-
-          {rating > 0 && (
-            <div className="flex items-center gap-2 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={18}
-                  className={i < rating ? "text-yellow-400" : "text-gray-300"}
-                  fill={i < rating ? "currentColor" : "none"}
-                />
-              ))}
-              {totalReviews > 0 && (
-                <span className="text-sm text-gray-600">({totalReviews} reviews)</span>
-              )}
-            </div>
-          )}
-
-          <p className="text-2xl font-bold mb-3">₹{price.toLocaleString()}/-</p>
-          {mrp && mrp > price && (
-            <p className="text-sm text-gray-500 mb-6">
-              MRP: ₹{mrp.toLocaleString()} (Incl. of all taxes)
-            </p>
-          )}
-
-          <div className="flex gap-4 mb-6">
-            <AddToCartBtn 
-              productId={product._id} 
-              variantId={variant?._id || variant?._id || product._id} 
-              productType="Accessories" 
-            />
-          </div>
-
-          <div className="border-t pt-6 space-y-3 text-sm text-gray-700">
-            {product.material && (
-              <p>
-                <strong>Material:</strong> {Array.isArray(product.material) ? product.material.join(", ") : product.material}
-              </p>
-            )}
-            {product.description && (
-              <p>
-                <strong>Description:</strong> {product.description}
-              </p>
-            )}
-            {product.status && (
-              <p>
-                <strong>Status:</strong> {product.status}
-              </p>
-            )}
-            {product.createdAt && (
-              <p>
-                <strong>Created:</strong> {new Date(product.createdAt).toLocaleDateString()}
-              </p>
-            )}
-          </div>
+        {/* Trust Badges */}
+        <div className="mt-12">
+          <TrustBadges badges={trustBadges} />
         </div>
+
+        {/* Similar Products */}
+        <SimilarProducts products={mockSimilarProducts} />
       </div>
     </div>
   );
 }
-

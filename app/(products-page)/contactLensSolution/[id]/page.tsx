@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getColorContactLensById } from "@/actions/products";
+import { getLensSolutionId } from "@/actions/products";
 import Link from "next/link";
 import { Heart, Share2 } from "lucide-react";
 import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
@@ -14,10 +14,11 @@ import { TrustBadges } from "@/components/single-product-page-component/trust-ba
 import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
 import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
+// import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const res = await getColorContactLensById(id);
+  const res = await getLensSolutionId(id);
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
@@ -85,19 +86,11 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button
-                asChild
-                size="lg"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-              >
-                <Link href={`/cart/onboarding/colorContactLens/${product._id}`}>
-                  Upload Prescription
-                </Link>
-              </Button>
+              
               <AddToCartBtn
                 productId={product._id}
                 variantId={product.vendorId._id}
-                productType="ColorContactLens"
+                productType="Accessories"
                 btnText="Add to Cart"
               />
             </div>

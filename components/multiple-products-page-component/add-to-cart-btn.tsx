@@ -6,6 +6,7 @@ import { addDirectToWishlist } from "@/actions/cart";
 import { toast } from "sonner"; // optional if you use toast
 import { ProductType } from "@/types/product";
 
+
 export function AddToCartBtn({
   productId,
   variantId,
@@ -37,9 +38,10 @@ export function AddToCartBtn({
   return (
     <Button
       variant="outline"
+      size="lg"
       onClick={handleAdd}
       disabled={isPending}
-      className="min-w-[130px]"
+      className="min-w-[130px] flex-1 bg-transparent"
     >
       {isPending ? "Adding..." : buttonText}
     </Button>

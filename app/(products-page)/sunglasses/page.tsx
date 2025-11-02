@@ -1,23 +1,23 @@
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
-import { ProductCard } from "@/components/products-page/product-card";
-import { FilterSidebar } from "@/components/products-page/filter-sidebar";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SlidersHorizontal } from "lucide-react";
-import { categories } from "@/lib/data";
-import { getAllSunglasses } from "@/actions/products";
+import { Footer } from "@/components/footer"
+import { Header } from "@/components/header"
+import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
+import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { SlidersHorizontal } from "lucide-react"
+import {  categories } from "@/lib/data"
+import { getAllSunglasses } from "@/actions/products"
 import Link from "next/link";
 
+
 export default async function Sunglasses() {
+  const FilterContent = () => <FilterSidebar />
   const response = await getAllSunglasses();
 
   if (!response.success) {
     return <p>Error : failed to load the page</p>;
   }
   const data = response.data.result;
-
-  const FilterContent = () => <FilterSidebar />;
   return (
     <main className="min-h-screen">
       <Header />
@@ -25,7 +25,7 @@ export default async function Sunglasses() {
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
           {/* Placeholder for hero image */}
-          <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900" />
+          <div className="w-full h-full bg-linear-to-br from-neutral-700 to-neutral-900" />
         </div>
         <div className="relative z-20 flex items-center justify-center h-full">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
@@ -33,14 +33,14 @@ export default async function Sunglasses() {
           </h1>
         </div>
       </section>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Desktop Sidebar - Always visible and static */}
-          <aside className="hidden lg:block flex-shrink-0 w-64">
-            <div className="sticky top-8">
-              <FilterContent />
-            </div>
-          </aside>
+      {/* <div className="container mx-auto px-4 py-8"> */}
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Desktop Sidebar - Always visible and static */}
+        <aside className="hidden lg:block shrink-0 w-64">
+          <div className="sticky top-8">
+            <FilterContent />
+          </div>
+        </aside>
 
           {/* Main Content */}
           <div className="flex-1">
@@ -64,15 +64,9 @@ export default async function Sunglasses() {
                 </SheetContent>
               </Sheet>
 
-              <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start">
-                <span className="font-semibold">
-                  {data.pagination.totalProducts} PRODUCTS
-                </span>
-              </div>
-
-              <Button variant="ghost" className="text-sm font-semibold">
-                RESET
-              </Button>
+            <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start">
+              <span className="font-semibold"> 
+                {data.pagination.totalProducts} PRODUCTS</span>
             </div>
 
             {/* Category Tabs - Static, no click handlers */}
@@ -91,30 +85,26 @@ export default async function Sunglasses() {
               ))}
             </div>
 
-            {/* Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {data.products.map((product, i) => (
-                <Link href={`/sunglasses/${product._id}`}>
-                  <ProductCard key={i} product={product} />
-                </Link>
-              ))}
-            </div>
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {data.products.map((product, i) => (
+              <Link href={`/sunglasses/${product._id}`} key={product._id}>
+                <ProductCard key={i} product={product}  />
+              </Link>
+            ))}
+          </div>
 
-            {/* Premium Banner */}
-            <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-r from-blue-200 to-blue-300">
-              <div className="absolute inset-0 flex items-center justify-between px-8">
-                <div className="w-1/2">
-                  {/* Placeholder for glasses image */}
-                </div>
-                <div className="text-right">
-                  <h2 className="text-3xl md:text-5xl font-bold text-neutral-800">
-                    PREMIUM
-                  </h2>
-                  <p className="text-lg md:text-xl text-neutral-700">QUALITY</p>
-                </div>
+          {/* Premium Banner */}
+          <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-linear-to-r from-blue-200 to-blue-300">
+            <div className="absolute inset-0 flex items-center justify-between px-8">
+              <div className="w-1/2">{/* Placeholder for glasses image */}</div>
+              <div className="text-right">
+                <h2 className="text-3xl md:text-5xl font-bold text-neutral-800">PREMIUM</h2>
+                <p className="text-lg md:text-xl text-neutral-700">QUALITY</p>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
       <Footer />
