@@ -3,8 +3,8 @@
 import Image from "next/image"
 import { heroSlides } from "@/lib/data"
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
-import Autoplay from "embla-carousel-autoplay"
 import { useRef } from "react"
+import Autoplay from 'embla-carousel-autoplay'
 
 export function HeroSection() {
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }))
@@ -30,12 +30,12 @@ export function HeroSection() {
                   className="object-cover"
                   priority={slide.id === 1}
                 />
-                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                {/* <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
                   <div className="text-center text-white">
                     <h1 className="text-5xl md:text-7xl font-bold mb-4">{slide.title}</h1>
                     <p className="text-xl md:text-2xl">{slide.subtitle}</p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </CarouselItem>
           ))}

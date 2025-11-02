@@ -3,6 +3,8 @@ import { Bona_Nova, Geist, Geist_Mono, Lexend_Deca } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { Header } from "@/components/home-page/header";
+import { Footer } from "@/components/footer";
 
 
 const geistSans = Geist({
@@ -42,8 +44,10 @@ export default function RootLayout({
       <body
         className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}
       >
-        <Suspense fallback={null}>{children}</Suspense>
-        <Toaster/>
+        {/* <Header /> */}
+        {children}
+        <Toaster position="top-center" richColors />
+        <Footer />
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { navigationMenuData } from "@/lib/data"
 
-export function UserAccountMenu() {
+export function UserAccountMenu({ shouldBlur }: { shouldBlur: boolean }) {
   const [isOpen, setIsOpen] = useState(false)
   const userData = navigationMenuData.USER
 
@@ -19,7 +19,7 @@ export function UserAccountMenu() {
     <div onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+          <Button variant="ghost" size="icon" className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}>
             <User className="h-5 w-5 md:h-6 md:w-6" />
           </Button>
         </DropdownMenuTrigger>

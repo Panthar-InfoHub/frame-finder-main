@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { sunglassesCategories } from "@/lib/data"
+import Image from "next/image"
 
 export function SunGlassesSection() {
   return (
@@ -21,10 +22,8 @@ export function SunGlassesSection() {
               href={`/sunglasses/${category.id}`}
               className="flex flex-col items-center gap-3 group"
             >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted flex items-center justify-center transition-transform group-hover:scale-105">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-foreground rounded-sm flex items-center justify-center">
-                  <div className="w-12 h-3 md:w-16 md:h-4 bg-background rounded-full" />
-                </div>
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted flex relative items-center overflow-hidden justify-center transition-transform group-hover:scale-[1.05]">
+                <Image src={category.icon} alt={category.name} fill className="object-cover h-full w-full" />
               </div>
               <p className="text-xs md:text-sm text-center text-muted-foreground group-hover:text-foreground transition-colors">
                 {category.name}

@@ -6,7 +6,7 @@ export function CuttingEdgeDesign() {
       <div className="container mx-auto px-4">
         <div className="relative w-full aspect-[16/5] md:aspect-[21/6] lg:aspect-[24/6] rounded-lg overflow-hidden shadow-lg">
           <Image
-            src="/cutting-edge-eyewear-design-banner.jpg"
+            src="/banner_1.png"
             alt="Cutting Edge Design Banner"
             fill
             className="object-cover"

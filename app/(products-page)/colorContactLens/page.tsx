@@ -119,7 +119,7 @@ export default async function ColorContactLens() {
           </div>
         </div>
       </div>
-      <Footer />
+    
     </main>
   )
 }

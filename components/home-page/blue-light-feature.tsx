@@ -9,18 +9,16 @@ export function BlueLightFeature() {
           <div className="grid md:grid-cols-2 items-center gap-0">
             {/* Left side - Image */}
             <div className="relative h-64 md:h-96 lg:h-[500px] bg-linear-to-b from-muted via-muted-foreground/20 to-muted-foreground/40">
-              <div className="absolute inset-0 flex items-center justify-center p-8">
-                <div className="relative w-full h-full max-w-sm">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-full h-full">
                   <Image
-                    src="/folded-eyeglasses-artistic-minimal.jpg"
+                    src="/banner_2.png"
                     alt="Blue light blocking glasses"
                     fill
-                    className="object-contain"
+                    className="object-cover h-full w-full"
                   />
                 </div>
               </div>
-              {/* Decorative star */}
-              <div className="absolute bottom-8 left-8 w-2 h-2 bg-orange-500 rounded-full" />
             </div>
 
             {/* Right side - Content */}

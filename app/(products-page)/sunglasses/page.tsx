@@ -107,7 +107,7 @@ export default async function Sunglasses() {
         </div>
         </div>
       </div>
-      <Footer />
+    
     </main>
   );
 }

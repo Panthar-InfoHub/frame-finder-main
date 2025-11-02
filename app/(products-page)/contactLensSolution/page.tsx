@@ -117,7 +117,7 @@ export default async function AllContactlens() {
           </div>
         </div>
       </div>
-      <Footer />
+    
     </main>
   );
 }

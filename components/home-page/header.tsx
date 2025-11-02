@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Link from "next/link";
-import { Menu, Search, ShoppingCart } from "lucide-react";
-import { navigationLinks, promoData } from "@/lib/data";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { Menu, Search, ShoppingCart } from "lucide-react"
+import { navigationLinks, promoData } from "@/lib/data"
+import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,25 +12,40 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
-import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu";
-import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu";
-import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu";
-import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu";
-import { UserAccountMenu } from "./dropdown-components/user-account-menu";
+} from "@/components/ui/navigation-menu"
+import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu"
+import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu"
+import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu"
+import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu"
+import { UserAccountMenu } from "./dropdown-components/user-account-menu"
 
-export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+interface HeaderProps {
+  alwaysBlurred?: boolean
+}
+
+export function Header({ alwaysBlurred = false }: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Trigger sticky nav after scrolling 50px
+      setIsScrolled(window.scrollY > 50)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const shouldBlur = alwaysBlurred || isScrolled
 
   return (
     <>
-      {/* Top Banner */}
-      <div className="sticky top-0 z-100 bg-[#00AA78] text-white py-2 px-4 max-w-full overflow-hidden">
+      {/* Top Banner - Removed sticky positioning so only nav sticks */}
+      <div className="bg-[#00AA78] text-white py-2 px-4 max-w-full overflow-hidden z-40 relative">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-sm md:text-base">
-              FrameFinder
-            </span>
+            <span className="font-semibold text-sm md:text-base">FrameFinder</span>
           </div>
           <div className="flex items-center gap-2 text-xs md:text-sm text-center flex-1 justify-center">
             <span>{promoData.text}</span>
@@ -42,64 +57,82 @@ export function Header() {
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="absolute top-10 left-0 right-0 z-40 bg-transparent">
+      {/* Navigation - Made sticky with blur effect when scrolled */}
+      <nav
+        className={`sticky top-0 z-50 transition-all duration-300 ${shouldBlur ? "bg-white/80 backdrop-blur-md shadow-md" : "bg-transparent"
+          }`}
+      >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
             <div className="hidden lg:flex items-center gap-2 flex-1 justify-center">
               <NavigationMenu viewport={false}>
                 <NavigationMenuList className="gap-2">
                   {navigationLinks.map((link) => {
+                    const textColorClass = shouldBlur
+                      ? "text-black hover:text-black/70"
+                      : "text-white hover:text-white/80"
+                    const bgClass = shouldBlur
+                      ? "bg-transparent hover:bg-black/5 data-[state=open]:bg-black/5"
+                      : "bg-transparent hover:bg-transparent data-[state=open]:bg-transparent"
+
                     if (link.label === "EYEGLASSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                          <NavigationMenuTrigger
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                          >
                             {link.label}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <EyeglassesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      );
+                      )
                     }
 
                     if (link.label === "SUNGLASSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                          <NavigationMenuTrigger
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                          >
                             {link.label}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <SunglassesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      );
+                      )
                     }
 
                     if (link.label === "CONTACT LENSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                          <NavigationMenuTrigger
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                          >
                             {link.label}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <ContactLensesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      );
+                      )
                     }
 
                     if (link.label === "ACCESSORIES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide bg-transparent hover:bg-transparent data-[state=open]:bg-transparent">
+                          <NavigationMenuTrigger
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                          >
                             {link.label}
                           </NavigationMenuTrigger>
                           <NavigationMenuContent>
                             <AccessoriesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      );
+                      )
                     }
 
                     return (
@@ -107,13 +140,13 @@ export function Header() {
                         <Link href={link.href}>
                           <NavigationMenuLink
                             asChild
-                            className="text-[9px] md:text-[10px] lg:text-xs font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide whitespace-nowrap"
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide whitespace-nowrap ${textColorClass}`}
                           >
                             <span>{link.label}</span>
                           </NavigationMenuLink>
                         </Link>
                       </NavigationMenuItem>
-                    );
+                    )
                   })}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -123,22 +156,22 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-white/10"
+                className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
               >
                 <Search className="h-5 w-5 md:h-6 md:w-6" />
               </Button>
-              <UserAccountMenu />
+              <UserAccountMenu shouldBlur={shouldBlur} />
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-white/10"
+                className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
               >
                 <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:bg-white/10 lg:hidden"
+                className={`lg:hidden ${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 <Menu className="h-5 w-5 md:h-6 md:w-6" />
@@ -165,5 +198,5 @@ export function Header() {
         </div>
       </nav>
     </>
-  );
+  )
 }

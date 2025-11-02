@@ -116,7 +116,7 @@ export default async function Frames() {
           </div>
         </div>
       </div>
-      <Footer />
+    
     </main>
   );
 }

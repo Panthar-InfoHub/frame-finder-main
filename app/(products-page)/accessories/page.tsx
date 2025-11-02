@@ -120,7 +120,7 @@ export default async function Accessories() {
           </div>
         </div>
       </div>
-      <Footer />
+    
     </main>
   )
 }

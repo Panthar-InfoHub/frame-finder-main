@@ -13,19 +13,19 @@ export const heroSlides = [
     id: 1,
     title: "ECO-ACETATE",
     subtitle: "From Nature, With Love",
-    image: "/couple-wearing-stylish-eyeglasses-fashion-photogra.jpg",
+    image: "/hero/img_1.png",
   },
   {
     id: 2,
     title: "PREMIUM COLLECTION",
     subtitle: "Crafted for Perfection",
-    image: "/premium-eyewear-collection-modern-lifestyle.jpg",
+    image: "/hero/img_1.png",
   },
   {
     id: 3,
     title: "TIMELESS STYLE",
     subtitle: "Elegance Redefined",
-    image: "/elegant-eyewear-fashion-photography.jpg",
+    image: "/hero/img_1.png",
   },
 ]
 
@@ -501,11 +501,11 @@ export const socialLinks = [
 ]
 
 export const sunglassesCategories = [
-  { id: 1, name: "Rimless Glasses", icon: "🕶️" },
-  { id: 2, name: "Transparent Frame", icon: "🕶️" },
-  { id: 3, name: "Rich Acetate eyeglass", icon: "🕶️" },
-  { id: 4, name: "Blue Computer Glasses", icon: "🕶️" },
-  { id: 5, name: "Metalwork", icon: "🕶️" },
+  { id: 1, name: "Rimless Glasses", icon: "/sunglasses/sun_1.jpg" },
+  { id: 2, name: "Transparent Frame", icon: "/sunglasses/sun_2.jpg" },
+  { id: 3, name: "Rich Acetate eyeglass", icon: "/sunglasses/sun_3.jpg" },
+  { id: 4, name: "Blue Computer Glasses", icon: "/sunglasses/sun_1.jpg" },
+  { id: 5, name: "Metalwork", icon: "/sunglasses/sun_2.jpg" },
 ]
 
 export const vendors = [
@@ -514,8 +514,7 @@ export const vendors = [
     name: "Armen Sargsyan",
     initial: "A",
     rating: "5 point ratings",
-    review:
-      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    review: "loream ipsum dolor sit amet consectetur adipisicing elit loream10",
     location: "1,234/Now",
   },
   {
@@ -523,8 +522,7 @@ export const vendors = [
     name: "Arora Optical",
     initial: "A",
     rating: "5 point ratings",
-    review:
-      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    review: "loream ipsum dolor sit amet consectetur adipisicing elit loream10",
     location: "1,234/Now",
   },
   {
@@ -532,8 +530,7 @@ export const vendors = [
     name: "Armen Sargsyan",
     initial: "A",
     rating: "5 point ratings",
-    review:
-      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    review: "loream ipsum dolor sit amet consectetur adipisicing elit loream10",
     location: "1,234/Now",
   },
   {
@@ -541,8 +538,7 @@ export const vendors = [
     name: "Armen Sargsyan",
     initial: "A",
     rating: "5 point ratings",
-    review:
-      "Пішу отзыв спустя 4 месяца после сдачи проекта. В течение этого времени были исправлены ошибки, не работал сайт на исправлениях. В целом все хорошо сделано. Сотрудничество длилось.",
+    review: "loream ipsum dolor sit amet consectetur adipisicing elit loream10",
     location: "1,234/Now",
   },
 ]
@@ -551,26 +547,26 @@ export const shapes = [
   {
     id: 1,
     name: "Round",
-    image: "/round-eyeglasses-frame-outline.jpg",
+    image: "/shapes/shape_1.png",
   },
   {
     id: 2,
     name: "Square",
-    image: "/square-eyeglasses-frame-outline.jpg",
+    image: "/shapes/shape_2.png",
   },
   {
     id: 3,
     name: "Cat Eyes",
-    image: "/cat-eye-eyeglasses-frame-outline.jpg",
+    image: "/shapes/shape_3.png",
   },
   {
     id: 4,
     name: "Wayfarer",
-    image: "/wayfarer-eyeglasses-frame-outline.jpg",
+    image: "/shapes/shape_4.png",
   },
   {
     id: 5,
     name: "Hexagon",
-    image: "/hexagon-eyeglasses-frame-outline.jpg",
+    image: "/shapes/shape_1.png",
   },
 ]
