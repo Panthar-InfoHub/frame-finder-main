@@ -2,29 +2,24 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getColorContactLensById } from "@/actions/products";
-import { AddFrameButton } from "@/components/multiple-products-page-component/add-frame-btn";
 import Link from "next/link";
-import { Heart, Share2 } from "lucide-react"
-import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery"
-import { ProductRating } from "@/components/single-product-page-component/product-rating"
-import { ProductPrice } from "@/components/single-product-page-component/product-price"
-import { ProductInfo } from "@/components/single-product-page-component/product-info"
-import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions"
-import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion"
-import { TrustBadges } from "@/components/single-product-page-component/trust-badges"
-import { SimilarProducts } from "@/components/single-product-page-component/similar-products"
-import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
+import { Heart, Share2 } from "lucide-react";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
+import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
+import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
+import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const res = await getColorContactLensById(id);
 
-export default async function ProductPage ({
-    params,
-}: {
-    params: Promise<{id : string}>;
-}) {
-    const {id} = await params;
-    const res = await getColorContactLensById(id);
-
-    if (!res?.success || !res.data) {
+  if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
 
@@ -32,15 +27,12 @@ export default async function ProductPage ({
   const variant = product.variants?.[0]; // default variant
   const images = variant?.images || [];
 
-
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-sm text-muted-foreground">
-            Home | Eyeware | {product.brand_name}
-          </p>
+          <p className="text-sm text-muted-foreground">Home | Eyeware | {product.brand_name}</p>
         </div>
       </div>
 
@@ -49,10 +41,7 @@ export default async function ProductPage ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div>
-            <ProductImageGallery
-              images={variant.images}
-              brandName={product.brand_name}
-            />
+            <ProductImageGallery images={variant.images} brandName={product.brand_name} />
           </div>
 
           {/* Right: Product Details */}
@@ -65,10 +54,7 @@ export default async function ProductPage ({
               createdAt={product.createdAt}
             />
 
-            <ProductRating
-              rating={product.rating}
-              totalReviews={product.total_reviews}
-            />
+            <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
 
             <ProductPrice
               totalPrice={variant.price.total_price}
@@ -80,15 +66,11 @@ export default async function ProductPage ({
             <div className="space-y-2">
               <p className="text-sm font-medium">
                 Frame Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.frame_color}
-                </span>
+                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
               </p>
               <p className="text-sm font-medium">
                 Temple Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.temple_color}
-                </span>
+                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
               </p>
             </div>
 
@@ -98,26 +80,26 @@ export default async function ProductPage ({
                 In Stock ({variant.stock.current} available)
               </p>
             ) : (
-              <p className="text-sm text-destructive font-medium">
-                Out of Stock
-              </p>
+              <p className="text-sm text-destructive font-medium">Out of Stock</p>
             )}
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <Button
+                asChild
                 size="lg"
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
               >
-                Select Lenses and Purchase
+                <Link href={`/cart/onboarding/colorContactLens/${product._id}`}>
+                  Upload Prescription
+                </Link>
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="flex-1 bg-transparent"
-              >
-                Only Frame
-              </Button>
+              <AddToCartBtn
+                productId={product._id}
+                variantId={product.vendorId._id}
+                productType="ColorContactLens"
+                btnText="Add to Cart"
+              />
             </div>
 
             <div className="flex gap-3">
@@ -155,4 +137,3 @@ export default async function ProductPage ({
     </div>
   );
 }
-

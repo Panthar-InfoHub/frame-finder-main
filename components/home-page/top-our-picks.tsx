@@ -1,11 +1,17 @@
-"use client"
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ProductCard } from "@/components/home-page/product-card"
-import { newArrivals, bestSellers } from "@/lib/data"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { getBestSeller, getNewArrival } from "@/lib/actions/homePage"
 import Link from "next/link"
+import { Suspense } from "react"
+import LoadingSkeleton from "../loading-skeleton"
 
-export function TopOurPicks() {
+export async function TopOurPicks() {
+
+  const [res, bestSellerRes] = await Promise.all([getNewArrival(), getBestSeller({ period: "all_time" })])
+  console.debug("best seller data ", bestSellerRes.data.data)
+
+  if (!res.success || !bestSellerRes.success) return;
+
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -38,22 +44,35 @@ export function TopOurPicks() {
           </div>
 
           {/* New Arrivals Content */}
-          <TabsContent value="new-arrivals" className="mt-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {newArrivals.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
-          </TabsContent>
+          <Suspense fallback={<LoadingSkeleton />}>
 
-          {/* Best Seller Content */}
-          <TabsContent value="best-seller" className="mt-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {bestSellers.map((product) => (
-                <ProductCard key={product.id} {...product} />
-              ))}
-            </div>
-          </TabsContent>
+            <TabsContent value="new-arrivals" className="mt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                {res.data.data.products.map((product) => (
+                  <ProductCard key={product._id}
+                    name={product.brand_name}
+                    price={product.variants[0].price.total_price}
+                    rating={product.rating}
+                    image={""} //product.variants[0].images[0].url
+                    id={product._id} />
+                ))}
+              </div>
+            </TabsContent>
+
+            {/* Best Seller Content */}
+            <TabsContent value="best-seller" className="mt-0">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                {bestSellerRes.data.data.data.map((product) => (
+                  <ProductCard key={product.productId._id}
+                    name={product.productId.brand_name}
+                    price={product.productId.variants[0].price.total_price}
+                    rating={product.productId.rating}
+                    image={""} //product.variants[0].images[0].url
+                    id={product.productId._id} />
+                ))}
+              </div>
+            </TabsContent>
+          </Suspense>
         </Tabs>
       </div>
     </section>

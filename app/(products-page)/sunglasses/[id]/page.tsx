@@ -1,26 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { getSunglassesById } from "@/actions/products";
-import { Heart, Share2 } from "lucide-react"
-import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery"
-import { ProductRating } from "@/components/single-product-page-component/product-rating"
-import { ProductPrice } from "@/components/single-product-page-component/product-price"
-import { ProductInfo } from "@/components/single-product-page-component/product-info"
-import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions"
-import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion"
-import { TrustBadges } from "@/components/single-product-page-component/trust-badges"
-import { SimilarProducts } from "@/components/single-product-page-component/similar-products"
-import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
+import { Heart, Share2 } from "lucide-react";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
+import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
+import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
+import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
+import Link from "next/link";
 
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const res = await getSunglassesById(id);
 
-export default async function ProductPage({
-    params,
-}:{
-    params : Promise<{id : string}>;
-}){
-    const {id} = await params;
-    const res = await getSunglassesById(id);
-
-    if (!res?.success || !res.data) {
+  if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
 
@@ -66,28 +63,40 @@ export default async function ProductPage({
             {/* Color Selection */}
             <div className="space-y-2">
               <p className="text-sm font-medium">
-                Frame Color: <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
+                Frame Color:{" "}
+                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
               </p>
               <p className="text-sm font-medium">
-                Temple Color: <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
+                Temple Color:{" "}
+                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
               </p>
             </div>
 
             {/* Stock Status */}
             {variant.stock.current > 0 ? (
-              <p className="text-sm text-green-600 font-medium">In Stock ({variant.stock.current} available)</p>
+              <p className="text-sm text-green-600 font-medium">
+                In Stock ({variant.stock.current} available)
+              </p>
             ) : (
               <p className="text-sm text-destructive font-medium">Out of Stock</p>
             )}
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button size="lg" className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white">
-                Select Lenses and Purchase
+              <Button
+                asChild
+                size="lg"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+              >
+                <Link href={`/cart/onboarding/sunglasses/${product._id}`}>
+                  Select Lenses and Purchase
+                </Link>
               </Button>
-              <Button size="lg" variant="outline" className="flex-1 bg-transparent">
-                Only Frame
-              </Button>
+              <AddToCartBtn
+                productId={product._id}
+                variantId={product.vendorId._id}
+                productType="Sunglass"
+              />
             </div>
 
             <div className="flex gap-3">
@@ -123,5 +132,5 @@ export default async function ProductPage({
         <SimilarProducts products={mockSimilarProducts} />
       </div>
     </div>
-  )
+  );
 }

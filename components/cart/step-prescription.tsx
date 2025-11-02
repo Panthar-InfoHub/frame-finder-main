@@ -90,27 +90,45 @@ export default function StepPrescription({ onNext, onBack, product }: Props & { 
 
       {!method && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-2xl border p-5 flex items-center gap-4 hover:border-green-500 cursor-pointer" onClick={() => setMethod("upload")}>
-            <div className="h-10 w-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">⬆</div>
-            <div>
-              <div className="font-medium">Upload Prescription</div>
-              <div className="text-xs text-gray-500">Upload a clear photo of your prescription.</div>
+          {/* Left: Product card */}
+          <div className="rounded-2xl border p-4">
+            <div className="rounded-xl overflow-hidden bg-white mb-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={product?._signedImage || product?.variants?.[0]?.images?.[0]?.url || "https://placehold.co/400x300"} alt={product?.brand_name} className="w-full h-52 object-contain bg-white" />
             </div>
-            <div className="ml-auto">›</div>
+            <div className="font-semibold">{product?.brand_name || "Frame"}</div>
+            <div className="text-sm text-gray-600">₹{product?.variants?.[0]?.price?.total_price || product?.variants?.[0]?.price?.base_price}/-</div>
           </div>
-          <div className="rounded-2xl border p-5 flex items-center gap-4 hover:border-green-500 cursor-pointer" onClick={() => setMethod("manual")}>
-            <div className="h-10 w-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">✎</div>
-            <div>
-              <div className="font-medium">Fill it out Manually</div>
-              <div className="text-xs text-gray-500">Enter your prescription details manually.</div>
+          {/* Right: Choose method */}
+          <div>
+            <div className="grid grid-cols-1 gap-6">
+              <div className="rounded-2xl border p-5 flex items-center gap-4 hover:border-green-500 cursor-pointer" onClick={() => setMethod("upload")}>
+                <div className="h-10 w-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">⬆</div>
+                <div>
+                  <div className="font-medium">Upload Prescription</div>
+                  <div className="text-xs text-gray-500">Upload a clear photo of your prescription.</div>
+                </div>
+                <div className="ml-auto">›</div>
+              </div>
+              <div className="rounded-2xl border p-5 flex items-center gap-4 hover:border-green-500 cursor-pointer" onClick={() => setMethod("manual")}>
+                <div className="h-10 w-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">✎</div>
+                <div>
+                  <div className="font-medium">Fill it out Manually</div>
+                  <div className="text-xs text-gray-500">Enter your prescription details manually.</div>
+                </div>
+                <div className="ml-auto">›</div>
+              </div>
             </div>
-            <div className="ml-auto">›</div>
+            <div className="flex justify-between items-center mt-6">
+              <button className="text-gray-600" onClick={onBack}>← Back</button>
+              <div />
+            </div>
           </div>
         </div>
       )}
 
       {method === "upload" && (
-        <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left: Product card */}
           <div className="rounded-2xl border p-4">
             <div className="rounded-xl overflow-hidden bg-white mb-3">
@@ -121,77 +139,80 @@ export default function StepPrescription({ onNext, onBack, product }: Props & { 
             <div className="text-sm text-gray-600">₹{product?.variants?.[0]?.price?.total_price || product?.variants?.[0]?.price?.base_price}/-</div>
           </div>
           {/* Right: Uploader */}
-          <div className="rounded-2xl border border-dashed p-8 text-center hover:border-green-500 transition bg-white">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 16V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M20 16V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </div>
-            <p className="text-sm text-gray-700">Drag and drop your prescription image here</p>
-            <p className="text-xs text-gray-500">PNG, JPG up to 5MB. Only one image.</p>
-            <div className="mt-4 flex items-center justify-center gap-3">
-              <label className="inline-flex cursor-pointer items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700">
-                Choose Image
-                <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
-              </label>
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-dashed p-8 text-center hover:border-green-500 transition bg-white">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 16V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M20 16V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <p className="text-sm text-gray-700">Drag and drop your prescription image here</p>
+              <p className="text-xs text-gray-500">PNG, JPG up to 5MB. Only one image.</p>
+              <div className="mt-4 flex items-center justify-center gap-3">
+                <label className="inline-flex cursor-pointer items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700">
+                  Choose Image
+                  <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
+                </label>
+                {file && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFile(null);
+                      setError(null);
+                    }}
+                    className="text-sm text-gray-700 hover:text-red-600"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
               {file && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFile(null);
-                    setError(null);
-                  }}
-                  className="text-sm text-gray-700 hover:text-red-600"
-                >
-                  Remove
-                </button>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="max-w-[80%] truncate rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
+                    {file.name}
+                  </span>
+                </div>
+              )}
+              {previewUrl && (
+                <div className="mt-6 flex justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={previewUrl}
+                    alt="Selected prescription preview"
+                    className="h-44 w-auto rounded-xl border object-contain bg-gray-50"
+                  />
+                </div>
               )}
             </div>
-            {file && (
-              <div className="mt-4 flex items-center justify-center">
-                <span className="max-w-[80%] truncate rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
-                  {file.name}
-                </span>
+            {error && (
+              <div className="text-sm text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-lg">
+                {error}
               </div>
             )}
-            {previewUrl && (
-              <div className="mt-6 flex justify-center">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={previewUrl}
-                  alt="Selected prescription preview"
-                  className="h-44 w-auto rounded-xl border object-contain bg-gray-50"
-                />
-              </div>
-            )}
-          </div>
-          
-          {error && (
-            <div className="text-sm text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-lg">
-              {error}
+            <div className="flex justify-between items-center">
+              <button
+                className="text-gray-600"
+                onClick={() => {
+                  setMethod(null);
+                  setFile(null);
+                  setError(null);
+                }}
+                disabled={isUploading}
+              >
+                ← Back
+              </button>
+              <button
+                className={`px-4 py-2 rounded-lg text-white ${
+                  isUploading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                }`}
+                onClick={uploadPrescription}
+                disabled={isUploading || !file}
+              >
+                {isUploading ? "Uploading..." : "Upload & Continue →"}
+              </button>
             </div>
-          )}
-
-          <div className="flex justify-between items-center md:col-span-2">
-            <button
-              className="text-gray-600"
-              onClick={onBack}
-              disabled={isUploading}
-            >
-              ← Back
-            </button>
-
-            <button
-              className={`px-4 py-2 rounded-lg text-white ${
-                isUploading ? "bg-green-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
-              }`}
-              onClick={uploadPrescription}
-              disabled={isUploading || !file}
-            >
-              {isUploading ? "Uploading..." : "Upload & Continue →"}
-            </button>
           </div>
         </div>
       )}
@@ -207,8 +228,7 @@ export default function StepPrescription({ onNext, onBack, product }: Props & { 
             <div className="font-semibold">{product?.brand_name || "Frame"}</div>
             <div className="text-sm text-gray-600">₹{product?.variants?.[0]?.price?.total_price || product?.variants?.[0]?.price?.base_price}/-</div>
           </div>
-
-          {/* Right: Manual table */}
+          {/* Right: Manual form */}
           <div>
             <div className="rounded-2xl border overflow-hidden">
               <div className="grid grid-cols-4 bg-gray-50 text-center font-semibold py-2">
@@ -242,8 +262,25 @@ export default function StepPrescription({ onNext, onBack, product }: Props & { 
               </label>
             </div>
 
-            <div className="flex justify-between items-center mt-6">
-              <button className="text-gray-600" onClick={onBack}>← Back</button>
+            <div className="mt-6 flex justify-between items-center">
+              <button 
+                className="text-gray-600" 
+                onClick={() => {
+                  setMethod(null);
+                  setForm({
+                    rightSPH: "",
+                    rightCYL: "",
+                    rightAXIS: "",
+                    leftSPH: "",
+                    leftCYL: "",
+                    leftAXIS: "",
+                    pd: "",
+                    under18: false,
+                  });
+                }}
+              >
+                ← Back
+              </button>
               <button className="bg-green-600 text-white px-4 py-2 rounded-lg" onClick={handleSubmit}>Continue →</button>
             </div>
           </div>

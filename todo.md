@@ -1,8 +1,8 @@
 ## user
 
-- google login
-- separate cart flowe for diff products -
+- google login - done
 - change lenspackage to use new packge type filter
+- separate cart flowe for diff products
 
 ## admin
 

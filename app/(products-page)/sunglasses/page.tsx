@@ -14,8 +14,8 @@ export default async function Sunglasses() {
   const FilterContent = () => <FilterSidebar />
   const response = await getAllSunglasses();
 
-  if (!response.success){
-    return <p>Error : failed to load the page</p>
+  if (!response.success) {
+    return <p>Error : failed to load the page</p>;
   }
   const data = response.data.result;
   return (
@@ -33,7 +33,7 @@ export default async function Sunglasses() {
           </h1>
         </div>
       </section>
-      <div className="container mx-auto px-4 py-8">
+      {/* <div className="container mx-auto px-4 py-8"> */}
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Desktop Sidebar - Always visible and static */}
         <aside className="hidden lg:block shrink-0 w-64">
@@ -42,46 +42,48 @@ export default async function Sunglasses() {
           </div>
         </aside>
 
-        {/* Main Content */}
-        <div className="flex-1">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            {/* Mobile Filter Button */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" className="lg:hidden bg-transparent">
-                  <SlidersHorizontal className="w-4 h-4 mr-2" />
-                  FILTER
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 overflow-y-auto">
-                <div className="py-6">
-                  <FilterContent />
-                </div>
-              </SheetContent>
-            </Sheet>
+          {/* Main Content */}
+          <div className="flex-1">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+              {/* Mobile Filter Button */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="lg:hidden bg-transparent"
+                  >
+                    <SlidersHorizontal className="w-4 h-4 mr-2" />
+                    FILTER
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-80 overflow-y-auto">
+                  <div className="py-6">
+                    <FilterContent />
+                  </div>
+                </SheetContent>
+              </Sheet>
 
             <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start">
               <span className="font-semibold"> 
                 {data.pagination.totalProducts} PRODUCTS</span>
             </div>
 
-            <Button variant="ghost" className="text-sm font-semibold">
-              RESET
-            </Button>
-          </div>
-
-          {/* Category Tabs - Static, no click handlers */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            <Button variant="default" className="rounded-full">
-              All
-            </Button>
-            {categories.map((category) => (
-              <Button key={category.value} variant="outline" className="rounded-full bg-transparent">
-                {category.label}
+            {/* Category Tabs - Static, no click handlers */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Button variant="default" className="rounded-full">
+                All
               </Button>
-            ))}
-          </div>  
+              {categories.map((category) => (
+                <Button
+                  key={category.value}
+                  variant="outline"
+                  className="rounded-full bg-transparent"
+                >
+                  {category.label}
+                </Button>
+              ))}
+            </div>
 
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -103,9 +105,9 @@ export default async function Sunglasses() {
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
       <Footer />
     </main>
-  )
-} 
+  );
+}
