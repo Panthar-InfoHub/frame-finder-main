@@ -22,7 +22,6 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   }
 
   const product = res.data;
-  console.log("Product Data:", product);
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(product.images?.map((img: any) => img.url) || []);

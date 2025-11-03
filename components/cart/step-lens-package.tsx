@@ -28,7 +28,6 @@ export default function StepLensPackage({
           productType
         );
         if (cancelled) return;
-        console.log("Lens Packages Response:", resp);
         if (!resp?.success)
           throw new Error(resp?.message || "Failed to load lens packages");
         const raw = (resp as any)?.data;

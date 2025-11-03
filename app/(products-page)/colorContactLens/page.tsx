@@ -19,7 +19,6 @@ export default async function ColorContactLens() {
     return <p>Error : failed to load the page</p>
   }
   const data = response.data;
-  console.log(response.data);
   return (
     <main className="min-h-screen">
         <Header />

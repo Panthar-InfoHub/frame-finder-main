@@ -29,7 +29,6 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const variant = product.variants?.[0]; // default variant
   const images = variant?.images || [];
 
-  console.log("Product Data:", product);
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(images.map((img: any) => img.url));

@@ -23,7 +23,6 @@ export function AddToCartBtn({
   const handleAdd = async () => {
     startTransition(async () => {
       const res = await addDirectToWishlist(productId, variantId, 1, productType);
-      console.log("Add to cart response:", res);
       if (res?.success) {
         toast.success("Added to cart!");
       } else {
