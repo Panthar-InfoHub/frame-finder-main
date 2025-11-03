@@ -6,13 +6,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { IUser } from "@/lib/type"
 import { Header } from "@/components/home-page/header"
 import Link from "next/link"
+import { Suspense } from "react"
+import LoadingSkeleton from "@/components/loading-skeleton"
+import { getOrderByUser } from "@/actions/order"
+import { MyOrdersTab } from "@/components/account/my-orders-tab"
 
 const PROFILE_TABS = [
     { value: "account", label: "Account Information" },
     { value: "orders", label: "My Orders" },
     { value: "address", label: "Address Book" },
     { value: "prescriptions", label: "Prescriptions" },
-    { value: "wishlist", label: "Wishlist" },
+    // { value: "wishlist", label: "Wishlist" },
     // { value: "updates", label: "App Update Available" },
     { value: "permissions", label: "App Permissions" },
     { value: "rating", label: "Your Rating" },
@@ -20,7 +24,7 @@ const PROFILE_TABS = [
 ]
 
 export default async function ProfilePage() {
-    const userResult = await getUser()
+    const [userResult, orderResult] = await Promise.all([getUser(), getOrderByUser()])
 
     if (!userResult.success || !userResult.data) {
         return (
@@ -33,8 +37,9 @@ export default async function ProfilePage() {
     }
 
     const user_data: IUser = userResult.data
+    const order_data = orderResult.data
 
-    // console.log("User Data ==> ", user_data)
+    // console.log("Order Data ==> ", order_data)
 
     return (
         <main className="min-h-screen">
@@ -60,50 +65,52 @@ export default async function ProfilePage() {
                     </TabsList>
 
                     {/* Main Content Area */}
-                    <div className="flex-1">
-                        <div className="mb-8">
+                    <Suspense fallback={<LoadingSkeleton />} >
+                        <div className="flex-1">
+                            <div className="mb-8">
 
-                            {/* Tab Contents */}
-                            <TabsContent value="account" className="mt-0">
-                                <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6">Edit Account Information</h1>
-                                <AccountInformationTab userData={user_data} />
-                            </TabsContent>
+                                {/* Tab Contents */}
+                                <TabsContent value="account" className="mt-0">
+                                    <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6">Edit Account Information</h1>
+                                    <AccountInformationTab userData={user_data} />
+                                </TabsContent>
 
-                            <TabsContent value="orders" className="mt-0">
-                                <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6">View Orders</h1>
-                                {/* <MyOrdersTab /> */}
-                            </TabsContent>
+                                <TabsContent value="orders" className="mt-0">
+                                    <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6">View Orders</h1>
+                                    <MyOrdersTab orders={order_data.orders} />
+                                </TabsContent>
 
-                            <TabsContent value="address" className="mt-0">
-                                <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6">Address Book</h1>
-                                <AddressBookTab addresses={user_data.address} userName={user_data.first_name + " " + user_data.last_name} />
-                            </TabsContent>
+                                <TabsContent value="address" className="mt-0">
+                                    <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6">Address Book</h1>
+                                    <AddressBookTab addresses={user_data.address} userName={user_data.first_name + " " + user_data.last_name} />
+                                </TabsContent>
 
-                            <TabsContent value="prescriptions" className="mt-0">
-                                {/* <PrescriptionsTab prescription={userData.prescription} /> */}
-                            </TabsContent>
+                                <TabsContent value="prescriptions" className="mt-0">
+                                    {/* <PrescriptionsTab prescription={userData.prescription} /> */}
+                                </TabsContent>
 
-                            <TabsContent value="wishlist" className="mt-0">
-                                {/* <WishlistTab /> */}
-                            </TabsContent>
+                                <TabsContent value="wishlist" className="mt-0">
+                                    {/* <WishlistTab /> */}
+                                </TabsContent>
 
-                            <TabsContent value="updates" className="mt-0">
-                                {/* <AppUpdateTab /> */}
-                            </TabsContent>
+                                <TabsContent value="updates" className="mt-0">
+                                    {/* <AppUpdateTab /> */}
+                                </TabsContent>
 
-                            <TabsContent value="permissions" className="mt-0">
-                                {/* <AppPermissionsTab /> */}
-                            </TabsContent>
+                                <TabsContent value="permissions" className="mt-0">
+                                    {/* <AppPermissionsTab /> */}
+                                </TabsContent>
 
-                            <TabsContent value="rating" className="mt-0">
-                                {/* <RatingTab walletPoints={userData.wallet_point} /> */}
-                            </TabsContent>
+                                <TabsContent value="rating" className="mt-0">
+                                    {/* <RatingTab walletPoints={userData.wallet_point} /> */}
+                                </TabsContent>
 
-                            <TabsContent value="logout" className="mt-0">
-                                {/* <LogoutTab /> */}
-                            </TabsContent>
+                                <TabsContent value="logout" className="mt-0">
+                                    {/* <LogoutTab /> */}
+                                </TabsContent>
+                            </div>
                         </div>
-                    </div>
+                    </Suspense>
                 </Tabs>
             </div>
         </main>

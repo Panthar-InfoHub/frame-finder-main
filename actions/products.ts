@@ -363,7 +363,6 @@ export const getFramePkgByVendorId = async (id: string, lensType?: string) => {
       });
       const data = resp.data;
 
-      console.log("Data:", data);
   
       if (resp.status != 200 || !data.success) {
         throw new Error("Failed to load the page");
