@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { clearWishlist, removeFromWishlist } from "@/actions/cart";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { EmptyComponent } from "../empty-component";
 
 export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
   const router = useRouter();
@@ -52,9 +53,7 @@ export default function CartPageClient({ wishlist }: { wishlist: any[] }) {
 
   if (!wishlist?.length) {
     return (
-      <div className="flex items-center justify-center h-[60vh] text-gray-600">
-        <p>Your cart is empty 😢</p>
-      </div>
+      <EmptyComponent name="Cart" />
     );
   }
 
