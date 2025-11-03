@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { CheckCircle, Package, Truck, Clock, XCircle } from "lucide-react"
 import { Order } from "./type"
+=======
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+>>>>>>> 8414ac071e4c9e49548356e106335a9fecf6a2d2
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function getOrderStatusConfig(status: Order["order_status"]) {
