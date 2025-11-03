@@ -15,6 +15,7 @@ import { TrustBadges } from "@/components/single-product-page-component/trust-ba
 import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
 import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
+import { getImageUrls } from "@/lib/helper";
 // import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
@@ -28,6 +29,9 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const product = res.data;
   const variant = product.variants?.[0]; // default variant
   const images = variant?.images || [];
+
+  // Process image URLs - check if they're already complete URLs or need signed URLs
+  const imageUrls = await getImageUrls(images.map((img: any) => img.url));
 
   return (
     <div className="min-h-screen bg-background">
@@ -43,7 +47,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div>
-            <ProductImageGallery images={variant.images} brandName={product.brand_name} />
+            <ProductImageGallery imageUrls={imageUrls} brandName={product.brand_name} />
           </div>
 
           {/* Right: Product Details */}
@@ -98,7 +102,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               </Button>
               <AddToCartBtn
                 productId={product._id}
-                variantId={product.vendorId._id}
+                variantId={variant._id}
                 productType="Product"
                 btnText="Add to Cart"
               />
