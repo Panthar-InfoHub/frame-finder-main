@@ -36,11 +36,11 @@ export const promoData = {
 
 export const navigationLinks = [
   { label: "EYEGLASSES", href: "/eyeglasses" },
-  { label: "READING GLASSES", href: "/reading-glasses" },
+  { label: "READING GLASSES", href: "/readingGlasses" },
   { label: "SUNGLASSES", href: "/sunglasses" },
   { label: "POWER SUNGLASSES", href: "/power-sunglasses" },
   { label: "CONTACT LENSES", href: "/contact-lenses" },
-  { label: "CONTACT LENSES SOLUTIONS", href: "/contact-lenses-solutions" },
+  { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
 ]
 

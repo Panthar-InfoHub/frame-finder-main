@@ -78,11 +78,13 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                     if (link.label === "EYEGLASSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger
+                          <Link href="/frames">
+                            <NavigationMenuTrigger 
                             className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
                           >
                             {link.label}
                           </NavigationMenuTrigger>
+                          </Link>
                           <NavigationMenuContent>
                             <EyeglassesMegaMenu />
                           </NavigationMenuContent>
@@ -93,11 +95,13 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                     if (link.label === "SUNGLASSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger
+                          <Link href="/sunglasses">
+                            <NavigationMenuTrigger
                             className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
                           >
                             {link.label}
                           </NavigationMenuTrigger>
+                          </Link>
                           <NavigationMenuContent>
                             <SunglassesMegaMenu />
                           </NavigationMenuContent>
@@ -108,11 +112,13 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                     if (link.label === "CONTACT LENSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger
+                          <Link href="/contactLens">
+                            <NavigationMenuTrigger
                             className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
                           >
                             {link.label}
                           </NavigationMenuTrigger>
+                          </Link>
                           <NavigationMenuContent>
                             <ContactLensesMegaMenu />
                           </NavigationMenuContent>
@@ -123,11 +129,13 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                     if (link.label === "ACCESSORIES") {
                       return (
                         <NavigationMenuItem key={link.href}>
-                          <NavigationMenuTrigger
+                        <Link href="/accessories">
+                         <NavigationMenuTrigger
                             className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
                           >
                             {link.label}
                           </NavigationMenuTrigger>
+                        </Link>
                           <NavigationMenuContent>
                             <AccessoriesMegaMenu />
                           </NavigationMenuContent>
