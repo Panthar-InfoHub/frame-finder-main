@@ -2,19 +2,18 @@
 
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { addDirectToWishlist } from "@/actions/cart";
-import { toast } from "sonner"; // optional if you use toast
+import { addDirectToWishlist, addToWishlistWithoutVariant } from "@/actions/cart";
+import { toast } from "sonner";
 import { ProductType } from "@/types/product";
-
 
 export function AddToCartBtn({
   productId,
   variantId,
   productType,
-  btnText
+  btnText,
 }: {
   productId: string;
-  variantId: string;
+  variantId?: string; // Optional for accessories
   productType: ProductType;
   btnText?: string;
 }) {
@@ -22,7 +21,17 @@ export function AddToCartBtn({
 
   const handleAdd = async () => {
     startTransition(async () => {
-      const res = await addDirectToWishlist(productId, variantId, 1, productType);
+      let res;
+
+      // Use appropriate function based on whether variantId is provided
+      if (variantId) {
+        // Products with variants (frames, sunglasses, etc.)
+        res = await addDirectToWishlist(productId, variantId, 1, productType);
+      } else {
+        // Products without variants (accessories)
+        res = await addToWishlistWithoutVariant(productId, 1, productType);
+      }
+
       if (res?.success) {
         toast.success("Added to cart!");
       } else {

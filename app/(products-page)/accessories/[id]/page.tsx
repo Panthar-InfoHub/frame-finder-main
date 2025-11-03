@@ -82,7 +82,6 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AddToCartBtn
                 productId={product._id}
-                variantId={""}
                 productType="Accessories"
                 btnText="Add to Cart"
               />

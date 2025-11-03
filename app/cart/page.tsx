@@ -10,7 +10,7 @@ export default async function CartPage() {
   const items = wishlist?.items || [];
   const priceBreakdown = wishlist?.price_breakdown || null;
 
-  // Process images for each item (handles both variant images and product images for accessories)
+  // Process images for each item (handles variant images, product images, and item-level images)
   const itemsWithProcessedImages = await Promise.all(
     items.map(async (item: any) => {
       let processedItem = { ...item };
@@ -32,20 +32,17 @@ export default async function CartPage() {
         };
       }
 
-      // Process product images (for accessories without variants)
-      if (item.product?.images?.[0]?.url) {
-        const processedProductImageUrl = await getImageUrl(item.product.images[0].url);
+      // Process item-level images (for accessories - NEW API structure)
+      if (item.images?.[0]?.url) {
+        const processedItemImageUrl = await getImageUrl(item.images[0].url);
         processedItem = {
           ...processedItem,
-          product: {
-            ...item.product,
-            images: [
-              {
-                ...item.product.images[0],
-                url: processedProductImageUrl,
-              },
-            ],
-          },
+          images: [
+            {
+              ...item.images[0],
+              url: processedItemImageUrl,
+            },
+          ],
         };
       }
 

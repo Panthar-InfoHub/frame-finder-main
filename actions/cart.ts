@@ -3,11 +3,7 @@ import { API_URL } from "@/lib/apiUtils";
 import axios from "axios";
 import { getAccessToken } from "./auth";
 import { revalidatePath } from "next/cache";
-import {
-  getFrameById,
-  getFramePkgByVendorId,
-  getSunglassesPkgByVendorId,
-} from "./products";
+import { getFrameById, getFramePkgByVendorId, getSunglassesPkgByVendorId } from "./products";
 import { getSignedViewUrl } from "./cloud-storage";
 import { ProductType } from "@/types/product";
 
@@ -48,10 +44,11 @@ export const removeFromWishlist = async (itemId: string) => {
     return { success: true };
   } catch (error: any) {
     console.error(error);
-    const errorMsg = error?.response?.data?.error?.message || 
-                     error?.response?.data?.message || 
-                     error?.message || 
-                     "Failed to remove item";
+    const errorMsg =
+      error?.response?.data?.error?.message ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to remove item";
     return { success: false, message: errorMsg };
   }
 };
@@ -75,16 +72,16 @@ export const clearWishlist = async () => {
     return { success: true };
   } catch (error: any) {
     console.error(error);
-    const errorMsg = error?.response?.data?.error?.message || 
-                     error?.response?.data?.message || 
-                     error?.message || 
-                     "Failed to clear wishlist";
+    const errorMsg =
+      error?.response?.data?.error?.message ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to clear wishlist";
     return { success: false, message: errorMsg };
   }
 };
 
-// ✅ Add item to wishlist only frame
-
+// ✅ Add item to wishlist with variant (for frames, sunglasses, etc.)
 export const addDirectToWishlist = async (
   productId: string,
   variantId: string,
@@ -114,10 +111,48 @@ export const addDirectToWishlist = async (
     return { success: true };
   } catch (error: any) {
     console.error(error);
-    const errorMsg = error?.response?.data?.error?.message || 
-                     error?.response?.data?.message || 
-                     error?.message || 
-                     "Failed to add item";
+    const errorMsg =
+      error?.response?.data?.error?.message ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to add item";
+    return { success: false, message: errorMsg };
+  }
+};
+
+// ✅ Add item to wishlist without variant (for accessories)
+export const addToWishlistWithoutVariant = async (
+  productId: string,
+  quantity: number,
+  productType: ProductType
+) => {
+  try {
+    const token = await getAccessToken();
+    const payload = {
+      item: {
+        productId,
+        quantity,
+        type: productType,
+      },
+    };
+    console.log("Add to wishlist without variant payload:", payload);
+    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = resp.data;
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Failed to add item";
+      throw new Error(errorMsg);
+    }
+    return { success: true };
+  } catch (error: any) {
+    console.error(error);
+    const errorMsg =
+      error?.response?.data?.error?.message ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to add item";
     return { success: false, message: errorMsg };
   }
 };
@@ -138,10 +173,11 @@ export const addItemToWishlist = async (payload: any) => {
     return { success: true } as const;
   } catch (error: any) {
     console.error(error);
-    const errorMsg = error?.response?.data?.error?.message || 
-                     error?.response?.data?.message || 
-                     error?.message || 
-                     "Failed to add item";
+    const errorMsg =
+      error?.response?.data?.error?.message ||
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to add item";
     return {
       success: false,
       message: errorMsg,

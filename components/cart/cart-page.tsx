@@ -29,16 +29,19 @@ interface CartItem {
       business_name: string;
       business_owner: string;
     };
-    images?: Array<{
-      url: string;
-      _id: string;
-    }>;
-    price?: {
-      base_price: number;
-      mrp: number;
-    };
   };
   onModel: string;
+  // For accessories - images and price at item level
+  images?: Array<{
+    url: string;
+    _id: string;
+  }>;
+  price?: {
+    base_price: number;
+    mrp: number;
+    total_price: number;
+  };
+  // For products with variants
   variant?: {
     frame_color?: string;
     temple_color?: string;
@@ -131,36 +134,42 @@ export default function CartPageClient({
 
   // Helper function to get item price (handles both variants and accessories)
   const getItemPrice = (item: CartItem) => {
+    // For products with variants
     if (item.variant) {
       return item.variant.price.total_price;
     }
-    // For accessories without variants, fallback to product price if available
-    if (item.product?.price?.base_price) {
-      return item.product.price.base_price;
+    // For accessories - check item-level price first
+    if (item.price?.total_price) {
+      return item.price.total_price;
+    }
+    if (item.price?.base_price) {
+      return item.price.base_price;
     }
     return 0;
   };
 
   // Helper function to get item MRP (handles both variants and accessories)
   const getItemMRP = (item: CartItem) => {
+    // For products with variants
     if (item.variant?.price?.mrp) {
       return item.variant.price.mrp;
     }
-    if (item.product?.price?.mrp) {
-      return item.product.price.mrp;
+    // For accessories - check item-level price
+    if (item.price?.mrp) {
+      return item.price.mrp;
     }
     return null;
   };
 
-  // Helper function to get item image (checks both variant images and product images)
+  // Helper function to get item image (checks all possible locations)
   const getItemImage = (item: CartItem) => {
     // First check for variant images (products with variants)
     if (item.variant?.images?.[0]?.url) {
       return item.variant.images[0].url;
     }
-    // Then check for product images (accessories without variants)
-    if ((item.product as any)?.images?.[0]?.url) {
-      return (item.product as any).images[0].url;
+    // Then check for item-level images (accessories)
+    if (item.images?.[0]?.url) {
+      return item.images[0].url;
     }
     return "https://placehold.co/120x120/png";
   };
