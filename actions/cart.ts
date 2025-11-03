@@ -7,6 +7,53 @@ import { getFrameById, getFramePkgByVendorId, getSunglassesPkgByVendorId } from 
 import { getSignedViewUrl } from "./cloud-storage";
 import { ProductType } from "@/types/product";
 
+// ✅ Apply coupon and get breakdown
+export const applyCoupon = async (couponCode: string) => {
+  try {
+    const token = await getAccessToken();
+    const resp = await axios.get(`${API_URL}/coupon/breakdown?code=${couponCode}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = resp.data;
+    if (!data.success) {
+      const errorMsg = data?.error?.message || data?.message || "Invalid coupon code";
+      return { success: false, message: errorMsg };
+    }
+    return { success: true, data: data.data };
+  } catch (error: any) {
+    console.error(error);
+    
+    // Extract user-friendly error message
+    let errorMsg = "Failed to apply coupon";
+    
+    if (error?.response?.data) {
+      const errorData = error.response.data;
+      // Handle error.message format
+      if (errorData?.error?.message) {
+        errorMsg = errorData.error.message;
+      } 
+      // Handle direct message format
+      else if (errorData?.message) {
+        errorMsg = errorData.message;
+      }
+    } 
+    // Handle thrown errors
+    else if (error?.message) {
+      errorMsg = error.message;
+    }
+    
+    // Don't show technical error codes/types to users
+    if (errorMsg.toLowerCase().includes('404') || 
+        errorMsg.toLowerCase().includes('500') || 
+        errorMsg.toLowerCase().includes('operationalerror')) {
+      errorMsg = "Invalid coupon code";
+    }
+    
+    return { success: false, message: errorMsg };
+  }
+};
+
 export const getWishlist = async () => {
   try {
     const token = await getAccessToken();

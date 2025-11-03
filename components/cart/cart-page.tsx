@@ -1,6 +1,6 @@
 "use client";
 
-import { clearWishlist, removeFromWishlist } from "@/actions/cart";
+import { clearWishlist, removeFromWishlist, applyCoupon } from "@/actions/cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { EmptyComponent } from "../empty-component";
-import { Trash2, Tag, Package, ShoppingBag } from "lucide-react";
+import { Trash2, Tag, Package, ShoppingBag, Info, X } from "lucide-react";
+import { CouponBreakdownDialog } from "./coupon-breakdown-dialog";
 
 interface PriceBreakdown {
   total_price: number;
@@ -84,6 +85,9 @@ export default function CartPageClient({
   const [removingItemId, setRemovingItemId] = useState<string | null>(null);
   const [isClearing, setIsClearing] = useState(false);
   const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
 
   const handleRemove = async (itemId: string) => {
     setRemovingItemId(itemId);
@@ -123,13 +127,38 @@ export default function CartPageClient({
     }
   };
 
-  const handleApplyCoupon = () => {
-    // Static functionality - will be implemented later
-    if (couponCode.trim()) {
-      toast.info("Coupon functionality coming soon!");
-    } else {
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) {
       toast.error("Please enter a coupon code");
+      return;
     }
+
+    setIsApplyingCoupon(true);
+    try {
+      const result = await applyCoupon(couponCode);
+      
+      if (result.success && result.data) {
+        setAppliedCoupon(result.data);
+        setIsDialogOpen(true);
+        toast.success("Coupon applied successfully!");
+      } else {
+        // Show user-friendly error message
+        const errorMessage = result.message || "Invalid coupon code";
+        toast.error(errorMessage);
+      }
+    } catch (error: any) {
+      // Fallback for unexpected errors
+      toast.error("Something went wrong. Please try again.");
+      console.error("Coupon application error:", error);
+    } finally {
+      setIsApplyingCoupon(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+    toast.success("Coupon removed");
   };
 
   // Helper function to get item price (handles both variants and accessories)
@@ -345,20 +374,64 @@ export default function CartPageClient({
                   <Tag className="w-5 h-5" />
                   Apply Coupon
                 </h3>
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter coupon code"
-                    value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                    className="flex-1"
-                  />
-                  <Button onClick={handleApplyCoupon} variant="secondary">
-                    Apply
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Enter your coupon code to get instant discount
-                </p>
+                
+                {appliedCoupon ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <Tag className="w-4 h-4 text-green-600" />
+                        <div>
+                          <p className="font-medium text-green-900 text-sm">
+                            {appliedCoupon.coupon_code}
+                          </p>
+                          <p className="text-xs text-green-700">
+                            Save ₹{appliedCoupon.total_discount_price.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setIsDialogOpen(true)}
+                          className="h-8 px-2"
+                        >
+                          <Info className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={handleRemoveCoupon}
+                          className="h-8 px-2 text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Enter coupon code"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        className="flex-1"
+                        disabled={isApplyingCoupon}
+                      />
+                      <Button 
+                        onClick={handleApplyCoupon} 
+                        variant="secondary"
+                        disabled={isApplyingCoupon || !couponCode.trim()}
+                      >
+                        {isApplyingCoupon ? "Applying..." : "Apply"}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Enter your coupon code to get instant discount
+                    </p>
+                  </>
+                )}
               </div>
 
               {/* Price Summary */}
@@ -393,18 +466,31 @@ export default function CartPageClient({
                     </span>
                   </div>
 
-                  <div className="flex justify-between text-green-600">
-                    <span>Discount</span>
-                    <span>- ₹0</span>
-                  </div>
+                  {appliedCoupon && (
+                    <div className="flex justify-between text-green-600">
+                      <span className="flex items-center gap-1">
+                        <Tag className="w-3 h-3" />
+                        Coupon Discount
+                      </span>
+                      <span className="font-medium">- ₹{appliedCoupon.total_discount_price.toLocaleString()}</span>
+                    </div>
+                  )}
 
                   <div className="border-t pt-3 mt-3">
                     <div className="flex justify-between items-center">
                       <span className="font-semibold text-base">Total Amount</span>
                       <span className="text-2xl font-bold text-primary">
-                        ₹{priceBreakdown?.total_price?.toLocaleString() || 0}
+                        ₹{(
+                          (priceBreakdown?.total_price || 0) - 
+                          (appliedCoupon?.total_discount_price || 0)
+                        ).toLocaleString()}
                       </span>
                     </div>
+                    {appliedCoupon && (
+                      <div className="mt-2 text-xs text-green-600 text-right">
+                        You saved ₹{appliedCoupon.total_discount_price.toLocaleString()}!
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -420,6 +506,15 @@ export default function CartPageClient({
           </div>
         </div>
       </div>
+
+      {/* Coupon Breakdown Dialog */}
+      {appliedCoupon && (
+        <CouponBreakdownDialog
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          couponData={appliedCoupon}
+        />
+      )}
     </div>
   );
 }
