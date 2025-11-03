@@ -12,12 +12,12 @@ const storage = new Storage({
 
 
 export type SignedUrlOptions = {
-    filename: string;
-    contentType: string;
+  filename: string;
+  contentType: string;
   rootFolder: "user";
   folderName: "profile" | "documents" | "prescriptions";
 }
-export type CloudfoldersType =Omit<SignedUrlOptions, 'filename' | 'contentType'>;
+export type CloudfoldersType = Omit<SignedUrlOptions, 'filename' | 'contentType'>;
 
 export async function getSignedUploadUrl({
   filename,
@@ -34,7 +34,7 @@ export async function getSignedUploadUrl({
     expires: Date.now() + 5 * 60 * 1000, // valid 5 min
     contentType,
   });
-  
+
   return { url, path: file.name }; // return signed URL + final file path
 }
 

@@ -42,7 +42,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
   return (
     <>
       {/* Top Banner - Removed sticky positioning so only nav sticks */}
-      <div className="bg-[#00AA78] text-white py-2 px-4 max-w-full overflow-hidden z-40 relative">
+      <div className="bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden z-40 relative">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-sm md:text-base">FrameFinder</span>
@@ -172,7 +172,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
+                className={`${shouldBlur ? "text-black" : "text-white hover:bg-[#00AA78]"}`}
               >
                 <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
               </Button>

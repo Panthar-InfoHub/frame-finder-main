@@ -2,15 +2,17 @@
 
 import { updateUser } from "@/actions/user"
 import { Button } from "@/components/ui/button"
-import { Field, FieldError, FieldLabel } from "@/components/ui/field"
+import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { IUser } from "@/lib/type"
 import { useForm } from "@tanstack/react-form"
 import { Camera, Loader2, Save } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import { toast } from "sonner"
+import { ImageUploader } from "./profile-img-dialog"
+import { getSignedUploadUrl } from "@/actions/cloud-storage"
 
 interface AccountInformationTabProps {
     userData: IUser
@@ -19,6 +21,9 @@ interface AccountInformationTabProps {
 export function AccountInformationTab({ userData }: AccountInformationTabProps) {
     const [isPending, startTransition] = useTransition()
     const router = useRouter()
+    const [profileImage, setProfileImage] = useState<string>(userData._image || "")
+    const [pendingImageFile, setPendingImageFile] = useState<File | null>(null)
+    const [previewUrl, setPreviewUrl] = useState<string>("")
 
     const form = useForm({
         defaultValues: {
@@ -27,6 +32,9 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
             email: userData.email || "",
             phone: userData.phone || "",
             gender: userData.gender || "male",
+            img: {
+                url: userData.img?.url || ""
+            }
         },
         defaultState: {
             canSubmit: true
@@ -36,6 +44,43 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
             console.log("Form values submitting ==> ", value)
             startTransition(async () => {
                 try {
+                    let imageUrl = profileImage;
+
+
+                    if (pendingImageFile) {
+                        console.log("[v0] Uploading image before saving profile:", pendingImageFile.name)
+
+                        const { url, path } = await getSignedUploadUrl({
+                            filename: pendingImageFile.name,
+                            contentType: pendingImageFile.type,
+                            rootFolder: "user",
+                            folderName: "profile",
+                        })
+
+                        console.log("[v0] Got signed URL, uploading to:", url)
+
+                        const response = await fetch(url, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": pendingImageFile.type,
+                            },
+                            body: pendingImageFile,
+                        })
+
+                        if (!response.ok) {
+                            throw new Error("Image upload failed")
+                        }
+
+                        console.log("[v0] Image uploaded successfully, path:", path)
+                        imageUrl = path
+
+                        if (previewUrl) {
+                            URL.revokeObjectURL(previewUrl)
+                        }
+                    }
+
+                    value.img.url = imageUrl
+
                     const result = await updateUser(value)
                     if (result.success) {
                         toast.success("Profile updated successfully")
@@ -62,16 +107,27 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
             <div className="flex justify-center mb-8">
                 <div className="relative">
                     <img
-                        src={userData.img?.url || "/placeholder.svg?height=120&width=120&query=user-profile"}
+                        src={previewUrl || profileImage}
                         alt="Profile"
                         className="w-32 h-32 rounded-full object-cover border-4 border-[#00AA78]"
                     />
-                    <button
-                        type="button"
-                        className="absolute bottom-2 right-2 bg-[#00AA78] text-white p-2 rounded-full hover:opacity-90 transition-opacity"
+                    <ImageUploader
+                        images={profileImage}
+                        onChange={(file) => {
+                            console.log("[v0] Image file selected:", file.name)
+                            setPendingImageFile(file)
+                            const preview = URL.createObjectURL(file)
+                            setPreviewUrl(preview)
+                            toast.success("Image selected. Click 'Save & Continue' to upload.")
+                        }}
+                        maxImages={1}
+                        buttonLabel=""
+                        maxFileSize={5}
                     >
-                        <Camera className="w-4 h-4" />
-                    </button>
+                        <Button type="button" className="absolute bottom-2 right-2 bg-[#00AA78] text-white p-2 rounded-full hover:opacity-90 transition-opacity">
+                            <Camera className="w-4 h-4" />
+                        </Button>
+                    </ImageUploader>
                 </div>
             </div>
 
@@ -191,6 +247,6 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
             <Button type="submit" disabled={isPending} className="w-full sm:w-auto px-8 py-3 bg-[#00AA78] text-white font-normal cursor-pointer hover:bg-[#00AA78]/90">
                 {isPending ? <> <Loader2 className="animate-spin" /> Saving... </> : <> <Save /> Save & Continue </>}
             </Button>
-        </form>
+        </form >
     )
 }
