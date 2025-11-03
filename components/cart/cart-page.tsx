@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { EmptyComponent } from "../empty-component";
 import { Trash2, Tag, Package, ShoppingBag, Info, X } from "lucide-react";
 import { CouponBreakdownDialog } from "./coupon-breakdown-dialog";
+import Link from "next/link";
 
 interface PriceBreakdown {
   total_price: number;
@@ -136,7 +137,7 @@ export default function CartPageClient({
     setIsApplyingCoupon(true);
     try {
       const result = await applyCoupon(couponCode);
-      
+
       if (result.success && result.data) {
         setAppliedCoupon(result.data);
         setIsDialogOpen(true);
@@ -374,7 +375,7 @@ export default function CartPageClient({
                   <Tag className="w-5 h-5" />
                   Apply Coupon
                 </h3>
-                
+
                 {appliedCoupon ? (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3">
@@ -419,8 +420,8 @@ export default function CartPageClient({
                         className="flex-1"
                         disabled={isApplyingCoupon}
                       />
-                      <Button 
-                        onClick={handleApplyCoupon} 
+                      <Button
+                        onClick={handleApplyCoupon}
                         variant="secondary"
                         disabled={isApplyingCoupon || !couponCode.trim()}
                       >
@@ -470,9 +471,11 @@ export default function CartPageClient({
                     <div className="flex justify-between text-green-600">
                       <span className="flex items-center gap-1">
                         <Tag className="w-3 h-3" />
-                        Coupon Discount
+                        Coupon Discount ({appliedCoupon.coupon_code})
                       </span>
-                      <span className="font-medium">- ₹{appliedCoupon.total_discount_price.toLocaleString()}</span>
+                      <span className="font-medium">
+                        - ₹{appliedCoupon.total_discount_price.toLocaleString()}
+                      </span>
                     </div>
                   )}
 
@@ -480,8 +483,9 @@ export default function CartPageClient({
                     <div className="flex justify-between items-center">
                       <span className="font-semibold text-base">Total Amount</span>
                       <span className="text-2xl font-bold text-primary">
-                        ₹{(
-                          (priceBreakdown?.total_price || 0) - 
+                        ₹
+                        {(
+                          (priceBreakdown?.total_price || 0) -
                           (appliedCoupon?.total_discount_price || 0)
                         ).toLocaleString()}
                       </span>
@@ -494,7 +498,21 @@ export default function CartPageClient({
                   </div>
                 </div>
 
-                <Button className="w-full mt-6" size="lg">
+                <Button
+                  onClick={() => {
+                    // Navigate to checkout with coupon in URL params (if applied)
+                    // Cart data will be fetched fresh from backend on checkout page
+                    if (appliedCoupon && appliedCoupon.coupon_code) {
+                      router.push(
+                        `/checkout?coupon=${encodeURIComponent(appliedCoupon.coupon_code)}`
+                      );
+                    } else {
+                      router.push("/checkout");
+                    }
+                  }}
+                  className="w-full mt-6"
+                  size="lg"
+                >
                   Proceed to Checkout
                 </Button>
 

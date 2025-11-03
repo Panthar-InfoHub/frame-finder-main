@@ -23,33 +23,35 @@ export const applyCoupon = async (couponCode: string) => {
     return { success: true, data: data.data };
   } catch (error: any) {
     console.error(error);
-    
+
     // Extract user-friendly error message
     let errorMsg = "Failed to apply coupon";
-    
+
     if (error?.response?.data) {
       const errorData = error.response.data;
       // Handle error.message format
       if (errorData?.error?.message) {
         errorMsg = errorData.error.message;
-      } 
+      }
       // Handle direct message format
       else if (errorData?.message) {
         errorMsg = errorData.message;
       }
-    } 
+    }
     // Handle thrown errors
     else if (error?.message) {
       errorMsg = error.message;
     }
-    
+
     // Don't show technical error codes/types to users
-    if (errorMsg.toLowerCase().includes('404') || 
-        errorMsg.toLowerCase().includes('500') || 
-        errorMsg.toLowerCase().includes('operationalerror')) {
+    if (
+      errorMsg.toLowerCase().includes("404") ||
+      errorMsg.toLowerCase().includes("500") ||
+      errorMsg.toLowerCase().includes("operationalerror")
+    ) {
       errorMsg = "Invalid coupon code";
     }
-    
+
     return { success: false, message: errorMsg };
   }
 };
@@ -272,6 +274,66 @@ export const getLensPackages = async (
     return {
       success: false,
       message: "Failed to fetch lens packages",
+    } as const;
+  }
+};
+
+export const createOrder = async (orderData: {
+  shipping_address: {
+    name: string;
+    phone: string;
+    pincode: string;
+    address_line_1: string;
+    city: string;
+    state: string;
+    landmark?: string;
+  };
+  coupon_code?: string;
+}) => {
+  try {
+    const token = await getAccessToken();
+
+    if (!token) {
+      return {
+        success: false,
+        message: "Authentication required",
+      } as const;
+    }
+
+    const response = await axios.post(`${API_URL}/order`, orderData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = response.data;
+
+    if (!result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to create order",
+      } as const;
+    }
+
+    return {
+      success: true,
+      message: "Order created successfully",
+      data: result.data,
+    } as const;
+  } catch (error: any) {
+    console.error("Error in createOrder:", error);
+
+    // Extract user-friendly error message
+    let errorMsg = "Failed to create order";
+
+    if (error?.response?.data) {
+      const errorData = error.response.data;
+      errorMsg = errorData?.error?.message || errorData?.message || errorMsg;
+    }
+
+    return {
+      success: false,
+      message: errorMsg,
     } as const;
   }
 };
