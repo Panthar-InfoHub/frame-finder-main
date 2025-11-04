@@ -1,25 +1,58 @@
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
+import { getSignedViewUrl } from "@/actions/cloud-storage";
+import { getAllFrames } from "@/actions/products";
 import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
+import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { SlidersHorizontal } from "lucide-react";
 import { categories } from "@/lib/data";
+import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
-import { getAllFrames } from "@/actions/products";
 
-export default async function Frames() {
+interface searchParamsProps {
+  searchParams: Promise<{
+    gender: string | string[]
+    style: string | string[]
+    material: string | string[]
+    brand: string | string[]
+
+  }>
+}
+
+export default async function Frames({ searchParams }: searchParamsProps) {
   const FilterContent = () => <FilterSidebar />;
-  const response = await getAllFrames();
+
+  const { gender, style, material, brand } = await searchParams
+
+  const response = await getAllFrames({
+    gender: gender as string || null,
+    style: style as string || null,
+    material: material as string || null,
+    brand: brand as string || null
+  });
 
   if (!response.success) {
     return <p>Error : failed to load the page</p>;
   }
-  const data = response.data;
+
+  const newArrivals = await Promise.all(
+    response.data.products.map(async (product: any) => {
+      const rawUrl: string | undefined = product?.variants?.[0]?.images?.[0]?.url
+      const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl)
+      const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : ""
+      return { ...product, _image: signedUrl }
+    })
+  )
+
+
+  const data = {
+    pagination: {
+      totalProducts: newArrivals.length
+    },
+    products: newArrivals
+  };
+
   return (
     <main className="min-h-screen">
-      <Header />
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
@@ -99,24 +132,10 @@ export default async function Frames() {
               ))}
             </div>
 
-            {/* Premium Banner */}
-            <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-r from-blue-200 to-blue-300">
-              <div className="absolute inset-0 flex items-center justify-between px-8">
-                <div className="w-1/2">
-                  {/* Placeholder for glasses image */}
-                </div>
-                <div className="text-right">
-                  <h2 className="text-3xl md:text-5xl font-bold text-neutral-800">
-                    PREMIUM
-                  </h2>
-                  <p className="text-lg md:text-xl text-neutral-700">QUALITY</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    
+
     </main>
   );
 }

@@ -9,7 +9,7 @@ import LoadingSkeleton from "../loading-skeleton"
 export async function TopOurPicks() {
 
   const [res, bestSellerRes] = await Promise.all([getNewArrival(), getBestSeller({ period: "all_time" })])
-  console.debug("best seller data ", bestSellerRes.data.data)
+  // console.debug("best seller data ", bestSellerRes.data.data)
 
   if (!res.success || !bestSellerRes.success) return;
 
@@ -30,7 +30,6 @@ export async function TopOurPicks() {
       return { ...item, _image: signedUrl }
     })
   )
-  console.log(bestSellers)
 
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-background">
@@ -71,11 +70,11 @@ export async function TopOurPicks() {
                 {newArrivals.map((product: any) => (
                   <Link href={`/frames/${product._id}`} key={product._id}>
                     <ProductCard key={product._id}
-                    name={product.brand_name}
-                    price={product.variants[0].price.total_price}
-                    rating={product.rating}
-                    image={product._image}
-                    id={product._id} />
+                      name={product.brand_name}
+                      price={product.variants[0].price.total_price}
+                      rating={product.rating}
+                      image={product._image}
+                      id={product._id} />
                   </Link>
                 ))}
               </div>
@@ -87,11 +86,11 @@ export async function TopOurPicks() {
                 {bestSellers.map((product: any) => (
                   <Link href={`/frames/${product._id}`} key={product._id}>
                     <ProductCard key={product.productId._id}
-                    name={product.productId.brand_name}
-                    price={product.productId.variants[0].price.total_price}
-                    rating={product.productId.rating}
-                    image={product._image}
-                    id={product.productId._id} />
+                      name={product.productId.brand_name}
+                      price={product.productId.variants[0].price.total_price}
+                      rating={product.productId.rating}
+                      image={product._image}
+                      id={product.productId._id} />
                   </Link>
                 ))}
               </div>

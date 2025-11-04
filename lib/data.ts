@@ -39,7 +39,7 @@ export const navigationLinks = [
   { label: "READING GLASSES", href: "/readingGlasses" },
   { label: "SUNGLASSES", href: "/sunglasses" },
   { label: "POWER SUNGLASSES", href: "/power-sunglasses" },
-  { label: "CONTACT LENSES", href: "/contact-lenses" },
+  { label: "CONTACT LENSES", href: "/contactLens" },
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
 ]
@@ -233,18 +233,18 @@ export const navigationMenuData = {
         items: [
           {
             name: "Men",
-            href: "/eyeglasses/men",
-            image: "/professional-man-wearing-glasses.jpg",
+            href: "/frames?gender=male",
+            image: "/nav/nav_man.png",
           },
           {
             name: "Women",
-            href: "/eyeglasses/women",
-            image: "/professional-woman-wearing-glasses.jpg",
+            href: "/frames?gender=female",
+            image: "/nav/nav_women.png",
           },
           {
             name: "Kids",
-            href: "/eyeglasses/kids",
-            image: "/placeholder-kkch7.png",
+            href: "/frames?gender=kids",
+            image: "/nav/nav_child.png",
           },
         ],
       },
@@ -252,24 +252,24 @@ export const navigationMenuData = {
         title: "Frame Type",
         type: "text-list",
         items: [
-          { name: "Rectangle Frame", href: "/eyeglasses/rectangle" },
-          { name: "Square Frame", href: "/eyeglasses/square" },
-          { name: "Round Frame", href: "/eyeglasses/round" },
-          { name: "Cat-Eye Frame", href: "/eyeglasses/cat-eye" },
-          { name: "Oval Frame", href: "/eyeglasses/oval" },
+          { name: "Rectangle Frame", href: "/frames?shape=rectangle" },
+          { name: "Square Frame", href: "/frames?shape=square" },
+          { name: "Round Frame", href: "/frames?shape=round" },
+          { name: "Cat-Eye Frame", href: "/frames?shape=cat-eye" },
+          { name: "Oval Frame", href: "/frames?shape=oval" },
         ],
       },
       {
         title: "Style",
         type: "text-list",
         items: [
-          { name: "Rimmed", href: "/eyeglasses/rimmed" },
-          { name: "Semi-Rimmed", href: "/eyeglasses/semi-rimmed" },
-          { name: "Rimless", href: "/eyeglasses/rimless" },
+          { name: "Rimmed", href: "/frames?style=rimmed" },
+          { name: "Semi-Rimmed", href: "/frames?style=semi-rimmed" },
+          { name: "Rimless", href: "/frames?style=rimless" },
         ],
       },
     ],
-    featuredImage: "/stylish-eyeglasses-on-elegant-background.jpg",
+    featuredImage: "/nav/nav.png",
   },
   "COMPUTER GLASSES": {
     type: "simple",
@@ -388,7 +388,7 @@ export interface Product {
     base_price: number;
     mrp: number;
   };
-
+  _image?: string
   // only present on some items
   dimension?: Dimension
 }

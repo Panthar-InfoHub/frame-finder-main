@@ -41,7 +41,7 @@ export function EyeglassesMegaMenu() {
                 src={menuData.featuredImage || "/placeholder.svg"}
                 alt="Featured Product"
                 fill
-                className="object-contain"
+                className="object-cover h-full w-full"
               />
             </div>
           </div>
