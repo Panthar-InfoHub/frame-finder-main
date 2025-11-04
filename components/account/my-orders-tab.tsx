@@ -32,7 +32,7 @@ export async function MyOrdersTab({ orders }: MyOrdersTabProps) {
     )
 
     return (
-        <ScrollArea className="h-screen w-full rounded-md border" >
+        <ScrollArea className="h-[calc(100vh-250px)] w-full rounded-md border" >
             <div className="space-y-4">
                 {final_orders.map((order) => {
                     const statusConfig = getOrderStatusConfig(order.order_status)

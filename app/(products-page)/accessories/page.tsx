@@ -9,13 +9,30 @@ import { categories } from "@/lib/data";
 import Link from "next/link";
 import { getAllAccessories } from "@/actions/products";
 
+interface searchParamsProps {
+  searchParams: Promise<{
+    gender: string | string[]
+    style: string | string[]
+    material: string | string[]
+    brand: string | string[]
 
-export default async function Accessories() {
+  }>
+}
+
+export default async function Accessories({ searchParams }: searchParamsProps) {
 
   const FilterContent = () => <FilterSidebar />;
-  const response = await getAllAccessories();
 
-  if (!response.success){
+  const { gender, style, material, brand } = await searchParams
+
+  const response = await getAllAccessories({
+    gender: gender as string || null,
+    style: style as string || null,
+    material: material as string || null,
+    brand: brand as string || null
+  });
+
+  if (!response.success) {
     return <p>Error : failed to load the page</p>
   }
   const data = response.data
@@ -103,24 +120,12 @@ export default async function Accessories() {
               ))}
             </div>
 
-            {/* Premium Banner */}
-            <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-r from-blue-200 to-blue-300">
-              <div className="absolute inset-0 flex items-center justify-between px-8">
-                <div className="w-1/2">
-                  {/* Placeholder for glasses image */}
-                </div>
-                <div className="text-right">
-                  <h2 className="text-3xl md:text-5xl font-bold text-neutral-800">
-                    PREMIUM
-                  </h2>
-                  <p className="text-lg md:text-xl text-neutral-700">QUALITY</p>
-                </div>
-              </div>
-            </div>
+          
+          
           </div>
         </div>
       </div>
-    
+
     </main>
   )
 }

@@ -55,3 +55,8 @@ export function formatDate(dateString: string) {
     year: "numeric",
   })
 }
+
+export function getImageUrlFromPath(path: string): string {
+  const baseUrl = `https://storage.googleapis.com/frame-finder-bucket/`
+  return `${baseUrl}${path}`
+}

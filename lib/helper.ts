@@ -17,3 +17,12 @@ export async function getImageUrls(urls: string[]): Promise<string[]> {
 
   return await Promise.all(urls.map((url) => getImageUrl(url)));
 }
+
+export const transformImages = async (products: any[]) => {
+  return await Promise.all(products.map(async (product: any) => {
+    const rawUrl: string | undefined = product?.variants?.[0]?.images?.[0]?.url
+    const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl)
+    const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : ""
+    return { ...product, _image: signedUrl }
+  }))
+}

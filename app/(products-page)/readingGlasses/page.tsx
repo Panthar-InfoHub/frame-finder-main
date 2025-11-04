@@ -8,18 +8,45 @@ import { SlidersHorizontal } from "lucide-react";
 import { categories } from "@/lib/data";
 import Link from "next/link";
 import { getAllReadingGlass } from "@/actions/products";
+import { getSignedViewUrl } from "@/actions/cloud-storage";
 
-export default async function Frames() {
+interface searchParamsProps {
+  searchParams: Promise<{
+    gender: string | string[]
+    style: string | string[]
+    material: string | string[]
+    brand: string | string[]
+
+  }>
+}
+
+export default async function Frames({ searchParams }: searchParamsProps) {
   const FilterContent = () => <FilterSidebar />;
-  const response = await getAllReadingGlass();
+  const { gender, style, material, brand } = await searchParams
+
+  const response = await getAllReadingGlass({
+    gender: gender as string || null,
+    style: style as string || null,
+    material: material as string || null,
+    brand: brand as string || null
+  });
 
   if (!response.success) {
     return <p>Error : failed to load the page</p>;
   }
-  const data = response.data.result;
+
+  const newArrivals = await Promise.all(
+    response.data.result.products.map(async (product: any) => {
+      const rawUrl: string | undefined = product?.variants?.[0]?.images?.[0]?.url
+      const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl)
+      const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : ""
+      return { ...product, _image: signedUrl }
+    })
+  )
+
+  const data = { products: newArrivals, pagination: response.data.result.pagination };
   return (
     <main className="min-h-screen">
-      <Header />
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
@@ -98,25 +125,10 @@ export default async function Frames() {
                 </Link>
               ))}
             </div>
-
-            {/* Premium Banner */}
-            <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-r from-blue-200 to-blue-300">
-              <div className="absolute inset-0 flex items-center justify-between px-8">
-                <div className="w-1/2">
-                  {/* Placeholder for glasses image */}
-                </div>
-                <div className="text-right">
-                  <h2 className="text-3xl md:text-5xl font-bold text-neutral-800">
-                    PREMIUM
-                  </h2>
-                  <p className="text-lg md:text-xl text-neutral-700">QUALITY</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    
+
     </main>
   );
 }

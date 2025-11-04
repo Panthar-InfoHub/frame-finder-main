@@ -10,6 +10,7 @@ import { Suspense } from "react"
 import LoadingSkeleton from "@/components/loading-skeleton"
 import { getOrderByUser } from "@/actions/order"
 import { MyOrdersTab } from "@/components/account/my-orders-tab"
+import { getSignedViewUrl } from "@/actions/cloud-storage"
 
 const PROFILE_TABS = [
     { value: "account", label: "Account Information" },
@@ -36,10 +37,14 @@ export default async function ProfilePage() {
         )
     }
 
-    const user_data: IUser = userResult.data
+    const rawUrl: string | undefined = userResult.data?.img?.url
+    const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl)
+    const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : ""
+    const user_data: IUser = { ...userResult.data, _image: signedUrl }
     const order_data = orderResult.data
 
-    // console.log("Order Data ==> ", order_data)
+    // console.log("Order Data ==> ", user_data)
+
 
     return (
         <main className="min-h-screen">
@@ -51,13 +56,13 @@ export default async function ProfilePage() {
                 </Link>
                 <Tabs defaultValue="account" orientation="vertical" className="flex flex-col sm:flex-row gap-6 lg:gap-8">
                     {/* Vertical TabsList */}
-                    <TabsList className="w-full sm:w-80 bg-[#C8F0E1] rounded-3xl p-6 flex flex-col gap-3 shrink-0 h-fit">
+                    <TabsList className="w-full sm:w-80 bg-emerald-200 rounded-3xl p-6 flex flex-col gap-3 shrink-0 h-fit">
 
                         {PROFILE_TABS.map((tab) => (
                             <TabsTrigger
                                 key={tab.value}
                                 value={tab.value}
-                                className="w-full px-4 py-3 rounded-2xl text-left font-medium transition-all text-gray-800 hover:opacity-80 data-[state=inactive]:hover:bg-[rgba(0,170,119,0.4)] data-[state=active]:bg-[#00AA78] data-[state=active]:text-white data-[state=active]:shadow-sm justify-start cursor-pointer"
+                                className="w-full px-4 py-3 rounded-2xl text-left font-medium transition-all text-gray-800 hover:opacity-80 data-[state=inactive]:hover:bg-[rgba(0,170,119,0.4)] data-[state=active]:bg-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-sm justify-start cursor-pointer"
                             >
                                 {tab.label}
                             </TabsTrigger>

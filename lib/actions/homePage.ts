@@ -23,7 +23,7 @@ export async function getNewArrival() {
     try {
         const headers = await getAuthHeaders()
         const res = await axios.get(`${API_URL}/products`, { headers })
-        console.log("getNewArrival response", res.data)
+        // console.log("getNewArrival response", res.data)
         return { success: true, data: res.data }
     } catch (error) {
         console.error("getNewArrival error", error)

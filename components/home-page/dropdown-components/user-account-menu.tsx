@@ -19,7 +19,7 @@ export function UserAccountMenu({ shouldBlur }: { shouldBlur: boolean }) {
     <div onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}>
+          <Button variant="ghost" size="icon" className={`${shouldBlur ? "text-black" : "text-white hover:bg-[#00AA78]!"}`}>
             <User className="h-5 w-5 md:h-6 md:w-6" />
           </Button>
         </DropdownMenuTrigger>

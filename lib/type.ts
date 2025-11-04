@@ -20,6 +20,7 @@ export interface IUser {
 
     createdAt?: string | Date;
     updatedAt?: string | Date;
+    _image?: string;
 }
 
 export interface Address {
