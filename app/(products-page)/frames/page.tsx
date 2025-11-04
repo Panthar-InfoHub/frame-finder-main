@@ -97,7 +97,7 @@ export default async function Frames() {
                   <ProductCard key={product._id} product={product} />
                 </Link>
               ))}
-            </div>
+            </div>  
 
             {/* Premium Banner */}
             <div className="relative h-48 md:h-64 rounded-lg overflow-hidden bg-gradient-to-r from-blue-200 to-blue-300">

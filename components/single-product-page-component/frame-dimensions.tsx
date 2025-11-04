@@ -1,13 +1,12 @@
 import { Ruler } from "lucide-react"
 
-interface FrameDimension {
+interface dimension {
   label: string
   value: string
-  icon: string
 }
 
 interface FrameDimensionsProps {
-  dimensions: FrameDimension[]
+  dimensions: dimension[]
 }
 
 export function FrameDimensions({ dimensions }: FrameDimensionsProps) {

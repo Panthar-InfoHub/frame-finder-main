@@ -51,9 +51,9 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
             <span>{promoData.text}</span>
             <span>{promoData.icon}</span>
           </div>
-          <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-            <div className="w-6 h-6 rounded-full bg-white/40" />
-          </div>
+              {/* <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-white/40" />
+              </div> */}
         </div>
       </div>
 

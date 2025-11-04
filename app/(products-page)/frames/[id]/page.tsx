@@ -5,20 +5,25 @@ import { getFrameById } from "@/actions/products";
 
 import Link from "next/link";
 import { Heart, Share2 } from "lucide-react";
+
+import { Header } from "@/components/home-page/header";
 import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
 import { ProductPrice } from "@/components/single-product-page-component/product-price";
 import { ProductInfo } from "@/components/single-product-page-component/product-info";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
 import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
+import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
-import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
-import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
+import { frameDimensions, trustBadges } from "@/lib/mock-data";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { getImageUrls } from "@/lib/helper";
-// import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
-export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const res = await getFrameById(id);
 
@@ -30,15 +35,24 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const variant = product.variants?.[0]; // default variant
   const images = variant?.images || [];
 
+  const rawDim = product.dimension || {};
+  const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
+    label: k, // or formatLabel(k)
+    value: String(v ?? ""),
+  }));
+
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(images.map((img: any) => img.url));
 
   return (
     <div className="min-h-screen bg-background">
+      
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-sm text-muted-foreground">Home | Eyeware | {product.brand_name}</p>
+          <p className="text-sm text-muted-foreground">
+            Home | Eyeware | {product.brand_name}
+          </p>
         </div>
       </div>
 
@@ -47,7 +61,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div>
-            <ProductImageGallery imageUrls={imageUrls} brandName={product.brand_name} />
+            <ProductImageGallery
+              imageUrls={imageUrls}
+              brandName={product.brand_name}
+            />
           </div>
 
           {/* Right: Product Details */}
@@ -60,7 +77,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               createdAt={product.createdAt}
             />
 
-            <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
+            <ProductRating
+              rating={product.rating}
+              totalReviews={product.total_reviews}
+            />
 
             <ProductPrice
               totalPrice={variant.price.total_price}
@@ -72,11 +92,15 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             <div className="space-y-2">
               <p className="text-sm font-medium">
                 Frame Color:{" "}
-                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
+                <span className="text-muted-foreground capitalize">
+                  {variant.frame_color}
+                </span>
               </p>
               <p className="text-sm font-medium">
                 Temple Color:{" "}
-                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
+                <span className="text-muted-foreground capitalize">
+                  {variant.temple_color}
+                </span>
               </p>
             </div>
 
@@ -86,7 +110,9 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                 In Stock ({variant.stock.current} available)
               </p>
             ) : (
-              <p className="text-sm text-destructive font-medium">Out of Stock</p>
+              <p className="text-sm text-destructive font-medium">
+                Out of Stock
+              </p>
             )}
 
             {/* Action Buttons */}
@@ -118,7 +144,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            <FrameDimensions dimensions={dimensionArray} />
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
@@ -132,13 +158,15 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
+        <BlueLightFeature />
+
         {/* Trust Badges */}
         <div className="mt-12">
           <TrustBadges badges={trustBadges} />
         </div>
 
-        {/* Similar Products */}
-        <SimilarProducts products={mockSimilarProducts} />
+        {/* Similar Products -> as if for now no data is coming will look for it in the future */}
+        {/* <SimilarProducts products={mockSimilarProducts} /> */}
       </div>
     </div>
   );
