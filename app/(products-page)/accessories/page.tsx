@@ -1,5 +1,5 @@
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+
+
 import { ProductCard } from "@/components/multiple-products-page-component/product-card-without-variant";
 import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,6 @@ export default async function Accessories({ searchParams }: searchParamsProps) {
 
   return (
     <main className="min-h-screen">
-      <Header />
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
@@ -120,8 +119,8 @@ export default async function Accessories({ searchParams }: searchParamsProps) {
               ))}
             </div>
 
-          
-          
+
+
           </div>
         </div>
       </div>

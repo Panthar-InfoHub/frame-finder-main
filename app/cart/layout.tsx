@@ -1,4 +1,4 @@
-import { Header } from "@/components/header";
+
 import { Header as NavHeader } from "@/components/home-page/header"
 
 import React from "react";

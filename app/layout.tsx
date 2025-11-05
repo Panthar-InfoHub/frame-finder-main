@@ -1,11 +1,10 @@
+
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Bona_Nova, Geist, Geist_Mono, Lexend_Deca } from "next/font/google";
 import "./globals.css";
-import { Suspense } from "react";
-import { Toaster } from "@/components/ui/sonner";
-import { Header } from "@/components/home-page/header";
 import { Footer } from "@/components/footer";
-import { Providers } from "@/components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

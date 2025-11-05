@@ -138,7 +138,7 @@ export const productCategories = [
   {
     id: 1,
     name: "Rimless Glasses",
-    image: "/rimless-eyeglasses-line-drawing.jpg",
+    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
     href: "/category/rimless",
   },
   {
@@ -156,7 +156,7 @@ export const productCategories = [
   {
     id: 4,
     name: "Blue Computer Glasses",
-    image: "/blue-light-computer-glasses-line-drawing.jpg",
+    image: "/acetate-eyeglasses-line-drawing.jpg",
     href: "/category/computer",
   },
   {
@@ -290,12 +290,12 @@ export const navigationMenuData = {
           {
             name: "Men",
             href: "/sunglasses/men",
-            image: "/man-wearing-sunglasses.jpg",
+            image: "/nav/nav_man.png",
           },
           {
             name: "Women",
             href: "/sunglasses/women",
-            image: "/woman-wearing-sunglasses.jpg",
+            image: "/nav/nav_women.png",
           },
         ],
       },
@@ -311,7 +311,7 @@ export const navigationMenuData = {
         ],
       },
     ],
-    featuredImage: "/premium-sunglasses-on-luxury-background.jpg",
+    featuredImage: "/nav/nav_sun.png",
   },
   "POWER SUNGLASSES": {
     type: "simple",

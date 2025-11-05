@@ -1,5 +1,5 @@
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+
+
 import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
 import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { categories } from "@/lib/data";
 import Link from "next/link";
 import { getAllColorContactLens } from "@/actions/products";
+import Image from "next/image";
 
 interface searchParamsProps {
   searchParams: Promise<{
@@ -32,22 +33,21 @@ export default async function ColorContactLens({ searchParams }: searchParamsPro
     brand: brand as string || null
   });
 
-  if (!response.success){
+  if (!response.success) {
     return <p>Error : failed to load the page</p>
   }
   const data = response.data;
   return (
     <main className="min-h-screen">
-        <Header />
+      <Header />
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
-          {/* Placeholder for hero image */}
-          <div className="w-full h-full bg-linear-to-br from-neutral-700 to-neutral-900" />
+          <Image src="/images/bg/cl_bg.png" alt="Hero Image" fill className="object-cover h-full w-full" />
         </div>
         <div className="relative z-20 flex items-center justify-center h-full">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
-            EYEWARE GLASSES
+            COLOR CONTACT LENSES
           </h1>
         </div>
       </section>
@@ -118,12 +118,12 @@ export default async function ColorContactLens({ searchParams }: searchParamsPro
               ))}
             </div>
 
-          
-          
+
+
           </div>
         </div>
       </div>
-    
+
     </main>
   )
 }

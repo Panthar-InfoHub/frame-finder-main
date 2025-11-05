@@ -1,7 +1,6 @@
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature"
 import { CuttingEdgeDesign } from "@/components/home-page/cutting-edge-design"
 import { FeaturedVendors } from "@/components/home-page/featured-vendors"
-import { Footer } from "@/components/home-page/footer"
 import { Header } from "@/components/home-page/header"
 import { HeroSection } from "@/components/home-page/hero-section"
 import { ProductCategories } from "@/components/home-page/product-categories"

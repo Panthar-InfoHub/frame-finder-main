@@ -45,13 +45,13 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
       <div className="bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden z-40 relative">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-sm md:text-base">FrameFinder</span>
+            <Link href="/" className="font-semibold text-sm md:text-base">FrameFinder</Link>
           </div>
           <div className="flex items-center gap-2 text-xs md:text-sm text-center flex-1 justify-center">
             <span>{promoData.text}</span>
             <span>{promoData.icon}</span>
           </div>
-              {/* <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+          {/* <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                 <div className="w-6 h-6 rounded-full bg-white/40" />
               </div> */}
         </div>
@@ -72,7 +72,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                       ? "text-black hover:text-black/70"
                       : "text-white hover:text-white/80"
                     const bgClass = shouldBlur
-                      ? "bg-transparent hover:bg-black/5 data-[state=open]:bg-black/5"
+                      ? "bg-transparent hover:bg-emerald-500 data-[state=open]:bg-emerald-500"
                       : "bg-transparent hover:bg-transparent data-[state=open]:bg-transparent"
 
                     if (link.label === "EYEGLASSES") {
@@ -148,7 +148,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                         <Link href={link.href}>
                           <NavigationMenuLink
                             asChild
-                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide whitespace-nowrap ${textColorClass}`}
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium ${textColorClass} transition-colors uppercase tracking-wide hover:bg-accent hover:text-accent-foreground`}
                           >
                             <span>{link.label}</span>
                           </NavigationMenuLink>

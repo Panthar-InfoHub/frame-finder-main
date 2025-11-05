@@ -9,7 +9,7 @@ export function ContactLensesMegaMenu() {
   }
 
   return (
-    <div className="w-[280px] p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-[280px] p-6 bg-white rounded-lg">
       <div className="flex flex-col gap-4">
         {menuData.categories.map((category) => (
           <Link

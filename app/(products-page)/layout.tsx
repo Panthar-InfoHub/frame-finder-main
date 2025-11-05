@@ -36,13 +36,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body
-                className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}
-            >
-                <Header alwaysBlurred={true} />
-                {children}
-            </body>
-        </html>
+        <>
+            <Header alwaysBlurred={true} />
+            {children}
+        </>
     );
 }

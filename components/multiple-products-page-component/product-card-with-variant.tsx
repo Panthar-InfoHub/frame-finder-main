@@ -17,7 +17,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const productPrice = product.variants[0].price.base_price
 
   return (
-    <Card className="group relative overflow-hidden rounded-2xl border shadow-md transition-shadow duration-300 hover:shadow-lg">
+    <Card className="group relative overflow-hidden rounded-2xl border shadow-md transition-shadow duration-300 hover:shadow-lg h-full">
       <CardContent className="relative">
 
         <div className="flex items-center justify-between relative mb-15">
@@ -35,7 +35,7 @@ export function ProductCard({ product }: ProductCardProps) {
             type="button"
             aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
             onClick={() => setLiked((v) => !v)}
-            className="absolute top-0 self-end right-5 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-600 shadow-sm hover:bg-white"
+            className="absolute top-0 self-end right-0 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-600 shadow-sm hover:bg-white"
           >
             <Heart className="h-5 w-5" fill={liked ? "currentColor" : "none"} />
           </button>

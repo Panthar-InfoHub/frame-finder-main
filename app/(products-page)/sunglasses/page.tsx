@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { categories } from "@/lib/data";
 import { transformImages } from "@/lib/helper";
 import { SlidersHorizontal } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface searchParamsProps {
@@ -26,21 +27,20 @@ export default async function Sunglasses({ searchParams }: searchParamsProps) {
     return <p>Error : failed to load the page</p>;
   }
 
-  console.log("response.data.result.products ==> ", response.data.result.products)
+  // console.log("response.data.result.products ==> ", response.data.result.products)
   const newArrivals = await transformImages(response.data.result.products)
 
   const data = { products: newArrivals, pagination: response.data.result.pagination };
   return (
     <main className="min-h-screen">
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
-        {/* same hero section code as before with fixed gradient */}
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
-          <div className="w-full h-full bg-gradient-to-br from-neutral-700 to-neutral-900" />
+          <Image src="/images/bg/sun_bg.jpg" alt="Hero Image" fill className="object-cover h-full w-full" />
         </div>
         <div className="relative z-20 flex items-center justify-center h-full">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
-            EYEWARE GLASSES
+            SUNGLASSES
           </h1>
         </div>
       </section>

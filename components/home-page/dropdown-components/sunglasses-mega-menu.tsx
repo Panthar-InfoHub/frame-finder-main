@@ -10,7 +10,7 @@ export function SunglassesMegaMenu() {
   }
 
   return (
-    <div className="w-[650px] p-6 bg-white rounded-lg shadow-lg">
+    <div className="w-[650px] p-6 bg-white rounded-lg">
       <div className="grid grid-cols-[auto_auto_1fr] gap-8">
         {/* Render sections (Gender and Shape) */}
         {menuData.sections.map((section, idx) => (
@@ -19,13 +19,13 @@ export function SunglassesMegaMenu() {
             <ul className="space-y-3">
               {section.items.map((item, itemIdx) => (
                 <li key={itemIdx}>
-                  <Link href={item.href} className="flex items-center gap-3 hover:text-primary transition-colors group">
+                  <Link href={item.href} className="flex items-center gap-3 hover:text-emerald-200 transition-colors group">
                     {section.type === "image-list" && item.image && (
                       <div className="relative w-12 h-12 rounded-md overflow-hidden shrink-0">
                         <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
                       </div>
                     )}
-                    <span className="text-sm text-gray-700 group-hover:text-primary transition-colors">
+                    <span className="text-sm text-gray-700 transition-colors hover:text-emerald-500">
                       {item.name}
                     </span>
                   </Link>
