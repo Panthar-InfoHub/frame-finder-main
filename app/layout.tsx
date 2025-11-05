@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { Header } from "@/components/home-page/header";
 import { Footer } from "@/components/footer";
-
+import { Providers } from "@/components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,10 +44,12 @@ export default function RootLayout({
       <body
         className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}
       >
-        {/* <Header /> */}
-        {children}
-        <Toaster position="top-center" richColors />
-        <Footer />
+        <Providers>
+          {/* <Header /> */}
+          {children}
+          <Toaster position="top-center" richColors />
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

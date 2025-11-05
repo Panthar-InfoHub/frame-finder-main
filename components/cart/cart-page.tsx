@@ -256,7 +256,7 @@ export default function CartPageClient({
                 >
                   <div className="flex gap-4">
                     {/* Product Image */}
-                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
+                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0">
                       <Image
                         src={getItemImage(item)}
                         alt={item.product.brand_name}

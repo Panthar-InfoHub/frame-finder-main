@@ -6,7 +6,7 @@ export const siteConfig = {
     secondary: "#6B7280",
     accent: "#F3F4F6",
   },
-}
+};
 
 export const heroSlides = [
   {
@@ -27,12 +27,12 @@ export const heroSlides = [
     subtitle: "Elegance Redefined",
     image: "/hero/img_1.png",
   },
-]
+];
 
 export const promoData = {
   text: "New edit: Eco-Acetate - Shop For 2 Pay For 1",
   icon: "🎁",
-}
+};
 
 export const navigationLinks = [
   { label: "EYEGLASSES", href: "/eyeglasses" },
@@ -42,7 +42,7 @@ export const navigationLinks = [
   { label: "CONTACT LENSES", href: "/contactLens" },
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
-]
+];
 
 export const newArrivals = [
   {
@@ -87,7 +87,7 @@ export const newArrivals = [
     rating: 4.8,
     image: "/silver-metal-eyeglasses.jpg",
   },
-]
+];
 
 export const bestSellers = [
   {
@@ -132,7 +132,7 @@ export const bestSellers = [
     rating: 4.8,
     image: "/gold-aviator-eyeglasses.jpg",
   },
-]
+];
 
 export const productCategories = [
   {
@@ -165,7 +165,7 @@ export const productCategories = [
     image: "/metal-frame-eyeglasses-line-drawing.jpg",
     href: "/category/metal",
   },
-]
+];
 
 export const sunglassCategories = [
   {
@@ -188,7 +188,7 @@ export const sunglassCategories = [
     name: "Metalwork",
     image: "/metal-frame-sunglasses.jpg",
   },
-]
+];
 
 export const footerData = {
   shop: [
@@ -221,7 +221,7 @@ export const footerData = {
     { name: "Pinterest", href: "#", icon: "pinterest" },
     { name: "Twitter", href: "#", icon: "twitter" },
   ],
-}
+};
 
 export const navigationMenuData = {
   EYEGLASSES: {
@@ -340,113 +340,113 @@ export const navigationMenuData = {
   USER: {
     type: "user-menu",
     items: [
-      { name: "Your Account", href: "/account" },
-      { name: "Your orders", href: "/orders" },
-      { name: "Sign Out", href: "/logout" },
+      { name: "Your Account", href: "/account", action: null },
+      { name: "Your orders", href: "/orders", action: null },
+      { name: "Sign Out", href: null, action: "logout" },
     ],
   },
-}
+};
 
 // primitives
-export type ObjectId = string
-export type ISODateString = string
-export type CurrencyAmount = number
+export type ObjectId = string;
+export type ISODateString = string;
+export type CurrencyAmount = number;
 
 // top-level response
 export interface ProductsResponse {
-  products: Product[]
-  pagination: Pagination
+  products: Product[];
+  pagination: Pagination;
 }
 
 export interface Pagination {
-  totalProducts: number
-  totalPages: number
+  totalProducts: number;
+  totalPages: number;
 }
 
 // product entity (keys unchanged)
 export interface Product {
-  _id: ObjectId
-  productCode: string
-  brand_name: string
-  material: string[]
-  shape: string[]
-  style: string[]
-  hsn_code: string
-  sizes: string[]
-  gender: string[]
-  vendorId: ObjectId
-  rating?: number
-  total_reviews?: number
-  status: "active" | "inactive" | string // keep open for future statuses
-  is_Power: boolean
-  type: "Product" | string
-  variants: Variant[]
-  createdAt: ISODateString
-  updatedAt: ISODateString
-  __v: number
+  _id: ObjectId;
+  productCode: string;
+  brand_name: string;
+  material: string[];
+  shape: string[];
+  style: string[];
+  hsn_code: string;
+  sizes: string[];
+  gender: string[];
+  vendorId: ObjectId;
+  rating?: number;
+  total_reviews?: number;
+  status: "active" | "inactive" | string; // keep open for future statuses
+  is_Power: boolean;
+  type: "Product" | string;
+  variants: Variant[];
+  createdAt: ISODateString;
+  updatedAt: ISODateString;
+  __v: number;
   price: {
     base_price: number;
     mrp: number;
   };
-  _image?: string
+  _image?: string;
   // only present on some items
-  dimension?: Dimension
+  dimension?: Dimension;
 }
 
 // optional nested dimension block
 export interface Dimension {
-  lens_width: string
-  bridge_width: string
-  temple_length: string
-  lens_height: string
+  lens_width: string;
+  bridge_width: string;
+  temple_length: string;
+  lens_height: string;
 }
 
 // variant entity
 export interface Variant {
-  frame_color: string
-  temple_color: string
-  price: Price
-  images: ImageItem[]
-  stock: Stock
-  _id: ObjectId
+  frame_color: string;
+  temple_color: string;
+  price: Price;
+  images: ImageItem[];
+  stock: Stock;
+  _id: ObjectId;
 }
 
 // price breakdown (keys unchanged)
 export interface Price {
-  base_price: CurrencyAmount
-  mrp: CurrencyAmount
-  shipping_price: ShippingPrice
-  total_price: CurrencyAmount
+  base_price: CurrencyAmount;
+  mrp: CurrencyAmount;
+  shipping_price: ShippingPrice;
+  total_price: CurrencyAmount;
 }
 
 export interface ShippingPrice {
-  custom: boolean
-  value: CurrencyAmount
+  custom: boolean;
+  value: CurrencyAmount;
 }
 
 // image item (keys unchanged)
 export interface ImageItem {
-  url: string
-  _id: ObjectId
+  url: string;
+  _id: ObjectId;
 }
 
 // stock info
 export interface Stock {
-  current: number
-  minimum: number
+  current: number;
+  minimum: number;
 }
 
 export interface FilterOption {
-  label: string
-  value: string
-  count?: number
+  label: string;
+  value: string;
+  count?: number;
 }
 
 export const categories: FilterOption[] = [
   { label: "Eyeglasses", value: "eyeglasses" },
   { label: "Sunglasses", value: "sunglasses" },
   { label: "Frames", value: "frames" },
-]
+];
 
 export const brands: FilterOption[] = [
   { label: "Clarity", value: "Clarity" },
@@ -454,21 +454,21 @@ export const brands: FilterOption[] = [
   { label: "HarrisView", value: "HarrisView" },
   { label: "SunQuest", value: "SunQuest" },
   { label: "Visionary", value: "Visionary" },
-]
+];
 
 export const styles: FilterOption[] = [
   { label: "Classic", value: "Classic" },
   { label: "Modern", value: "Modern" },
   { label: "Retro", value: "Retro" },
   { label: "Sporty", value: "Sporty" },
-]
+];
 
 export const materials: FilterOption[] = [
   { label: "Metal", value: "Metal" },
   { label: "Plastic", value: "Plastic" },
   { label: "Mixed", value: "Mixed" },
   { label: "Titanium", value: "Titanium" },
-]
+];
 
 export const footerLinks = {
   shop: [
@@ -491,14 +491,14 @@ export const footerLinks = {
     { label: "Terms & Conditions", href: "/terms" },
     { label: "Privacy Policy", href: "/privacy" },
   ],
-}
+};
 
 export const socialLinks = [
   { name: "Instagram", icon: "instagram", href: "#" },
   { name: "LinkedIn", icon: "linkedin", href: "#" },
   { name: "Threads", icon: "threads", href: "#" },
   { name: "X", icon: "x", href: "#" },
-]
+];
 
 export const sunglassesCategories = [
   { id: 1, name: "Rimless Glasses", icon: "/sunglasses/sun_1.jpg" },
@@ -506,7 +506,7 @@ export const sunglassesCategories = [
   { id: 3, name: "Rich Acetate eyeglass", icon: "/sunglasses/sun_3.jpg" },
   { id: 4, name: "Blue Computer Glasses", icon: "/sunglasses/sun_1.jpg" },
   { id: 5, name: "Metalwork", icon: "/sunglasses/sun_2.jpg" },
-]
+];
 
 export const vendors = [
   {
@@ -541,7 +541,7 @@ export const vendors = [
     review: "loream ipsum dolor sit amet consectetur adipisicing elit loream10",
     location: "1,234/Now",
   },
-]
+];
 
 export const shapes = [
   {
@@ -569,4 +569,4 @@ export const shapes = [
     name: "Hexagon",
     image: "/shapes/shape_1.png",
   },
-]
+];

@@ -98,21 +98,11 @@ export function Navigation() {
           </div>
 
           <div className="flex items-center gap-3 md:gap-4 lg:ml-auto w-full lg:w-auto justify-end">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-white hover:bg-white/10"
-            >
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
               <Search className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
-            <Link href="/login">
-              <UserAccountMenu />
-            </Link>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-white hover:bg-white/10"
-            >
+            <UserAccountMenu shouldBlur={false} />
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
               <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
             </Button>
             <Button
