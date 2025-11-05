@@ -44,95 +44,6 @@ export const navigationLinks = [
   { label: "ACCESSORIES", href: "/accessories" },
 ];
 
-export const newArrivals = [
-  {
-    id: 1,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/black-round-eyeglasses.jpg",
-  },
-  {
-    id: 2,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/colorful-rainbow-eyeglasses.jpg",
-  },
-  {
-    id: 3,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/silver-metal-eyeglasses.jpg",
-  },
-  {
-    id: 4,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/black-round-eyeglasses.jpg",
-  },
-  {
-    id: 5,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/colorful-rainbow-eyeglasses.jpg",
-  },
-  {
-    id: 6,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/silver-metal-eyeglasses.jpg",
-  },
-];
-
-export const bestSellers = [
-  {
-    id: 7,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/tortoise-shell-eyeglasses.jpg",
-  },
-  {
-    id: 8,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/blue-transparent-eyeglasses.jpg",
-  },
-  {
-    id: 9,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/gold-aviator-eyeglasses.jpg",
-  },
-  {
-    id: 10,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/tortoise-shell-eyeglasses.jpg",
-  },
-  {
-    id: 11,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/blue-transparent-eyeglasses.jpg",
-  },
-  {
-    id: 12,
-    name: "Tecla",
-    price: 5000,
-    rating: 4.8,
-    image: "/gold-aviator-eyeglasses.jpg",
-  },
-];
 
 export const productCategories = [
   {
@@ -289,12 +200,12 @@ export const navigationMenuData = {
         items: [
           {
             name: "Men",
-            href: "/sunglasses/men",
+            href: "/sunglasses?gender=male",
             image: "/nav/nav_man.png",
           },
           {
             name: "Women",
-            href: "/sunglasses/women",
+            href: "/sunglasses?gender=female",
             image: "/nav/nav_women.png",
           },
         ],
@@ -303,11 +214,11 @@ export const navigationMenuData = {
         title: "Shape",
         type: "text-list",
         items: [
-          { name: "Aviator", href: "/sunglasses/aviator" },
-          { name: "Wayfarer", href: "/sunglasses/wayfarer" },
-          { name: "Wraparound", href: "/sunglasses/wraparound" },
-          { name: "Rectangle", href: "/sunglasses/rectangle" },
-          { name: "Round", href: "/sunglasses/round" },
+          { name: "Aviator", href: "/sunglasses?shape=aviator" },
+          { name: "Wayfarer", href: "/sunglasses?shape=wayfarer" },
+          { name: "Wraparound", href: "/sunglasses?shape=wraparound" },
+          { name: "Rectangle", href: "/sunglasses?shape=rectangle" },
+          { name: "Round", href: "/sunglasses?shape=round" },
         ],
       },
     ],
@@ -316,25 +227,25 @@ export const navigationMenuData = {
   "POWER SUNGLASSES": {
     type: "simple",
     items: [
-      { name: "Prescription Sunglasses", href: "/power-sunglasses/prescription" },
-      { name: "Progressive Sunglasses", href: "/power-sunglasses/progressive" },
-      { name: "Reading Sunglasses", href: "/power-sunglasses/reading" },
-      { name: "Distance Sunglasses", href: "/power-sunglasses/distance" },
+      { name: "Prescription Sunglasses", href: "/power-sunglasses?prescription=prescription" },
+      { name: "Progressive Sunglasses", href: "/power-sunglasses?progressive=progressive" },
+      { name: "Reading Sunglasses", href: "/power-sunglasses?reading=reading" },
+      { name: "Distance Sunglasses", href: "/power-sunglasses?distance=distance" },
     ],
   },
   "CONTACT LENSES": {
     type: "simple-categories",
     categories: [
-      { name: "By Disposibility", href: "/contact-lenses/disposibility" },
-      { name: "By Color", href: "/contact-lenses/color" },
+      { name: "By Disposibility", href: "/contact-lenses?disposibility=disposibility" },
+      { name: "By Color", href: "/contact-lenses?color=color" },
     ],
   },
   ACCESSORIES: {
     type: "simple-categories",
     categories: [
-      { name: "Contact lens Solutions", href: "/accessories/solutions" },
-      { name: "Chains", href: "/accessories/chains" },
-      { name: "Packaging Case", href: "/accessories/packaging" },
+      { name: "Contact lens Solutions", href: "/accessories?name=solution" },
+      { name: "Chains", href: "/accessories?name=chains" },
+      { name: "Packaging Case", href: "/accessories?name=packaging" },
     ],
   },
   USER: {

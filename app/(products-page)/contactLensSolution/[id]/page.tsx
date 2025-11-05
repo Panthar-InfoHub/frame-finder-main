@@ -99,9 +99,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             </div>
 
             <div className="flex gap-3">
-              <Button variant="outline" size="icon">
-                <Heart size={20} />
-              </Button>
+             
               <Button variant="outline" size="icon">
                 <Share2 size={20} />
               </Button>
