@@ -7,13 +7,13 @@ export function Footer() {
     instagram: Instagram,
     linkedin: Linkedin,
     twitter: Twitter,
-    facebook : Facebook,
+    facebook: Facebook,
   }
 
   return (
-    <footer className=" h-[800px] md:h-screen bg-emerald-500 text-white py-12">
+    <footer className=" h-[800px] md:h-screen bg-emerald-500 text-white py-12 flex flex-col justify-between">
       <div className="container mx-auto px-4">
-        <div className= " flex justify-center items-center mb-8 w-full">
+        <div className=" flex justify-center items-center mb-8 w-full">
           <h2 className="text-4xl md:text-[150px]  font-normal mb-8 font-(family-name:--font-bona_nova)">FRAME FINDER</h2>
         </div>
 
@@ -75,6 +75,9 @@ export function Footer() {
             </div>
           </div>
         </div>
+      </div>
+      <div className=" mt-8 text-center font-light text-sm">
+        <p> Designed and Developed by <span className="font-medium"> <Link href="www.pantharinfohub.com" target="_blank">Panthar InfoHub</Link></span></p>
       </div>
     </footer>
   )

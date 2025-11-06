@@ -10,7 +10,7 @@ export function ProductCategories() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
           {productCategories.map((category) => (
             <Link key={category.id} href={category.href} className="flex flex-col items-center gap-4 group">
-              <div className="relative w-full aspect-[3/2] bg-muted rounded-lg overflow-hidden transition-transform group-hover:scale-105">
+              <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden transition-transform group-hover:scale-105">
                 <Image
                   src={category.image || "/placeholder.svg"}
                   alt={category.name}

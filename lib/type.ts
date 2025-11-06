@@ -80,3 +80,14 @@ export interface Order {
     coupon_code?: string
     tracking_id?: string
 }
+
+export interface searchParamsProps {
+  searchParams: Promise<{
+    gender: string | string[]
+    style: string | string[]
+    material: string | string[]
+    brand: string | string[]
+    frame_color : string | string[]
+    temple_color : string | string[]
+  }>
+}

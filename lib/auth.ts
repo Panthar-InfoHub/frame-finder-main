@@ -27,27 +27,43 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           type: "password",
           placeholder: "Enter your password",
         },
+        accessToken: { label: "Access Token", type: "text" },
+        userId: { label: "User ID", type: "text" },
       },
       authorize: async (credentials) => {
-        if (
-          !credentials ||
-          typeof credentials.email !== "string" ||
-          typeof credentials.password !== "string"
-        ) {
+        if (!credentials || typeof credentials.email !== "string") {
           return null;
         }
 
-        const res = await loginUser(credentials.email, credentials.password);
-        if (!res || !res.success) return null;
+        // ✅ Direct login with accessToken (used after signup)
+        if (
+          credentials.accessToken &&
+          typeof credentials.accessToken === "string" &&
+          credentials.userId &&
+          typeof credentials.userId === "string"
+        ) {
+          return {
+            id: credentials.userId,
+            email: credentials.email,
+            accessToken: credentials.accessToken,
+          };
+        }
 
-        const data = res.data;
+        // ✅ Normal login with password
+        if (credentials.password && typeof credentials.password === "string") {
+          const res = await loginUser(credentials.email, credentials.password);
+          if (!res || !res.success) return null;
 
-        // ✅ Return user shape to store in JWT
-        return {
-          id: data.user._id,
-          email: data.user.email,
-          accessToken: data.accessToken,
-        };
+          const data = res.data;
+
+          return {
+            id: data.user._id,
+            email: data.user.email,
+            accessToken: data.accessToken,
+          };
+        }
+
+        return null;
       },
     }),
   ],

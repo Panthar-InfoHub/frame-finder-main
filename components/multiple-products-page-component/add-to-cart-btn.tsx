@@ -11,11 +11,13 @@ export function AddToCartBtn({
   variantId,
   productType,
   btnText,
+  isDisabled,
 }: {
   productId: string;
   variantId?: string; // Optional for accessories
   productType: ProductType;
   btnText?: string;
+  isDisabled?: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -48,7 +50,7 @@ export function AddToCartBtn({
       variant="outline"
       size="lg"
       onClick={handleAdd}
-      disabled={isPending}
+      disabled={isPending || isDisabled}
       className="min-w-[130px] flex-1 bg-transparent"
     >
       {isPending ? "Adding..." : buttonText}

@@ -27,7 +27,7 @@ export function ProductImageGallery({ imageUrls, brandName }: ProductImageGaller
             src={images[selectedImage] || "/placeholder.png"}
             alt={brandName}
             fill
-            className="object-contain p-8"
+            className="object-cover h-full w-full"
             priority
           />
         </div>
@@ -49,7 +49,7 @@ export function ProductImageGallery({ imageUrls, brandName }: ProductImageGaller
                 src={imgUrl || "/placeholder.png"}
                 alt={`${brandName} view ${i + 1}`}
                 fill
-                className="object-contain p-2"
+                className="object-cover h-full w-full"
               />
             </div>
           </button>

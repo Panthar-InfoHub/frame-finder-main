@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge"
+import { ShareButton } from "../share-component"
 
 interface Vendor {
   _id: string
@@ -18,11 +19,17 @@ interface ProductInfoProps {
 export function ProductInfo({ brandName, productCode, status, vendor, createdAt }: ProductInfoProps) {
   return (
     <div className="space-y-4">
-      <div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-2 text-balance">{brandName}</h1>
-        <div className="flex items-center gap-2 flex-wrap">
-          <p className="text-sm text-muted-foreground">{productCode}</p>
-          <Badge variant={status === "active" ? "default" : "secondary"}>{status}</Badge>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-balance">{brandName}</h1>
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-sm text-muted-foreground">{productCode}</p>
+            <Badge variant={status === "active" ? "default" : "secondary"}>{status}</Badge>
+          </div>
+        </div>
+
+        <div className="flex gap-3">
+          <ShareButton />
         </div>
       </div>
 

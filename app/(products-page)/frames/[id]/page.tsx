@@ -1,23 +1,19 @@
-import Image from "next/image";
-import { Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { getFrameById } from "@/actions/products";
+import { Button } from "@/components/ui/button";
 
 import Link from "next/link";
-import { Heart, Share2 } from "lucide-react";
 
-import { Header } from "@/components/home-page/header";
-import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
-import { ProductRating } from "@/components/single-product-page-component/product-rating";
-import { ProductPrice } from "@/components/single-product-page-component/product-price";
-import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
+import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
 import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
-import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
-import { frameDimensions, trustBadges } from "@/lib/mock-data";
-import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { getImageUrls } from "@/lib/helper";
+import { trustBadges } from "@/lib/mock-data";
 
 export default async function ProductPage({
   params,
@@ -32,27 +28,30 @@ export default async function ProductPage({
   }
 
   const product = res.data;
-  const variant = product.variants?.[0]; // default variant
-  const images = variant?.images || [];
+  const variant = product.variants?.[0];
+  
+  // Collect images from all variants
+  const allImages = product.variants?.flatMap((v: any) => v.images || []) || [];
 
   const rawDim = product.dimension || {};
   const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
-    label: k, // or formatLabel(k)
+    label: k,
     value: String(v ?? ""),
   }));
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
-  const imageUrls = await getImageUrls(images.map((img: any) => img.url));
+  const imageUrls = await getImageUrls(allImages.map((img: any) => img.url));
 
   return (
     <div className="min-h-screen bg-background">
-      
+
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-sm text-muted-foreground">
             Home | Eyeware | {product.brand_name}
           </p>
+          
         </div>
       </div>
 
@@ -120,27 +119,21 @@ export default async function ProductPage({
               <Button
                 asChild
                 size="lg"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                disabled={variant.stock.current === 0}
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
+                aria-disabled={variant.stock.current === 0}
               >
-                <Link href={`/cart/onboarding/frames/${product._id}`}>
+                <Link href={`/cart/onboarding/frames/${product._id}`} className={variant.stock.current === 0 ? "pointer-events-none" : ""} >
                   Select Lenses and Purchase
                 </Link>
               </Button>
               <AddToCartBtn
+                isDisabled={variant.stock.current === 0}
                 productId={product._id}
                 variantId={variant._id}
                 productType="Product"
                 btnText="Add to Cart"
               />
-            </div>
-
-            <div className="flex gap-3">
-              <Button variant="outline" size="icon">
-                <Heart size={20} />
-              </Button>
-              <Button variant="outline" size="icon">
-                <Share2 size={20} />
-              </Button>
             </div>
 
             {/* Frame Dimensions */}

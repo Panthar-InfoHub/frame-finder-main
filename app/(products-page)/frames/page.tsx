@@ -5,29 +5,24 @@ import { ProductCard } from "@/components/multiple-products-page-component/produ
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { categories } from "@/lib/data";
+import { searchParamsProps } from "@/lib/type";
 import { SlidersHorizontal } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
-interface searchParamsProps {
-  searchParams: Promise<{
-    gender: string | string[]
-    style: string | string[]
-    material: string | string[]
-    brand: string | string[]
-
-  }>
-}
 
 export default async function Frames({ searchParams }: searchParamsProps) {
   const FilterContent = () => <FilterSidebar />;
 
-  const { gender, style, material, brand } = await searchParams
+  const { gender, style, material, brand, frame_color, temple_color } = await searchParams
 
   const response = await getAllFrames({
     gender: gender as string || null,
     style: style as string || null,
     material: material as string || null,
-    brand: brand as string || null
+    brand: brand as string || null,
+    frame_color: frame_color as string || null,
+    temple_color: temple_color as string || null,
   });
 
   if (!response.success) {
@@ -56,8 +51,7 @@ export default async function Frames({ searchParams }: searchParamsProps) {
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
-          {/* Placeholder for hero image */}
-          <div className="w-full h-full bg-linear-to-br from-neutral-700 to-neutral-900" />
+          <Image src="/images/bg/frame_bg.png" alt="Hero Image" fill className="object-cover h-full w-full" />
         </div>
         <div className="relative z-20 flex items-center justify-center h-full">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
@@ -130,7 +124,7 @@ export default async function Frames({ searchParams }: searchParamsProps) {
                   <ProductCard key={product._id} product={product} />
                 </Link>
               ))}
-            </div>  
+            </div>
 
           </div>
         </div>
