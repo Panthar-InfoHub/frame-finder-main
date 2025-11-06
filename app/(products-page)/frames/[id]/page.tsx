@@ -1,7 +1,6 @@
 import { getFrameById } from "@/actions/products";
 import { Button } from "@/components/ui/button";
 
-import { Heart, Share2 } from "lucide-react";
 import Link from "next/link";
 
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
@@ -15,7 +14,6 @@ import { ProductRating } from "@/components/single-product-page-component/produc
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { getImageUrls } from "@/lib/helper";
 import { trustBadges } from "@/lib/mock-data";
-import { ShareButton } from "@/components/share-component";
 
 export default async function ProductPage({
   params,
@@ -53,6 +51,7 @@ export default async function ProductPage({
           <p className="text-sm text-muted-foreground">
             Home | Eyeware | {product.brand_name}
           </p>
+          
         </div>
       </div>
 
@@ -135,10 +134,6 @@ export default async function ProductPage({
                 productType="Product"
                 btnText="Add to Cart"
               />
-            </div>
-
-            <div className="flex gap-3">
-              <ShareButton />
             </div>
 
             {/* Frame Dimensions */}
