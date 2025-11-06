@@ -19,6 +19,7 @@ export function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategories((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]))
+    
   }
 
   const handleBrandChange = (value: string) => {

@@ -154,6 +154,10 @@ export default async function ProductPage({
               gender={product.gender}
               sizes={product.sizes}
               isPower={product.is_Power}
+              // vendorName={product.vendorId.business_name}
+              // vendorRating={product.vendorId.vendor_rating}
+              // vendorRatingCount={product.vendorId.vendor_rating_count}
+              // sellerSince={product.vendorId.seller_since}
             />
           </div>
         </div>

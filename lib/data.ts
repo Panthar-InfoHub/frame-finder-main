@@ -443,9 +443,8 @@ export interface FilterOption {
 }
 
 export const categories: FilterOption[] = [
-  { label: "Eyeglasses", value: "eyeglasses" },
-  { label: "Sunglasses", value: "sunglasses" },
-  { label: "Frames", value: "frames" },
+  { label: "Prescription", value: "prescription" },
+  { label: "Non-Prescription", value: "non-prescription" },
 ]
 
 export const brands: FilterOption[] = [
