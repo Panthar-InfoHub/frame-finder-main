@@ -133,7 +133,7 @@ export default async function ProductPage({
                 variantId={variant._id}
                 productType="Product"
                 btnText="Add to Cart"
-              />
+              />  
             </div>
 
             {/* Frame Dimensions */}

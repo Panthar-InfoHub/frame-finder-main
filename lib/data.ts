@@ -38,7 +38,6 @@ export const navigationLinks = [
   { label: "EYEGLASSES", href: "/eyeglasses" },
   { label: "READING GLASSES", href: "/readingGlasses" },
   { label: "SUNGLASSES", href: "/sunglasses" },
-  { label: "POWER SUNGLASSES", href: "/power-sunglasses" },
   { label: "CONTACT LENSES", href: "/contactLens" },
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
