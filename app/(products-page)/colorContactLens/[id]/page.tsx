@@ -92,13 +92,16 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               <Button
                 asChild
                 size="lg"
+                disabled={variant.stock.current === 0}
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+                aria-disabled={variant.stock.current === 0}
               >
                 <Link href={`/cart/onboarding/colorContactLens/${product._id}`}>
                   Upload Prescription
                 </Link>
               </Button>
               <AddToCartBtn
+                isDisabled={variant.stock.current === 0}
                 productId={product._id}
                 variantId={variant._id}
                 productType="ColorContactLens"
@@ -117,6 +120,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               gender={product.gender}
               sizes={product.sizes}
               isPower={product.is_Power}
+              vendorName = {product?.vendorId?.business_name || "Business name" }
+              vendorRating =  {product?.vendorId?.rating || 2.75 }
+              vendorRatingCount = {product?.vendorId?.total_reviews || 4 }
+              sellerSince = {product?.vendorId?.year_of_experience || 5}
             />
           </div>
         </div>

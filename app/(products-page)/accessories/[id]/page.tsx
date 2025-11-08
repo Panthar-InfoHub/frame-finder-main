@@ -81,6 +81,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AddToCartBtn
+              isDisabled={product.stock.current === 0}
                 productId={product._id}
                 productType="Accessories"
                 btnText="Add to Cart"
@@ -116,6 +117,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               gender={product.gender}
               sizes={product.sizes}
               isPower={product.is_Power}
+              vendorName = {product?.vendorId?.business_name || "Business name" }
+              vendorRating =  {product?.vendorId?.rating || 2.75 }
+              vendorRatingCount = {product?.vendorId?.total_reviews || 4 }
+              sellerSince = {product?.vendorId?.year_of_experience || 5}
             />
           </div>
         </div>

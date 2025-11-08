@@ -40,7 +40,7 @@ export function VendorRatingGauge({ rating, maxRating = 5 }: VendorRatingGaugePr
 
         {/* Rating number in center */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-4xl font-bold text-foreground">{rating.toFixed(1)}</span>
+          <span className="text-4xl font-bold text-foreground">{rating?.toFixed(1)}</span>
         </div>
       </div>
 

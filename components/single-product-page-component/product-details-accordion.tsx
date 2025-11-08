@@ -13,10 +13,10 @@ interface ProductDetailsAccordionProps {
   gender: string[];
   sizes: string[];
   isPower: boolean;
-  // vendorName: string;
-  // vendorRating: number;
-  // vendorRatingCount: number;
-  // sellerSince: string;
+  vendorName?: string;
+  vendorRating?: number;
+  vendorRatingCount?: number;
+  sellerSince?: string;
 }
 
 export function ProductDetailsAccordion({
@@ -26,10 +26,10 @@ export function ProductDetailsAccordion({
   gender,
   sizes,
   isPower,
-  // vendorName,
-  // vendorRating,
-  // vendorRatingCount,
-  // sellerSince,
+  vendorName,
+  vendorRating,
+  vendorRatingCount,
+  sellerSince,
 }: ProductDetailsAccordionProps) {
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -96,7 +96,7 @@ export function ProductDetailsAccordion({
         </AccordionContent>
       </AccordionItem> */}
 
-      {/* <AccordionItem value="vendor">
+      <AccordionItem value="vendor">
         <AccordionTrigger className="text-sm font-semibold">
           VENDOR RATING
         </AccordionTrigger>
@@ -114,7 +114,7 @@ export function ProductDetailsAccordion({
                 <span className="mr-2">•</span>
                 <span>
                   <strong className="text-foreground">Vendor Rating:</strong>{" "}
-                  {vendorRating.toFixed(1)} ( {vendorRatingCount} Ratings )
+                  {vendorRating?.toFixed(1)} ( {vendorRatingCount} Ratings )
                 </span>
               </li>
               <li className="flex items-start">
@@ -129,7 +129,7 @@ export function ProductDetailsAccordion({
             <VendorRatingGauge rating={vendorRating} />
           </div>
         </AccordionContent>
-      </AccordionItem> */}
+      </AccordionItem>
 
       {/* <AccordionItem value="exchange">
         <AccordionTrigger className="text-sm font-semibold">

@@ -1,8 +1,7 @@
 import { getFrameById } from "@/actions/products";
+import { getProductReview } from "@/actions/products";
 import { Button } from "@/components/ui/button";
-
 import Link from "next/link";
-
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
@@ -12,8 +11,17 @@ import { ProductInfo } from "@/components/single-product-page-component/product-
 import { ProductPrice } from "@/components/single-product-page-component/product-price";
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
+import {
+  mockProduct,
+  mockSimilarProducts,
+  frameDimensions,
+  trustBadges,
+  mockReviews,
+  ratingDistribution,
+} from "@/lib/mock-data"
 import { getImageUrls } from "@/lib/helper";
-import { trustBadges } from "@/lib/mock-data";
+
 
 export default async function ProductPage({
   params,
@@ -21,15 +29,16 @@ export default async function ProductPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await getFrameById(id);
 
+  // The below given fetching is for displaying the product information on the page 
+  const res = await getFrameById(id);
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
-
   const product = res.data;
+  console.log(product)
   const variant = product.variants?.[0];
-  
+
   // Collect images from all variants
   const allImages = product.variants?.flatMap((v: any) => v.images || []) || [];
 
@@ -41,6 +50,22 @@ export default async function ProductPage({
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(allImages.map((img: any) => img.url));
+
+
+  const reviewData = { 
+    vendorId : product.vendorId._id,
+    productId : product._id,
+    onModel : product.type
+  }
+
+  // now this fetching is to be done for getting the reviews
+  const reviewResponse = await getProductReview(id);
+  if (!reviewResponse?.success || !reviewResponse.data) {
+    return <pre>{JSON.stringify(reviewResponse, null, 2)}</pre>;
+  }
+  // console.log(reviewResponse);
+
+  
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,7 +102,7 @@ export default async function ProductPage({
             />
 
             <ProductRating
-              rating={product.rating}
+              rating={product?.rating || 2}
               totalReviews={product.total_reviews}
             />
 
@@ -147,10 +172,10 @@ export default async function ProductPage({
               gender={product.gender}
               sizes={product.sizes}
               isPower={product.is_Power}
-              // vendorName={product.vendorId.business_name}
-              // vendorRating={product.vendorId.vendor_rating}
-              // vendorRatingCount={product.vendorId.vendor_rating_count}
-              // sellerSince={product.vendorId.seller_since}
+              vendorName={product.vendorId.business_name}
+              vendorRating={product.vendorId.vendor_rating}
+              vendorRatingCount={product.vendorId.vendor_rating_count}
+              sellerSince={product.vendorId.seller_since}
             />
           </div>
         </div>
@@ -162,6 +187,15 @@ export default async function ProductPage({
           <TrustBadges badges={trustBadges} />
         </div>
 
+        <div className="mt-12">
+          <CustomerReviews
+            reviews={reviewResponse}
+            averageRating={product.rating}
+            totalReviews={product.total_reviews}
+            distribution={ratingDistribution}
+            reviewData={reviewData}
+          />
+        </div>
         {/* Similar Products -> as if for now no data is coming will look for it in the future */}
         {/* <SimilarProducts products={mockSimilarProducts} /> */}
       </div>

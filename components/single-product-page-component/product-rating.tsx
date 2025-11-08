@@ -11,7 +11,7 @@ export function ProductRating({ rating, totalReviews, className }: ProductRating
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <div className="flex items-center gap-1">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(Math.floor(rating))].map((_, i) => (
           <Star
             key={i}
             size={18}
