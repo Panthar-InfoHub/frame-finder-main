@@ -1,7 +1,4 @@
-import { getFrameById } from "@/actions/products";
-import { getProductReview } from "@/actions/products";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { getFrameById, getProductReview } from "@/actions/products";
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
@@ -10,17 +7,14 @@ import { ProductImageGallery } from "@/components/single-product-page-component/
 import { ProductInfo } from "@/components/single-product-page-component/product-info";
 import { ProductPrice } from "@/components/single-product-page-component/product-price";
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
-import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
-import {
-  mockProduct,
-  mockSimilarProducts,
-  frameDimensions,
-  trustBadges,
-  mockReviews,
-  ratingDistribution,
-} from "@/lib/mock-data"
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { Button } from "@/components/ui/button";
 import { getImageUrls } from "@/lib/helper";
+import {
+  trustBadges
+} from "@/lib/mock-data";
+import Link from "next/link";
 
 
 export default async function ProductPage({
@@ -52,10 +46,10 @@ export default async function ProductPage({
   const imageUrls = await getImageUrls(allImages.map((img: any) => img.url));
 
 
-  const reviewData = { 
-    vendorId : product.vendorId._id,
-    productId : product._id,
-    onModel : product.type
+  const reviewData = {
+    vendorId: product.vendorId._id,
+    productId: product._id,
+    onModel: product.type
   }
 
   // now this fetching is to be done for getting the reviews
@@ -63,9 +57,8 @@ export default async function ProductPage({
   if (!reviewResponse?.success || !reviewResponse.data) {
     return <pre>{JSON.stringify(reviewResponse, null, 2)}</pre>;
   }
-  // console.log(reviewResponse);
 
-  
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -76,7 +69,7 @@ export default async function ProductPage({
           <p className="text-sm text-muted-foreground">
             Home | Eyeware | {product.brand_name}
           </p>
-          
+
         </div>
       </div>
 
@@ -158,7 +151,7 @@ export default async function ProductPage({
                 variantId={variant._id}
                 productType="Product"
                 btnText="Add to Cart"
-              />  
+              />
             </div>
 
             {/* Frame Dimensions */}
@@ -191,8 +184,8 @@ export default async function ProductPage({
           <CustomerReviews
             reviews={reviewResponse}
             averageRating={product.rating}
-            totalReviews={product.total_reviews}
-            distribution={ratingDistribution}
+            totalReviews={reviewResponse.data.totalReviews}
+            distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
           />
         </div>

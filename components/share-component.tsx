@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -16,11 +16,17 @@ import { Label } from "@/components/ui/label"
 import { Share2, Copy, Check } from "lucide-react"
 
 export function ShareButton() {
-    const [copied, setCopied] = useState(false)
+    const [copied, setCopied] = useState(false);
+    const [link, setLink] = useState("");
+
+    useEffect(() => {
+        setLink(window.location.href)
+    }, [])
+
 
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(window.location.href)
+            await navigator.clipboard.writeText(link)
             setCopied(true)
             setTimeout(() => setCopied(false), 2000)
         } catch (err) {
@@ -49,7 +55,7 @@ export function ShareButton() {
                         </Label>
                         <Input
                             id="link"
-                            defaultValue={window.location.href || ""}
+                            defaultValue={link || ""}
                             readOnly
                         />
                     </div>
