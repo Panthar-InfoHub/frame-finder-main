@@ -11,14 +11,15 @@ import { Label } from "@/components/ui/label"
 import { postProductReview } from "@/actions/products"
 
 interface reviewDataProps {
-  reviewData :{
-  vendorId: string;
-  productId: string;
-  onModel: string;
+  reviewData: {
+    vendorId: string;
+    productId: string;
+    onModel: string;
   }
+  setShowWriteReview: (show: boolean) => void
 }
 
-export function WriteReviewForm (reviewData : reviewDataProps) {
+export function WriteReviewForm({ reviewData, setShowWriteReview }: reviewDataProps) {
   const [rating, setRating] = useState(0)
   const [hoveredRating, setHoveredRating] = useState(0)
   const [comment, setComment] = useState("")
@@ -28,8 +29,8 @@ export function WriteReviewForm (reviewData : reviewDataProps) {
     e.preventDefault();
     const data = {
       ...reviewData,
-      rating : rating,
-      comment : comment
+      rating: rating,
+      comment: comment
     }
     console.log(comment)
     console.log(rating)
@@ -39,6 +40,7 @@ export function WriteReviewForm (reviewData : reviewDataProps) {
     // the next command will clear the rating and text written
     setComment("");
     setRating(0);
+    setShowWriteReview(false);
   }
 
   return (
@@ -59,11 +61,10 @@ export function WriteReviewForm (reviewData : reviewDataProps) {
                 className="focus:outline-none transition-transform hover:scale-110"
               >
                 <Star
-                  className={`h-8 w-8 ${
-                    index < (hoveredRating || rating)
-                      ? "fill-orange-500 text-orange-500"
-                      : "fill-gray-200 text-gray-200"
-                  }`}
+                  className={`h-8 w-8 ${index < (hoveredRating || rating)
+                    ? "fill-orange-500 text-orange-500"
+                    : "fill-gray-200 text-gray-200"
+                    }`}
                 />
               </button>
             ))}
@@ -83,10 +84,16 @@ export function WriteReviewForm (reviewData : reviewDataProps) {
           />
         </div>
 
-        {/* Submit Button */}
-        <Button type="submit" className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700">
-          Submit Review
-        </Button>
+        <div className="flex gap-2 items-center justify-between">
+          {/* Submit Button */}
+          <Button type="submit" className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700">
+            Submit Review
+          </Button>
+
+          <Button type="button" variant="outline" onClick={() => setShowWriteReview(false)} className="cursor-pointer">
+            Cancel
+          </Button>
+        </div>
       </form>
     </Card>
   )

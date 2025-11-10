@@ -55,14 +55,14 @@ interface CustomerReviewsProps {
     count: number
     percentage: number
   }>
-  reviewData : {
-  vendorId: string;
-  productId: string;
-  onModel: string;
-}
+  reviewData: {
+    vendorId: string;
+    productId: string;
+    onModel: string;
+  }
 }
 
-export function CustomerReviews({ reviews, averageRating, totalReviews, distribution , reviewData  }: CustomerReviewsProps) {
+export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
@@ -100,7 +100,7 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
       {/* Rating Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
-          <RatingDistribution distribution={distribution} />
+          <RatingDistribution distribution={distribution} totalReviews={totalReviews} />
         </div>
 
         {/* Write Review Section */}
@@ -110,14 +110,15 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
               <Button
                 onClick={() => setShowWriteReview(true)}
                 variant="outline"
-                className="border-emerald-600 text-emerald-600 hover:bg-emerald-50"
+                className="border-emerald-600 text-emerald-600 hover:bg-emerald-500"
               >
                 Write a Review
               </Button>
             </div>
           ) : (
-            <WriteReviewForm 
-                reviewData = {reviewData}
+            <WriteReviewForm
+              reviewData={reviewData}
+              setShowWriteReview={setShowWriteReview}
             />
           )}
         </div>
@@ -134,7 +135,6 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="recent">Recent</SelectItem>
-              <SelectItem value="helpful">Most Helpful</SelectItem>
               <SelectItem value="highest">Highest Rated</SelectItem>
               <SelectItem value="lowest">Lowest Rated</SelectItem>
             </SelectContent>

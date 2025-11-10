@@ -415,7 +415,7 @@ export const getProductReview = async (id: any) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = resp.data;
-    console.log(data);
+    // console.log(data);
     if ((resp.status !== 200 && resp.status !== 201) || !data.success) {
       throw new Error("Failed to load the page");
     }
