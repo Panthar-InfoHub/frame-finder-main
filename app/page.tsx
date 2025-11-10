@@ -8,7 +8,7 @@ import { ShapesSection } from "@/components/home-page/shapes-section"
 import { SunGlassesSection } from "@/components/home-page/sun-glasses-section"
 import { TopOurPicks } from "@/components/home-page/top-our-picks"
 
-export default function HomePage() {
+  export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col relative">
       <Header />

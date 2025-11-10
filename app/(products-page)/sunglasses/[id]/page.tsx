@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { getSunglassesById } from "@/actions/products";
-import { Heart, Share2 } from "lucide-react";
+import { getProductReview } from "@/actions/products";
 import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
 import { ProductPrice } from "@/components/single-product-page-component/product-price";
@@ -12,7 +12,16 @@ import { SimilarProducts } from "@/components/single-product-page-component/simi
 import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import Link from "next/link";
+import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
+import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
 import { getImageUrls } from "@/lib/helper";
+import { redirect } from "next/navigation";
+
+
+interface ProductPageParams {
+  params : Promise<{id : string} >;
+  searchParams: Promise<{variantId : string | undefined}>
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

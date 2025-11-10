@@ -1,5 +1,5 @@
 import { getFrameById } from "@/actions/products";
-import { getProductReview } from "@/actions/products";
+import { getProductReview } from "@/actions/products";  
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
@@ -12,6 +12,7 @@ import { ProductPrice } from "@/components/single-product-page-component/product
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
+import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
 import {
   mockProduct,
   mockSimilarProducts,
@@ -21,14 +22,19 @@ import {
   ratingDistribution,
 } from "@/lib/mock-data"
 import { getImageUrls } from "@/lib/helper";
+import { redirect } from "next/navigation";
 
+interface ProductPageParams {
+  params: Promise<{id: string}>;
+  searchParams: Promise<{variantId : string | undefined}>
+}
 
 export default async function ProductPage({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+  searchParams
+}: ProductPageParams) {
   const { id } = await params;
+  const query = await searchParams;
 
   // The below given fetching is for displaying the product information on the page 
   const res = await getFrameById(id);
@@ -36,9 +42,21 @@ export default async function ProductPage({
     return <p>{`product not found - ${id}`}</p>;
   }
   const product = res.data;
-  console.log(product)
-  const variant = product.variants?.[0];
 
+  if (!query.variantId) {
+    const newVariantId = product.variants[0]._id;
+    console.log('variant not found', 'redirecting to', newVariantId);
+    return redirect(`/frames/${id}?variantId=${newVariantId}`)
+  }  
+
+  const variant = product.variants.find((f) => f._id === query.variantId);
+  
+  if (!variant) {
+    const newVariantId = product.variants[0]._id;
+    console.log('variant not found', 'redirecting to', newVariantId);
+    return redirect(`/frames/${id}?variantId=${newVariantId}`)
+  }  
+  
   // Collect images from all variants
   const allImages = product.variants?.flatMap((v: any) => v.images || []) || [];
 
@@ -49,7 +67,7 @@ export default async function ProductPage({
   }));
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
-  const imageUrls = await getImageUrls(allImages.map((img: any) => img.url));
+  const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
 
   const reviewData = { 
@@ -57,6 +75,8 @@ export default async function ProductPage({
     productId : product._id,
     onModel : product.type
   }
+
+
 
   // now this fetching is to be done for getting the reviews
   const reviewResponse = await getProductReview(id);
@@ -111,6 +131,13 @@ export default async function ProductPage({
               mrp={variant.price.mrp}
               basePrice={variant.price.base_price}
             />
+
+            
+            <VariantSelector
+            productId = {id}
+            variants={product.variants}
+            selectedVariantId={query.variantId}
+          />
 
             {/* Color Selection */}
             <div className="space-y-2">

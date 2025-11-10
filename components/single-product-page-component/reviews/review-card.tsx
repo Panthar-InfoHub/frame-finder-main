@@ -32,7 +32,8 @@ export function ReviewCard({ review }: ReviewCardProps) {
   const userInitial = review.user?.email?.charAt(0).toUpperCase() || "U"
   const userName = review.user?.email?.split("@")[0] || "Anonymous User"
   const timeAgo = formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })
-
+  
+  // alert(JSON.stringify(review))
   return (
     <Card className="p-4 space-y-3">
       {/* User Info */}

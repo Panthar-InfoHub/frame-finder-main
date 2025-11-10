@@ -31,7 +31,11 @@ export function WriteReviewForm (reviewData : reviewDataProps) {
       rating : rating,
       comment : comment
     }
+    console.log(comment)
+    console.log(rating)
     postProductReview(data);
+    console.log(comment)
+    console.log(rating)
     // the next command will clear the rating and text written
     setComment("");
     setRating(0);
