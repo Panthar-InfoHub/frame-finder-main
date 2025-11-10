@@ -150,6 +150,7 @@ export const getAllLensSolution = async () => {
 
 export const getFrameById = async (id: any) => {
   try {
+    
     const resp = await axios.get(`${API_URL}/products/${id}`);
     const data = resp.data;
 
@@ -432,7 +433,7 @@ export const getProductReview = async (id: any) => {
 
 export const postProductReview = async (payload: any) => {
     try {
-       console.log("yaha  dikaat hain")
+      console.log(payload)
     // first we will get the user and token -> here since we are using the auth js we will do it using the meathod given below 
     const session = await auth()
     if (!session){

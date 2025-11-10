@@ -10,13 +10,14 @@ interface ProductImageGalleryProps {
 }
 
 export function ProductImageGallery({ imageUrls, brandName }: ProductImageGalleryProps) {
+  console.log(imageUrls)
   const [selectedImage, setSelectedImage] = useState(0);
 
   // Ensure we have at least one image (use placeholder if none)
   const images = imageUrls.length > 0 ? imageUrls : ["/placeholder.png"];
 
   // Create array of 4 images for display (repeat if less than 4)
-  const displayImages = Array.from({ length: 4 }, (_, i) => images[i % images.length] || images[0]);
+  const displayImages = Array.from({ length: imageUrls.length }, (_, i) => images[i % images.length] || images[0]);
 
   return (
     <div className="space-y-4">

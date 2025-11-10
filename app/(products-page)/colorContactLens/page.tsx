@@ -39,7 +39,6 @@ export default async function ColorContactLens({ searchParams }: searchParamsPro
   const data = response.data;
   return (
     <main className="min-h-screen">
-      <Header />
       <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0">
