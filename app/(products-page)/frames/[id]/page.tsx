@@ -10,7 +10,6 @@ import { ProductImageGallery } from "@/components/single-product-page-component/
 import { ProductInfo } from "@/components/single-product-page-component/product-info";
 import { ProductPrice } from "@/components/single-product-page-component/product-price";
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
-import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
 import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
 import {
@@ -23,6 +22,7 @@ import {
 } from "@/lib/mock-data"
 import { getImageUrls } from "@/lib/helper";
 import { redirect } from "next/navigation";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 
 interface ProductPageParams {
   params: Promise<{id: string}>;
@@ -70,10 +70,10 @@ export default async function ProductPage({
   const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
 
-  const reviewData = { 
-    vendorId : product.vendorId._id,
-    productId : product._id,
-    onModel : product.type
+  const reviewData = {
+    vendorId: product.vendorId._id,
+    productId: product._id,
+    onModel: product.type
   }
 
 
@@ -83,9 +83,8 @@ export default async function ProductPage({
   if (!reviewResponse?.success || !reviewResponse.data) {
     return <pre>{JSON.stringify(reviewResponse, null, 2)}</pre>;
   }
-  // console.log(reviewResponse);
 
-  
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -96,7 +95,7 @@ export default async function ProductPage({
           <p className="text-sm text-muted-foreground">
             Home | Eyeware | {product.brand_name}
           </p>
-          
+
         </div>
       </div>
 
@@ -185,7 +184,7 @@ export default async function ProductPage({
                 variantId={variant._id}
                 productType="Product"
                 btnText="Add to Cart"
-              />  
+              />
             </div>
 
             {/* Frame Dimensions */}
@@ -218,8 +217,8 @@ export default async function ProductPage({
           <CustomerReviews
             reviews={reviewResponse}
             averageRating={product.rating}
-            totalReviews={product.total_reviews}
-            distribution={ratingDistribution}
+            totalReviews={reviewResponse.data.totalReviews}
+            distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
           />
         </div>
