@@ -17,7 +17,7 @@ import { TopOurPicks } from "@/components/home-page/top-our-picks"
       </div>
       <main className="flex-1">
         <ProductCategories />
-        <TopOurPicks />
+        {/* <TopOurPicks /> */}
         <CuttingEdgeDesign />
         <SunGlassesSection />
         <BlueLightFeature />

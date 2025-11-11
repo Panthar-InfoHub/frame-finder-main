@@ -23,6 +23,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createOrder } from "@/actions/cart";
+import { createRazorpayOrder, getRazorpayKey } from "@/actions/payment";
+
+// Declare Razorpay types
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 interface CheckoutPageClientProps {
   initialCheckoutData: {
@@ -63,6 +71,101 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
       ...prev,
       [field]: value,
     }));
+  };
+
+  // Handle Razorpay payment
+  const handleRazorpayPayment = async (orders: any[]): Promise<boolean> => {
+    try {
+      // Get Razorpay key
+      const razorpayKey = await getRazorpayKey();
+      if (!razorpayKey) {
+        toast.error("Payment configuration error");
+        setIsSubmitting(false);
+        return false;
+      }
+
+      // Create Razorpay order
+      const razorpayOrderResult = await createRazorpayOrder({
+        orders: orders,
+      });
+
+      if (!razorpayOrderResult.success) {
+        toast.error(razorpayOrderResult.message || "Failed to create payment order");
+        setIsSubmitting(false);
+        return false;
+      }
+
+      const { razorpay_order_id, amount, currency } = razorpayOrderResult.data;
+
+      // Configure Razorpay options
+      const options = {
+        key: razorpayKey,
+        amount: amount * 100, // Amount in paise
+        currency: currency,
+        name: "Frame Finder",
+        description: `Payment for Order`,
+        order_id: razorpay_order_id,
+        prefill: {
+          name: formData.name,
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#3399cc",
+        },
+        handler: async function (response: any) {
+          try {
+            // Verify payment on server
+            const verifyResponse = await fetch("/api/payment/verify", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
+
+            const verifyResult = await verifyResponse.json();
+
+            if (verifyResult.success) {
+              toast.success("Payment successful! 🎉");
+              router.push("/account?tab=orders");
+            } else {
+              toast.error("Payment verification failed");
+              setIsSubmitting(false);
+            }
+          } catch (error) {
+            console.error("Payment verification error:", error);
+            toast.error("Payment verification failed");
+            setIsSubmitting(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            toast.info("Payment cancelled");
+            setIsSubmitting(false);
+          },
+        },
+      };
+
+      // Open Razorpay payment modal
+      if (window.Razorpay) {
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+        return true;
+      } else {
+        toast.error("Payment gateway not loaded. Please refresh and try again.");
+        setIsSubmitting(false);
+        return false;
+      }
+    } catch (error) {
+      console.error("Razorpay payment error:", error);
+      toast.error("Failed to initiate payment");
+      setIsSubmitting(false);
+      return false;
+    }
   };
 
   const handleContinue = async () => {
@@ -113,16 +216,31 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
       const result = await createOrder(orderData);
 
       if (result.success) {
-        toast.success("Order placed successfully! 🎉");
-        // Redirect to orders page or success page
-        router.push("/account?tab=orders");
+        // Order created successfully, now initiate payment
+        const orders = result.data.orders;
+        console.log("📍 Created orders:", orders);
+
+        // Check if Razorpay is loaded (check window.Razorpay directly)
+        if (!window.Razorpay) {
+          toast.error("Payment gateway not loaded. Please refresh and try again.");
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Initiate Razorpay payment
+        const paymentSuccess = await handleRazorpayPayment(orders);
+
+        // If payment didn't initiate successfully, reset loading state
+        if (!paymentSuccess) {
+          setIsSubmitting(false);
+        }
       } else {
         toast.error(result.message || "Failed to create order");
+        setIsSubmitting(false);
       }
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
       console.error("Order creation error:", error);
-    } finally {
       setIsSubmitting(false);
     }
   };

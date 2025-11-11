@@ -120,7 +120,7 @@ export default async function Frames({ searchParams }: searchParamsProps) {
             {/* Product Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {data.products.map((product) => (
-                <Link href={`/frames/${product._id}`} key={product._id}>
+                <Link href={`/frames/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
                   <ProductCard key={product._id} product={product} />
                 </Link>
               ))}

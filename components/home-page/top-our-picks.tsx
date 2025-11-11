@@ -1,40 +1,50 @@
-import { ProductCard } from "@/components/home-page/product-card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { getBestSeller, getNewArrival } from "@/lib/actions/homePage"
-import { getSignedViewUrl } from "@/actions/cloud-storage"
-import Link from "next/link"
-import { Suspense } from "react"
-import LoadingSkeleton from "../loading-skeleton"
+import { ProductCard } from "@/components/home-page/product-card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getBestSeller, getNewArrival } from "@/lib/actions/homePage";
+import { getSignedViewUrl } from "@/actions/cloud-storage";
+import Link from "next/link";
+import { Suspense } from "react";
+import LoadingSkeleton from "../loading-skeleton";
 
 export async function TopOurPicks() {
-
-  const [res, bestSellerRes] = await Promise.all([getNewArrival(), getBestSeller({ period: "all_time" })])
+  const [res, bestSellerRes] = await Promise.all([
+    getNewArrival(),
+    getBestSeller({ period: "all_time" }),
+  ]);
   // console.debug("best seller data ", bestSellerRes.data.data)
 
-  if (!res.success || !bestSellerRes.success) return;
+  if (!res.success || !bestSellerRes.success) return null;
+
+  const newArrivalsData = res.data?.data?.products || [];
+  const bestSellersData = bestSellerRes.data?.data?.data || [];
+
+  console.debug("new arrivals data ", newArrivalsData);
+  console.debug("best sellers data ", bestSellersData);
 
   const newArrivals = await Promise.all(
-    res.data.data.products.map(async (product: any) => {
-      const rawUrl: string | undefined = product?.variants?.[0]?.images?.[0]?.url
-      const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl)
-      const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : ""
-      return { ...product, _image: signedUrl }
+    newArrivalsData.map(async (product: any) => {
+      const rawUrl: string | undefined = product?.variants?.[0]?.images?.[0]?.url;
+      const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl);
+      const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : "";
+      return { ...product, _image: signedUrl };
     })
-  )
+  );
 
   const bestSellers = await Promise.all(
-    bestSellerRes.data.data.data.map(async (item: any) => {
-      const rawUrl: string | undefined = item?.productId?.variants?.[0]?.images?.[0]?.url
-      const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl)
-      const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : ""
-      return { ...item, _image: signedUrl }
+    bestSellersData.map(async (item: any) => {
+      const rawUrl: string | undefined = item?.productId?.variants?.[0]?.images?.[0]?.url;
+      const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl);
+      const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : "";
+      return { ...item, _image: signedUrl };
     })
-  )
+  );
 
   return (
     <section className="py-12 md:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-8 md:mb-12">TOP OUR PICKS</h2>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-8 md:mb-12">
+          TOP OUR PICKS
+        </h2>
 
         <Tabs defaultValue="new-arrivals" className="w-full">
           {/* Tabs Header with See More */}
@@ -64,40 +74,61 @@ export async function TopOurPicks() {
 
           {/* New Arrivals Content */}
           <Suspense fallback={<LoadingSkeleton />}>
-
             <TabsContent value="new-arrivals" className="mt-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {newArrivals.map((product: any) => (
-                  <Link href={`/frames/${product._id}?variantId=${product.variants[0]._id}`} key={product._id}>
-                    <ProductCard key={product._id}
-                      name={product.brand_name}
-                      price={product.variants[0].price.total_price}
-                      rating={product.rating}
-                      image={product._image}
-                      id={product._id} />
-                  </Link>
-                ))}
+                {newArrivals.length > 0 ? (
+                  newArrivals.map((product: any) => (
+                    <Link
+                      href={`/frames/${product._id}?variantId=${product?.variants?.[0]?._id}`}
+                      key={product._id}
+                    >
+                      <ProductCard
+                        key={product._id}
+                        name={product.brand_name}
+                        price={product.variants[0].price.total_price}
+                        rating={product.rating}
+                        image={product._image}
+                        id={product._id}
+                      />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-8 text-muted-foreground">
+                    No new arrivals available at the moment.
+                  </div>
+                )}
               </div>
             </TabsContent>
 
             {/* Best Seller Content */}
             <TabsContent value="best-seller" className="mt-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {bestSellers.map((product: any) => (
-                  <Link href={`/frames/${product._id}?variantId=${product.productId.variants[0]._id}`} key={product._id}>
-                    <ProductCard key={product.productId._id}
-                      name={product.productId.brand_name}
-                      price={product.productId.variants[0].price.total_price}
-                      rating={product.productId.rating}
-                      image={product._image}
-                      id={product.productId._id} />
-                  </Link>
-                ))}
+                {bestSellers.length > 0 ? (
+                  bestSellers.map((product: any) => (
+                    <Link
+                      href={`/frames/${product._id}?variantId=${product?.productId?.variants?.[0]?._id}`}
+                      key={product._id}
+                    >
+                      <ProductCard
+                        key={product.productId._id}
+                        name={product.productId.brand_name}
+                        price={product.productId.variants[0].price.total_price}
+                        rating={product.productId.rating}
+                        image={product._image}
+                        id={product.productId._id}
+                      />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-8 text-muted-foreground">
+                    No best sellers available at the moment.
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Suspense>
         </Tabs>
       </div>
     </section>
-  )
+  );
 }
