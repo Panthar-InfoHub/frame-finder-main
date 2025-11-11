@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import { useTransition } from "react"
+import { Skeleton } from "../ui/skeleton"
 
 
 interface Variant {
@@ -22,7 +23,7 @@ interface Variant {
 }
 
 interface VariantSelectorProps {
-  productId : string
+  productId: string
   variants: Variant[]
   selectedVariantId: string
 }
@@ -34,7 +35,10 @@ export function VariantSelector({ productId, variants, selectedVariantId }: Vari
 
   if (isTransitioning) {
     return (
-      <div>LOADING</div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ">
+        <Skeleton className="h-30 w-32" />
+        <Skeleton className="h-30 w-32" />
+      </div>
     )
   }
 
@@ -56,7 +60,7 @@ export function VariantSelector({ productId, variants, selectedVariantId }: Vari
                 isOutOfStock && "opacity-60 cursor-not-allowed",
               )}
               onClick={() => {
-                if (!isOutOfStock){
+                if (!isOutOfStock) {
                   Transition(() => {
                     router.push(`/frames/${productId}?variantId=${variant._id}`)
                   })

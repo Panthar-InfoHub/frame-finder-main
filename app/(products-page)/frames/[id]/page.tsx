@@ -1,7 +1,4 @@
-import { getFrameById } from "@/actions/products";
-import { getProductReview } from "@/actions/products";  
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { getFrameById, getProductReview } from "@/actions/products";
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
@@ -11,30 +8,27 @@ import { ProductInfo } from "@/components/single-product-page-component/product-
 import { ProductPrice } from "@/components/single-product-page-component/product-price";
 import { ProductRating } from "@/components/single-product-page-component/product-rating";
 import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
-import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
-import {
-  mockProduct,
-  mockSimilarProducts,
-  frameDimensions,
-  trustBadges,
-  mockReviews,
-  ratingDistribution,
-} from "@/lib/mock-data"
-import { getImageUrls } from "@/lib/helper";
-import { redirect } from "next/navigation";
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
+import { Button } from "@/components/ui/button";
+import { getImageUrls } from "@/lib/helper";
+import { trustBadges } from "@/lib/mock-data";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
 interface ProductPageParams {
-  params: Promise<{id: string}>;
-  searchParams: Promise<{variantId : string | undefined}>
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ variantId: string | undefined }>
 }
 
-export default async function ProductPage({
-  params,
-  searchParams
-}: ProductPageParams) {
+export default async function ProductPage({ params, searchParams }: ProductPageParams) {
+
   const { id } = await params;
   const query = await searchParams;
+
+  if (!id || !query.variantId) {
+    return redirect('/');
+  }
 
   // The below given fetching is for displaying the product information on the page 
   const res = await getFrameById(id);
@@ -43,22 +37,23 @@ export default async function ProductPage({
   }
   const product = res.data;
 
-  if (!query.variantId) {
-    const newVariantId = product.variants[0]._id;
-    console.log('variant not found', 'redirecting to', newVariantId);
-    return redirect(`/frames/${id}?variantId=${newVariantId}`)
-  }  
+  // INFORM : Why even redirecting, just link to the first variant in first place and redirect to 404 incase variant id not found 
+  // if (!query.variantId) {
+  //   const newVariantId = product.variants[0]._id;
+  //   console.log('variant not found', 'redirecting to', newVariantId);
+  //   return redirect(`/frames/${id}?variantId=${newVariantId}`)
+  // }
 
   const variant = product.variants.find((f) => f._id === query.variantId);
-  
+
   if (!variant) {
     const newVariantId = product.variants[0]._id;
     console.log('variant not found', 'redirecting to', newVariantId);
     return redirect(`/frames/${id}?variantId=${newVariantId}`)
-  }  
-  
+  }
+
   // Collect images from all variants
-  const allImages = product.variants?.flatMap((v: any) => v.images || []) || [];
+  // const allImages = product.variants?.flatMap((v: any) => v.images || []) || [];
 
   const rawDim = product.dimension || {};
   const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
@@ -131,12 +126,12 @@ export default async function ProductPage({
               basePrice={variant.price.base_price}
             />
 
-            
+
             <VariantSelector
-            productId = {id}
-            variants={product.variants}
-            selectedVariantId={query.variantId}
-          />
+              productId={id}
+              variants={product.variants}
+              selectedVariantId={query.variantId}
+            />
 
             {/* Color Selection */}
             <div className="space-y-2">

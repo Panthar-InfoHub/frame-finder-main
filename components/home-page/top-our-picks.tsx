@@ -68,7 +68,7 @@ export async function TopOurPicks() {
             <TabsContent value="new-arrivals" className="mt-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {newArrivals.map((product: any) => (
-                  <Link href={`/frames/${product._id}`} key={product._id}>
+                  <Link href={`/frames/${product._id}?variantId=${product.variants[0]._id}`} key={product._id}>
                     <ProductCard key={product._id}
                       name={product.brand_name}
                       price={product.variants[0].price.total_price}
@@ -84,7 +84,7 @@ export async function TopOurPicks() {
             <TabsContent value="best-seller" className="mt-0">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 {bestSellers.map((product: any) => (
-                  <Link href={`/frames/${product._id}`} key={product._id}>
+                  <Link href={`/frames/${product._id}?variantId=${product.productId.variants[0]._id}`} key={product._id}>
                     <ProductCard key={product.productId._id}
                       name={product.productId.brand_name}
                       price={product.productId.variants[0].price.total_price}
