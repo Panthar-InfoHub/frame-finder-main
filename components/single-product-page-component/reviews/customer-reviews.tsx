@@ -60,14 +60,15 @@ interface CustomerReviewsProps {
     productId: string;
     onModel: string;
   }
+  isActionDisabled?: boolean
 }
 
-export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData }: CustomerReviewsProps) {
+export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
 
-  
+
   const allReviews = useMemo(() => {
     return [...reviews.data.user_reviews, ...reviews.data.reviews]
   }, [reviews.data.user_reviews, reviews.data.reviews])
@@ -110,6 +111,7 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
               <Button
                 onClick={() => setShowWriteReview(true)}
                 variant="outline"
+                disabled={!isActionDisabled}
                 className="border-emerald-600 text-emerald-600 hover:bg-emerald-500"
               >
                 Write a Review

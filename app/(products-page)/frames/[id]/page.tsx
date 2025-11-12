@@ -27,9 +27,9 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   const { id } = await params;
   const query = await searchParams;
   const session = await auth();
-  
+
   const isActionDisabled = !!session?.user;
-  
+
   if (!id || !query.variantId) {
     return redirect('/');
   }
@@ -209,6 +209,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             totalReviews={reviewResponse.data.totalReviews}
             distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
+            isActionDisabled={isActionDisabled}
           />
         </div>
         {/* Similar Products -> as if for now no data is coming will look for it in the future */}
