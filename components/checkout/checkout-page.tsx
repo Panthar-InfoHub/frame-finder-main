@@ -18,6 +18,7 @@ import {
   Tag,
   Package,
   ShoppingBag,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -288,11 +289,10 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
           <div className="flex items-center justify-center gap-4">
             <button
               onClick={() => setActiveTab("shipping")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                activeTab === "shipping"
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${activeTab === "shipping"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-white text-muted-foreground hover:bg-gray-50"
-              }`}
+                }`}
             >
               <MapPin className="w-4 h-4" />
               <span className="font-medium">Shipping Address</span>
@@ -473,7 +473,7 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
                   >
                     {isSubmitting ? (
                       <>
-                        <span className="animate-spin mr-2">⏳</span>
+                        <Loader2 className="animate-spin mr-2" />
                         Placing Order...
                       </>
                     ) : (

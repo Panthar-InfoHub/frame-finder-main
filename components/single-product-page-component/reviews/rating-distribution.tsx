@@ -7,8 +7,6 @@ interface RatingDistributionProps {
 }
 
 export function RatingDistribution({ distribution, totalReviews }: RatingDistributionProps) {
-  console.log("distribution", distribution)
-  console.log("totalReviews", totalReviews)
   return (
     <div className="space-y-3">
       {Object.entries(distribution).map(([stars, count]: any) => (
