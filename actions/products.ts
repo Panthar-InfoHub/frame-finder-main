@@ -441,20 +441,25 @@ export const postProductReview = async (payload: any) => {
     }
     const userId = session.user.id
     console.log(userId)
+    console.log("error 1")
     const token = await getAccessToken();
+    console.log("error 2")
     if (!token) {
       throw new Error("No access token found");
     }
+    console.log("error 3")
     // now we will transform the data that will be sent over in order so that it matches the expected API structure
+    console.log()
     const finalData = {
-      vendorId: payload.reviewData.vendorId,
+      vendorId: payload.vendorId,
       user: userId, 
-      product: payload.reviewData.productId ,
-      onModel: payload.reviewData.onModel,
+      product: payload.productId ,
+      onModel: payload.onModel,
       rating: payload.rating,
       comment: payload.comment,
       images : [{"url": "https://example.com/review-img1.jpg" }]
     }
+    console.log(finalData)
     const resp = await axios.post(`${API_URL}/review`, finalData, {
       headers: { Authorization: `Bearer ${token}` },
     });
