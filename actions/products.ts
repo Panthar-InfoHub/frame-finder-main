@@ -408,9 +408,9 @@ export const getSunglassesPkgByVendorId = async (
 export const getProductReview = async (id: any) => {
   try {
     const token = await getAccessToken();
-    if (!token) {
-      throw new Error("No access token found");
-    }
+    // if (!token) {
+    //   throw new Error("No access token found");
+    // }
     const resp = await axios.get(`${API_URL}/review/product/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });

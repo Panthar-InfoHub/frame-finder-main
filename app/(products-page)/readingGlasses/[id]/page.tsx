@@ -1,24 +1,26 @@
-import Image from "next/image";
-import { Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { getReadingGlassById } from "@/actions/products";
-import Link from "next/link";
-import { Heart, Share2 } from "lucide-react";
-import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
-import { ProductRating } from "@/components/single-product-page-component/product-rating";
-import { ProductPrice } from "@/components/single-product-page-component/product-price";
-import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { getReadingGlassById, getProductReview } from "@/actions/products";
+import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
+import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
 import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
-import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
+import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
 import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
-import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
-import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { auth } from "@/lib/auth";
 import { getImageUrls } from "@/lib/helper";
+import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
 // import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const session = await auth();
+  
+  const isActionDisabled = !!session?.user;
+  
   const res = await getReadingGlassById(id);
 
   if (!res?.success || !res.data) {
@@ -31,6 +33,15 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(images.map((img: any) => img.url));
+
+  const reviewData = {
+    vendorId: product.vendorId._id,
+    productId: product._id,
+    onModel: product.type
+  }
+
+  // Fetch product reviews
+  const reviewResponse = await getProductReview(id);
 
   return (
     <div className="min-h-screen bg-background">
@@ -91,7 +102,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <AddToCartBtn
-              isDisabled={variant.stock.current === 0}
+                isDisabled={variant.stock.current === 0 || !isActionDisabled}
                 productId={product._id}
                 variantId={variant._id}
                 productType="Reader"
@@ -118,9 +129,21 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
+        <BlueLightFeature />
+
         {/* Trust Badges */}
         <div className="mt-12">
           <TrustBadges badges={trustBadges} />
+        </div>
+
+        <div className="mt-12">
+          <CustomerReviews
+            reviews={reviewResponse}
+            averageRating={product.rating}
+            totalReviews={reviewResponse.data.totalReviews}
+            distribution={reviewResponse.data.ratingDistribution}
+            reviewData={reviewData}
+          />
         </div>
 
         {/* Similar Products */}

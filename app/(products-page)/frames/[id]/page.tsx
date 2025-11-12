@@ -11,6 +11,7 @@ import { CustomerReviews } from "@/components/single-product-page-component/revi
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 import { getImageUrls } from "@/lib/helper";
 import { trustBadges } from "@/lib/mock-data";
 import Link from "next/link";
@@ -25,7 +26,10 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   const { id } = await params;
   const query = await searchParams;
-
+  const session = await auth();
+  
+  const isActionDisabled = !!session?.user;
+  
   if (!id || !query.variantId) {
     return redirect('/');
   }
@@ -37,12 +41,6 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }
   const product = res.data;
 
-  // INFORM : Why even redirecting, just link to the first variant in first place and redirect to 404 incase variant id not found 
-  // if (!query.variantId) {
-  //   const newVariantId = product.variants[0]._id;
-  //   console.log('variant not found', 'redirecting to', newVariantId);
-  //   return redirect(`/frames/${id}?variantId=${newVariantId}`)
-  // }
 
   const variant = product.variants.find((f) => f._id === query.variantId);
 
@@ -52,8 +50,6 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     return redirect(`/frames/${id}?variantId=${newVariantId}`)
   }
 
-  // Collect images from all variants
-  // const allImages = product.variants?.flatMap((v: any) => v.images || []) || [];
 
   const rawDim = product.dimension || {};
   const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
@@ -75,9 +71,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   // now this fetching is to be done for getting the reviews
   const reviewResponse = await getProductReview(id);
-  if (!reviewResponse?.success || !reviewResponse.data) {
-    return <pre>{JSON.stringify(reviewResponse, null, 2)}</pre>;
-  }
+
 
 
 
@@ -165,16 +159,16 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
               <Button
                 asChild
                 size="lg"
-                disabled={variant.stock.current === 0}
+                disabled={variant.stock.current === 0 || !isActionDisabled}
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
-                aria-disabled={variant.stock.current === 0}
+                aria-disabled={variant.stock.current === 0 || !isActionDisabled}
               >
-                <Link href={`/cart/onboarding/frames/${product._id}`} className={variant.stock.current === 0 ? "pointer-events-none" : ""} >
+                <Link href={`/cart/onboarding/frames/${product._id}`} className={variant.stock.current === 0 || !isActionDisabled ? "pointer-events-none" : ""} >
                   Select Lenses and Purchase
                 </Link>
               </Button>
               <AddToCartBtn
-                isDisabled={variant.stock.current === 0}
+                isDisabled={variant.stock.current === 0 || !isActionDisabled}
                 productId={product._id}
                 variantId={variant._id}
                 productType="Product"

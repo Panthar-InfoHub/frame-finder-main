@@ -67,7 +67,7 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
 
-  console.error(reviews.data)
+  
   const allReviews = useMemo(() => {
     return [...reviews.data.user_reviews, ...reviews.data.reviews]
   }, [reviews.data.user_reviews, reviews.data.reviews])

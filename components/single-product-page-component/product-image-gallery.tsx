@@ -10,7 +10,6 @@ interface ProductImageGalleryProps {
 }
 
 export function ProductImageGallery({ imageUrls, brandName }: ProductImageGalleryProps) {
-  console.log(imageUrls)
   const [selectedImage, setSelectedImage] = useState(0);
 
   // Ensure we have at least one image (use placeholder if none)

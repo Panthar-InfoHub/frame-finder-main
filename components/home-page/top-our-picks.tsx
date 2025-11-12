@@ -11,7 +11,6 @@ export async function TopOurPicks() {
     getNewArrival(),
     getBestSeller({ period: "all_time" }),
   ]);
-  // console.debug("best seller data ", bestSellerRes.data.data)
 
   if (!res.success || !bestSellerRes.success) return null;
 
@@ -22,7 +21,7 @@ export async function TopOurPicks() {
   console.debug("best sellers data ", bestSellersData);
 
   const newArrivals = await Promise.all(
-    newArrivalsData.map(async (product: any) => {
+    newArrivalsData?.map(async (product: any) => {
       const rawUrl: string | undefined = product?.variants?.[0]?.images?.[0]?.url;
       const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl);
       const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : "";
@@ -31,7 +30,7 @@ export async function TopOurPicks() {
   );
 
   const bestSellers = await Promise.all(
-    bestSellersData.map(async (item: any) => {
+    bestSellersData?.map(async (item: any) => {
       const rawUrl: string | undefined = item?.productId?.variants?.[0]?.images?.[0]?.url;
       const isHttp = rawUrl && /^https?:\/\//i.test(rawUrl);
       const signedUrl = rawUrl ? (isHttp ? rawUrl : await getSignedViewUrl(rawUrl)) : "";

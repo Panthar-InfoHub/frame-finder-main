@@ -1,24 +1,28 @@
-import Image from "next/image";
-import { Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { getContactLensById } from "@/actions/products";
-import Link from "next/link";
-import { Heart, Share2 } from "lucide-react";
-import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
-import { ProductRating } from "@/components/single-product-page-component/product-rating";
-import { ProductPrice } from "@/components/single-product-page-component/product-price";
-import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { getContactLensById, getProductReview } from "@/actions/products";
+import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
+import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
 import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
-import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
+import { ProductInfo } from "@/components/single-product-page-component/product-info";
+import { ProductPrice } from "@/components/single-product-page-component/product-price";
+import { ProductRating } from "@/components/single-product-page-component/product-rating";
+import { CustomerReviews } from "@/components/single-product-page-component/reviews/customer-reviews";
 import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
-import { mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data";
-import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
+import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 import { getImageUrls } from "@/lib/helper";
+import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
+import Link from "next/link";
 // import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const session = await auth();
+  
+  const isActionDisabled = !!session?.user;
+  
   const res = await getContactLensById(id);
 
   if (!res?.success || !res.data) {
@@ -29,9 +33,17 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const variant = product.variants?.[0]; // default variant
   const images = variant?.images || [];
 
-
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(images.map((img: any) => img.url));
+
+  const reviewData = {
+    vendorId: product.vendorId._id,
+    productId: product._id,
+    onModel: product.type
+  }
+
+  // Fetch product reviews
+  const reviewResponse = await getProductReview(id);
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,16 +106,16 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               <Button
                 asChild
                 size="lg"
-                disabled={variant.stock.current === 0}
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
-                aria-disabled={variant.stock.current === 0}
+                disabled={variant.stock.current === 0 || !isActionDisabled}
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
+                aria-disabled={variant.stock.current === 0 || !isActionDisabled}
               >
-                <Link href={`/cart/onboarding/contactLens/${product._id}`}>
+                <Link href={`/cart/onboarding/contactLens/${product._id}`} className={variant.stock.current === 0 || !isActionDisabled ? "pointer-events-none" : ""}>
                   Upload Prescription
                 </Link>
               </Button>
               <AddToCartBtn
-                isDisabled={variant.stock.current === 0}
+                isDisabled={variant.stock.current === 0 || !isActionDisabled}
                 productId={product._id}
                 variantId={variant._id}
                 productType="ContactLens"
@@ -130,9 +142,21 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
+        <BlueLightFeature />
+
         {/* Trust Badges */}
         <div className="mt-12">
           <TrustBadges badges={trustBadges} />
+        </div>
+
+        <div className="mt-12">
+          <CustomerReviews
+            reviews={reviewResponse}
+            averageRating={product.rating}
+            totalReviews={reviewResponse.data.totalReviews}
+            distribution={reviewResponse.data.ratingDistribution}
+            reviewData={reviewData}
+          />
         </div>
 
         {/* Similar Products */}
