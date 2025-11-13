@@ -479,3 +479,8 @@ export const postProductReview = async (payload: any) => {
     };
   }
 };
+
+// export const deleteReview = async (payload : any){
+
+// }
+

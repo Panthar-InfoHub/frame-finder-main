@@ -1,7 +1,9 @@
-import { Star } from "lucide-react"
+"use client"
+import { Star, Trash2 } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { formatDistanceToNow } from "date-fns"
+import { Button } from "@/components/ui/button"
 
 interface ReviewCardProps {
   review: {
@@ -25,13 +27,20 @@ interface ReviewCardProps {
       _id: string
     }>
     createdAt: string
+    loggedId : string 
   }
+  onDelete?: (reviewId: string) => void
 }
 
-export function ReviewCard({ review }: ReviewCardProps) {
+export function ReviewCard({ review , onDelete, loggedId }: any) {
   const userInitial = review.user?.email?.charAt(0).toUpperCase() || "U"
   const userName = review.user?.email?.split("@")[0] || "Anonymous User"
   const timeAgo = formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })
+
+  const checkIfSameUser = (userId) => {
+    if (!loggedId) return false;
+    return userId === loggedId;
+  }
   
   // alert(JSON.stringify(review))
   return (
@@ -46,6 +55,16 @@ export function ReviewCard({ review }: ReviewCardProps) {
           <p className="font-medium text-sm capitalize">{userName}</p>
           <p className="text-xs text-muted-foreground">{timeAgo}</p>
         </div>
+        {checkIfSameUser(review.user._id) && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-destructive"
+            onClick={() => onDelete(review._id)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
       </div>
 
       {/* Rating */}
