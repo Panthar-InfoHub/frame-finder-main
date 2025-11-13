@@ -37,7 +37,7 @@ export const promoData = {
 export const navigationLinks = [
   { label: "FRAMES", href: "/frames" },
   { label: "READING GLASSES", href: "/readingGlasses" },
-  { label: "SUNGLASSES", href: "/sunglasses" },   
+  { label: "SUNGLASSES", href: "/sunglasses" },
   { label: "CONTACT LENSES", href: "/contactLens" },
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
@@ -49,31 +49,31 @@ export const productCategories = [
     id: 1,
     name: "Rimless Glasses",
     image: "/transparent-frame-eyeglasses-line-drawing.jpg",
-    href: "/category/rimless",
+    href: "/search?query=rimless",
   },
   {
     id: 2,
     name: "Transparent Frame",
     image: "/transparent-frame-eyeglasses-line-drawing.jpg",
-    href: "/category/transparent",
+    href: "/search?query=transparent",
   },
   {
     id: 3,
     name: "Rich Acetate eyeglass",
     image: "/acetate-eyeglasses-line-drawing.jpg",
-    href: "/category/acetate",
+    href: "/search?query=acetate",
   },
   {
     id: 4,
     name: "Blue Computer Glasses",
     image: "/acetate-eyeglasses-line-drawing.jpg",
-    href: "/category/computer",
+    href: "/search?query=computer",
   },
   {
     id: 5,
     name: "Metalwork",
     image: "/metal-frame-eyeglasses-line-drawing.jpg",
-    href: "/category/metal",
+    href: "/search?query=metal",
   },
 ];
 
@@ -411,11 +411,11 @@ export const socialLinks = [
 ];
 
 export const sunglassesCategories = [
-  { id: 1, name: "Rimless Glasses", icon: "/sunglasses/sun_1.jpg" },
-  { id: 2, name: "Transparent Frame", icon: "/sunglasses/sun_2.jpg" },
-  { id: 3, name: "Rich Acetate eyeglass", icon: "/sunglasses/sun_3.jpg" },
-  { id: 4, name: "Blue Computer Glasses", icon: "/sunglasses/sun_1.jpg" },
-  { id: 5, name: "Metalwork", icon: "/sunglasses/sun_2.jpg" },
+  { id: 1, name: "Rimless Glasses", href: "/sunglasses?style=rimless", icon: "/sunglasses/sun_1.jpg" },
+  { id: 2, name: "Transparent Frame", href: "/sunglasses?style=transparent", icon: "/sunglasses/sun_2.jpg" },
+  { id: 3, name: "Rich Acetate eyeglass", href: "/sunglasses?style=rich-acetate", icon: "/sunglasses/sun_3.jpg" },
+  { id: 4, name: "Blue Computer Glasses", href: "/sunglasses?style=blue-computer", icon: "/sunglasses/sun_1.jpg" },
+  { id: 5, name: "Metalwork", href: "/sunglasses?style=metalwork", icon: "/sunglasses/sun_2.jpg" },
 ];
 
 export const vendors = [

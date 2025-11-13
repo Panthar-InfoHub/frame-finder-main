@@ -213,7 +213,7 @@ export default function CartPageClient({
   };
 
   if (!wishlist?.length) {
-    return <EmptyComponent name="Cart" />;
+    return <EmptyComponent name="Your Cart is empty" />;
   }
 
   return (

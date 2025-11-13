@@ -19,7 +19,7 @@ export function SunGlassesSection() {
           {sunglassesCategories.map((category) => (
             <Link
               key={category.id}
-              href={`/sunglasses/${category.id}`}
+              href={category.href}
               className="flex flex-col items-center gap-3 group"
             >
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-muted flex relative items-center overflow-hidden justify-center transition-transform group-hover:scale-[1.05]">
