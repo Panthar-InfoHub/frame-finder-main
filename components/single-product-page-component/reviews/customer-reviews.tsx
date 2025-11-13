@@ -23,9 +23,10 @@ interface CustomerReviewsProps {
     onModel: string;
   }
   isActionDisabled?: boolean
+  session : any 
 }
 
-export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled }: CustomerReviewsProps) {
+export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
@@ -46,6 +47,12 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
   const showMoreReviews = () => {
     setVisibleReviews((prev) => Math.min(prev + 3, allReviews.length))
   }
+
+  const handleDeleteReview = (reviewId: string) => {
+    console.log("Delete review:", reviewId)
+    // User will add functionality later
+  }
+
 
   return (
     <div className="space-y-8">
@@ -114,8 +121,8 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
 
         {/* Review Cards - user_reviews displayed first */}
         <div className="space-y-4">
-          {displayedReviews.map((review , i) => (
-            <ReviewCard key={i} review={review} />
+          {displayedReviews.map((review) => (
+            <ReviewCard key={review._id} review={review} onDelete={handleDeleteReview} loggedId = {session.user.id} />
           ))}
         </div>
 
