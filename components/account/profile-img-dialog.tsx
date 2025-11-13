@@ -10,12 +10,13 @@ import { Upload, X, ImageIcon, AlertCircle, Camera } from "lucide-react"
 
 interface ImageUploaderProps {
     images?: string | string[]
-    onChange?: (file: File) => void
+    onChange?: (file: File | File[]) => void
     maxImages?: number
     buttonLabel?: string
     maxFileSize?: number
     children?: React.ReactNode
     acceptedTypes?: string[]
+    inReview?: boolean
 }
 
 interface UploadError {
@@ -30,6 +31,7 @@ export function ImageUploader({
     buttonLabel = "Add Images",
     maxFileSize = 5,
     children,
+    inReview = false,
     acceptedTypes = ["image/jpeg", "image/png", "image/webp"],
 }: ImageUploaderProps) {
     const [isOpen, setIsOpen] = useState(false)
@@ -95,7 +97,7 @@ export function ImageUploader({
             setPreviewUrls((prev) => [...prev, ...newPreviewUrls])
 
             if (validFiles.length > 0) {
-                onChange?.(validFiles[0])
+                inReview ? onChange?.(validFiles) : onChange?.(validFiles[0])
                 // Clean up and close after a short delay to show preview
                 setTimeout(() => {
                     previewUrls.forEach((url) => URL.revokeObjectURL(url))

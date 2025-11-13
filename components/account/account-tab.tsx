@@ -113,8 +113,8 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
                     />
                     <ImageUploader
                         images={profileImage}
-                        onChange={(file) => {
-                            console.log("[v0] Image file selected:", file.name)
+                        onChange={(file: File) => {
+                            console.log("[v0] Image file selected:", file)
                             setPendingImageFile(file)
                             const preview = URL.createObjectURL(file)
                             setPreviewUrl(preview)

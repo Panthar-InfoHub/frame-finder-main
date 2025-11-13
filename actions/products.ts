@@ -454,10 +454,10 @@ export const postProductReview = async (payload: any) => {
       vendorId: payload.vendorId,
       user: userId, 
       product: payload.productId ,
-      onModel: payload.onModel,
+      onModel: payload.onModel, 
       rating: payload.rating,
       comment: payload.comment,
-      images : [{"url": "https://example.com/review-img1.jpg" }]
+      images : payload.images || []
     }
     // console.log(finalData)
     const resp = await axios.post(`${API_URL}/review`, finalData, {

@@ -15,7 +15,7 @@ export type SignedUrlOptions = {
   filename: string;
   contentType: string;
   rootFolder: "user";
-  folderName: "profile" | "documents" | "prescriptions";
+  folderName: "profile" | "documents" | "prescriptions" | "reviews";
 }
 export type CloudfoldersType = Omit<SignedUrlOptions, 'filename' | 'contentType'>;
 
