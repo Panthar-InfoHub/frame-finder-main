@@ -161,13 +161,15 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
             </div>
 
             <div className="flex items-center gap-3 md:gap-4 lg:ml-auto w-full lg:w-auto justify-end">
-              <Button
-                variant="ghost"
-                size="icon"
-                className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
-              >
-                <Search className="h-5 w-5 md:h-6 md:w-6" />
-              </Button>
+              <Link href="/search">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
+                >
+                  <Search className="h-5 w-5 md:h-6 md:w-6" />
+                </Button>
+              </Link>
               <UserAccountMenu shouldBlur={shouldBlur} />
               <Button
                 variant="ghost"

@@ -19,10 +19,10 @@ export function EmptyComponent({ name }: EmptyStateProps) {
           </div>
         </div>
 
-        <h2 className="text-2xl font-semibold text-gray-900">Your {name.toLowerCase()} is empty</h2>
+        <h2 className="text-2xl font-semibold text-gray-900"> {name} </h2>
 
         <p className="text-gray-500 max-w-sm mx-auto">
-          {isCart ? "Add items to your cart to get started" : `No ${name.toLowerCase()} to display`}
+          {isCart ? "Add items to your cart to get started" : `${name.toLocaleLowerCase()}`}
         </p>
 
         <Button asChild className="mt-4">
