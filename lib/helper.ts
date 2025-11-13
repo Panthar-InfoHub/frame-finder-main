@@ -42,7 +42,7 @@ export const getProductUrlType = (product_type: string): string => {
     case "accessories":
       return "accessories";
     case "lenssolution":
-      return "lensSolution";
+      return "contactLensSolution";
     default:
       return "frames";
   }
