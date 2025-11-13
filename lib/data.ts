@@ -13,19 +13,19 @@ export const heroSlides = [
     id: 1,
     title: "ECO-ACETATE",
     subtitle: "From Nature, With Love",
-    image: "/hero/img_1.png",
+    image: "/hero/hero-section-image-1.png",
   },
   {
     id: 2,
     title: "PREMIUM COLLECTION",
     subtitle: "Crafted for Perfection",
-    image: "/hero/img_1.png",
+    image: "/hero/hero-section-image-2.png",
   },
   {
     id: 3,
     title: "TIMELESS STYLE",
     subtitle: "Elegance Redefined",
-    image: "/hero/img_1.png",
+    image: "/hero/hero-section-image-3.png",
   },
 ];
 
@@ -48,55 +48,32 @@ export const productCategories = [
   {
     id: 1,
     name: "Rimless Glasses",
-    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
-    href: "/search?query=rimless",
+    image: "/home-page/eyewear-glasses/rimless-glasses.jpg",
+    href: "/category/rimless",
   },
   {
     id: 2,
     name: "Transparent Frame",
-    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
-    href: "/search?query=transparent",
+    image: "/home-page/eyewear-glasses/transparent-frame.jpg",
+    href: "/category/transparent",
   },
   {
     id: 3,
     name: "Rich Acetate eyeglass",
-    image: "/acetate-eyeglasses-line-drawing.jpg",
-    href: "/search?query=acetate",
+    image: "/home-page/eyewear-glasses/rich-acetate-eyeglass.jpg",
+    href: "/category/acetate",
   },
   {
     id: 4,
     name: "Blue Computer Glasses",
-    image: "/acetate-eyeglasses-line-drawing.jpg",
-    href: "/search?query=computer",
+    image: "/home-page/eyewear-glasses/blue-computer-glasses.jpg",
+    href: "/category/computer",
   },
   {
     id: 5,
     name: "Metalwork",
-    image: "/metal-frame-eyeglasses-line-drawing.jpg",
-    href: "/search?query=metal",
-  },
-];
-
-export const sunglassCategories = [
-  {
-    name: "Rimless Glasses",
-    image: "/rimless-sunglasses.jpg",
-  },
-  {
-    name: "Transparent Frame",
-    image: "/transparent-sunglasses.jpg",
-  },
-  {
-    name: "Rich Acetate eyeglass",
-    image: "/acetate-sunglasses.jpg",
-  },
-  {
-    name: "Blue Computer Glasses",
-    image: "/blue-tinted-sunglasses.jpg",
-  },
-  {
-    name: "Metalwork",
-    image: "/metal-frame-sunglasses.jpg",
+    image: "/home-page/eyewear-glasses/metalwork.jpg",
+    href: "/category/metal",
   },
 ];
 
