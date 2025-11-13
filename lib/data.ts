@@ -48,31 +48,31 @@ export const productCategories = [
   {
     id: 1,
     name: "Rimless Glasses",
-    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
+    image: "/home-page/eyewear-glasses/rimless-glasses.jpg",
     href: "/search?query=rimless",
   },
   {
     id: 2,
     name: "Transparent Frame",
-    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
+    image: "/home-page/eyewear-glasses/transparent-frame.jpg",
     href: "/search?query=transparent",
   },
   {
     id: 3,
     name: "Rich Acetate eyeglass",
-    image: "/acetate-eyeglasses-line-drawing.jpg",
+    image: "/home-page/eyewear-glasses/rich-acetate-eyeglass.jpg",
     href: "/search?query=acetate",
   },
   {
     id: 4,
     name: "Blue Computer Glasses",
-    image: "/acetate-eyeglasses-line-drawing.jpg",
+    image: "/home-page/eyewear-glasses/blue-computer-glasses.jpg",
     href: "/search?query=computer",
   },
   {
     id: 5,
     name: "Metalwork",
-    image: "/metal-frame-eyeglasses-line-drawing.jpg",
+    image: "/home-page/eyewear-glasses/metalwork.jpg",
     href: "/search?query=metal",
   },
 ];
@@ -435,25 +435,30 @@ export const shapes = [
     id: 1,
     name: "Round",
     image: "/shapes/shape_1.png",
+    href: "/search?query=round",
   },
   {
     id: 2,
     name: "Square",
     image: "/shapes/shape_2.png",
+    href: "/search?query=square",
   },
   {
     id: 3,
     name: "Cat Eyes",
     image: "/shapes/shape_3.png",
+    href: "/search?query=cat-eyes",
   },
   {
     id: 4,
     name: "Wayfarer",
     image: "/shapes/shape_4.png",
+    href: "/search?query=wayfarer",
   },
   {
     id: 5,
     name: "Hexagon",
     image: "/shapes/shape_1.png",
+    href: "/search?query=hexagon",
   },
 ];
