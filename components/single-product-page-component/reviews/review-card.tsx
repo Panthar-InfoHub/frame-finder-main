@@ -31,7 +31,7 @@ interface ReviewCardProps {
 export function ReviewCard({ review }: ReviewCardProps) {
   const userInitial = review.user?.email?.charAt(0).toUpperCase() || "U"
   const userName = review.user?.email?.split("@")[0] || "Anonymous User"
-  const timeAgo = formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })
+  const timeAgo = formatDistanceToNow(new Date(review.createdAt ?? new Date()), { addSuffix: true })
   
   // alert(JSON.stringify(review))
   return (

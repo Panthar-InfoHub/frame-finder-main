@@ -421,7 +421,7 @@ export const getProductReview = async (id: any) => {
     }
     return data;
   } catch (error) {
-    console.log("Error : ", error.response);
+    // console.log("Error : ", error.response);
     const message =
       error instanceof Error ? error.message : "Failed to load the page";
     return {
@@ -433,23 +433,23 @@ export const getProductReview = async (id: any) => {
 
 export const postProductReview = async (payload: any) => {
     try {
-      console.log(payload)
+      // console.log(payload)
     // first we will get the user and token -> here since we are using the auth js we will do it using the meathod given below 
     const session = await auth()
     if (!session){
       throw new Error("Was not able to get the session");
     }
     const userId = session.user.id
-    console.log(userId)
-    console.log("error 1")
+    // console.log(userId)
+    // console.log("error 1")
     const token = await getAccessToken();
-    console.log("error 2")
+    // console.log("error 2")
     if (!token) {
       throw new Error("No access token found");
     }
-    console.log("error 3")
+    // console.log("error 3")
     // now we will transform the data that will be sent over in order so that it matches the expected API structure
-    console.log()
+    // console.log()
     const finalData = {
       vendorId: payload.vendorId,
       user: userId, 
@@ -459,13 +459,13 @@ export const postProductReview = async (payload: any) => {
       comment: payload.comment,
       images : [{"url": "https://example.com/review-img1.jpg" }]
     }
-    console.log(finalData)
+    // console.log(finalData)
     const resp = await axios.post(`${API_URL}/review`, finalData, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = resp.data;
-    console.log(data);  
-    if ((resp.status !== 200 && resp.status !== 201) || !data.success) {
+    const data = resp.data.data;
+    // console.log('this is my data', data);  
+    if ((resp.status !== 200 && resp.status !== 201) || !resp.data.success) {
       throw new Error("Failed to load the page");
     }
     return data;

@@ -68,10 +68,11 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
 
+  const [allReviews, setAllReviews] = useState([...reviews.data.user_reviews, ...reviews.data.reviews])
 
-  const allReviews = useMemo(() => {
-    return [...reviews.data.user_reviews, ...reviews.data.reviews]
-  }, [reviews.data.user_reviews, reviews.data.reviews])
+  // const allReviews = useMemo(() => {
+  //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
+  // }, [reviews.data.user_reviews, reviews.data.reviews, showWriteReview])
 
   const displayedReviews = useMemo(() => {
     return allReviews.slice(0, visibleReviews)
@@ -121,6 +122,11 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
             <WriteReviewForm
               reviewData={reviewData}
               setShowWriteReview={setShowWriteReview}
+              afterSubmit={(review) => {
+                console.log('review is here', review)
+                setAllReviews([review, ...allReviews, ])
+                console.log('New reviews array', [review, ...allReviews])
+              }}
             />
           )}
         </div>
@@ -145,8 +151,8 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
 
         {/* Review Cards - user_reviews displayed first */}
         <div className="space-y-4">
-          {displayedReviews.map((review) => (
-            <ReviewCard key={review._id} review={review} />
+          {displayedReviews.map((review , i) => (
+            <ReviewCard key={i} review={review} />
           ))}
         </div>
 

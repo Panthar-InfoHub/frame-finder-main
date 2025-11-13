@@ -35,7 +35,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }
 
   // The below given fetching is for displaying the product information on the page 
-  const res = await getFrameById(id);
+
+  const [res, reviewResponse] = await Promise.all([
+    getFrameById(id),
+    getProductReview(id),
+  ])
+
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
@@ -66,14 +71,6 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     productId: product._id,
     onModel: product.type
   }
-
-
-
-  // now this fetching is to be done for getting the reviews
-  const reviewResponse = await getProductReview(id);
-
-
-
 
   return (
     <div className="min-h-screen bg-background">
