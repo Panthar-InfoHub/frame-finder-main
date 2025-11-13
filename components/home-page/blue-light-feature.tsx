@@ -12,7 +12,7 @@ export function BlueLightFeature() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="relative w-full h-full">
                   <Image
-                    src="/banner_2.png"
+                    src="/home-page/blue-computer-glasses.png"
                     alt="Blue light blocking glasses"
                     fill
                     className="object-cover h-full w-full"
