@@ -68,6 +68,8 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
 
+  console.log("[CustomerReviews] reviews:", reviews)
+
 
   const allReviews = useMemo(() => {
     return [...reviews.data.user_reviews, ...reviews.data.reviews]
