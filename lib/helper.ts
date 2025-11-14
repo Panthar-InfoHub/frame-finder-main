@@ -27,6 +27,17 @@ export const transformImages = async (products: any[]) => {
   }))
 }
 
+export const transformReviewImages = async (reviewResponse: any) => {
+  let all_reviews = [...reviewResponse.data.user_reviews, ...reviewResponse.data.reviews]
+  all_reviews = await Promise.all(
+    all_reviews?.map(async (review: any) => {
+      const imageUrls = await getImageUrls(review.images.map((i) => i.url));
+      return { ...review, _images: imageUrls };
+    })
+  )
+  return all_reviews;
+}
+
 export const getProductUrlType = (product_type: string): string => {
   switch (product_type.toLowerCase()) {
     case "product":
