@@ -3,6 +3,8 @@ import { API_URL } from "@/lib/apiUtils";
 import axios from "axios";
 import { getAccessToken } from "./auth";
 import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import { toast } from "sonner";
 
 // From here till line 128 these are all the get fuctions of the product
 // This is the get request for the frames
@@ -433,39 +435,31 @@ export const getProductReview = async (id: any) => {
 
 export const postProductReview = async (payload: any) => {
     try {
-      // console.log(payload)
     // first we will get the user and token -> here since we are using the auth js we will do it using the meathod given below 
     const session = await auth()
     if (!session){
       throw new Error("Was not able to get the session");
     }
     const userId = session.user.id
-    // console.log(userId)
-    // console.log("error 1")
     const token = await getAccessToken();
-    // console.log("error 2")
     if (!token) {
       throw new Error("No access token found");
     }
-    // console.log("error 3")
     // now we will transform the data that will be sent over in order so that it matches the expected API structure
-    // console.log()
     const finalData = {
       vendorId: payload.vendorId,
       user: userId, 
       product: payload.productId ,
-      onModel: payload.onModel,
+      onModel: payload.onModel, 
       rating: payload.rating,
       comment: payload.comment,
-      images : [{"url": "https://example.com/review-img1.jpg" }]
+      images : payload.images || []
     }
-    // console.log(finalData)
     const resp = await axios.post(`${API_URL}/review`, finalData, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = resp.data.data;
-    // console.log('this is my data', data);  
-    if ((resp.status !== 200 && resp.status !== 201) || !resp.data.success) {
+    const data = resp.data;
+    if ((resp.status !== 200 && resp.status !== 201) || !data.success) {
       throw new Error("Failed to load the page");
     }
     return data;
@@ -479,3 +473,45 @@ export const postProductReview = async (payload: any) => {
     };
   }
 };
+
+export const deleteReview = async (payload : any) => {
+  console.log(payload)
+    try {
+    console.log(payload);
+    const token = await getAccessToken();
+    if (!token){
+      throw new Error("No access token found");
+    }
+    const id = payload.reviewId;
+    const finalData = {
+      vendorId : payload.vendorId,
+    }
+    console.log('Data for deleting review', {reviewId: id, vendorId: payload.vendorId , accessToken : token })
+    const resp = await fetch(`${API_URL}/review/${id}`,  {
+      method : "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body : JSON.stringify(finalData),
+      
+    });
+    const data = await  resp.json();
+    console.log ('if the data is posted' ,  data)
+    if ((!resp.ok) || !data.success) {
+      console.log('Failed to delete review', data)
+      throw new Error("Failed to load the page");
+    }
+    return data;
+  } 
+  catch (error) {
+    console.log("Network or unexpected error:", error);
+    const message = error instanceof Error ? error.message : "Failed to load the page";
+    return {
+      success: false,
+      message,
+    };
+  }
+}
+

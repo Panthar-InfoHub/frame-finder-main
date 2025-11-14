@@ -60,3 +60,24 @@ export function getImageUrlFromPath(path: string): string {
   const baseUrl = `https://storage.googleapis.com/frame-finder-bucket/`
   return `${baseUrl}${path}`
 }
+
+export const getProductUrlType = (product_type: string): string => {
+  switch (product_type.toLowerCase()) {
+    case "product":
+      return "frames";
+    case "sunglass":
+      return "sunglasses";
+    case "reader":
+      return "readingGlasses";
+    case "contactlens":
+      return "contactLens";
+    case "colorcontactlens":
+      return "colorContactLens";
+    case "accessories":
+      return "accessories";
+    case "lenssolution":
+      return "contactLensSolution";
+    default:
+      return "frames";
+  }
+}

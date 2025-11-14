@@ -13,19 +13,19 @@ export const heroSlides = [
     id: 1,
     title: "ECO-ACETATE",
     subtitle: "From Nature, With Love",
-    image: "/hero/img_1.png",
+    image: "/hero/hero-section-image-1.png",
   },
   {
     id: 2,
     title: "PREMIUM COLLECTION",
     subtitle: "Crafted for Perfection",
-    image: "/hero/img_1.png",
+    image: "/hero/hero-section-image-2.png",
   },
   {
     id: 3,
     title: "TIMELESS STYLE",
     subtitle: "Elegance Redefined",
-    image: "/hero/img_1.png",
+    image: "/hero/hero-section-image-3.png",
   },
 ];
 
@@ -37,7 +37,7 @@ export const promoData = {
 export const navigationLinks = [
   { label: "FRAMES", href: "/frames" },
   { label: "READING GLASSES", href: "/readingGlasses" },
-  { label: "SUNGLASSES", href: "/sunglasses" },   
+  { label: "SUNGLASSES", href: "/sunglasses" },
   { label: "CONTACT LENSES", href: "/contactLens" },
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
@@ -48,55 +48,32 @@ export const productCategories = [
   {
     id: 1,
     name: "Rimless Glasses",
-    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
-    href: "/category/rimless",
+    image: "/home-page/eyewear-glasses/rimless-glasses.jpg",
+    href: "/search?query=rimless",
   },
   {
     id: 2,
     name: "Transparent Frame",
-    image: "/transparent-frame-eyeglasses-line-drawing.jpg",
-    href: "/category/transparent",
+    image: "/home-page/eyewear-glasses/transparent-frame.jpg",
+    href: "/search?query=transparent",
   },
   {
     id: 3,
     name: "Rich Acetate eyeglass",
-    image: "/acetate-eyeglasses-line-drawing.jpg",
-    href: "/category/acetate",
+    image: "/home-page/eyewear-glasses/rich-acetate-eyeglass.jpg",
+    href: "/search?query=acetate",
   },
   {
     id: 4,
     name: "Blue Computer Glasses",
-    image: "/acetate-eyeglasses-line-drawing.jpg",
-    href: "/category/computer",
+    image: "/home-page/eyewear-glasses/blue-computer-glasses.jpg",
+    href: "/search?query=computer",
   },
   {
     id: 5,
     name: "Metalwork",
-    image: "/metal-frame-eyeglasses-line-drawing.jpg",
-    href: "/category/metal",
-  },
-];
-
-export const sunglassCategories = [
-  {
-    name: "Rimless Glasses",
-    image: "/rimless-sunglasses.jpg",
-  },
-  {
-    name: "Transparent Frame",
-    image: "/transparent-sunglasses.jpg",
-  },
-  {
-    name: "Rich Acetate eyeglass",
-    image: "/acetate-sunglasses.jpg",
-  },
-  {
-    name: "Blue Computer Glasses",
-    image: "/blue-tinted-sunglasses.jpg",
-  },
-  {
-    name: "Metalwork",
-    image: "/metal-frame-sunglasses.jpg",
+    image: "/home-page/eyewear-glasses/metalwork.jpg",
+    href: "/search?query=metal",
   },
 ];
 
@@ -411,11 +388,11 @@ export const socialLinks = [
 ];
 
 export const sunglassesCategories = [
-  { id: 1, name: "Rimless Glasses", icon: "/sunglasses/sun_1.jpg" },
-  { id: 2, name: "Transparent Frame", icon: "/sunglasses/sun_2.jpg" },
-  { id: 3, name: "Rich Acetate eyeglass", icon: "/sunglasses/sun_3.jpg" },
-  { id: 4, name: "Blue Computer Glasses", icon: "/sunglasses/sun_1.jpg" },
-  { id: 5, name: "Metalwork", icon: "/sunglasses/sun_2.jpg" },
+  { id: 1, name: "Rimless Glasses", href: "/sunglasses?style=rimless", icon: "/sunglasses/sun_1.jpg" },
+  { id: 2, name: "Transparent Frame", href: "/sunglasses?style=transparent", icon: "/sunglasses/sun_2.jpg" },
+  { id: 3, name: "Rich Acetate eyeglass", href: "/sunglasses?style=rich-acetate", icon: "/sunglasses/sun_3.jpg" },
+  { id: 4, name: "Blue Computer Glasses", href: "/sunglasses?style=blue-computer", icon: "/sunglasses/sun_1.jpg" },
+  { id: 5, name: "Metalwork", href: "/sunglasses?style=metalwork", icon: "/sunglasses/sun_2.jpg" },
 ];
 
 export const vendors = [
@@ -458,25 +435,30 @@ export const shapes = [
     id: 1,
     name: "Round",
     image: "/shapes/shape_1.png",
+    href: "/search?query=round",
   },
   {
     id: 2,
     name: "Square",
     image: "/shapes/shape_2.png",
+    href: "/search?query=square",
   },
   {
     id: 3,
     name: "Cat Eyes",
     image: "/shapes/shape_3.png",
+    href: "/search?query=cat-eyes",
   },
   {
     id: 4,
     name: "Wayfarer",
     image: "/shapes/shape_4.png",
+    href: "/search?query=wayfarer",
   },
   {
     id: 5,
     name: "Hexagon",
     image: "/shapes/shape_1.png",
+    href: "/search?query=hexagon",
   },
 ];

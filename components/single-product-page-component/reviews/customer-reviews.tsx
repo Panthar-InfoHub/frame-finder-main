@@ -7,47 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RatingDistribution } from "./rating-distribution"
 import { ReviewCard } from "./review-card"
 import { WriteReviewForm } from "./write-review-form"
+import { toast } from "sonner"
+import { deleteReview } from "@/actions/products"
 
 interface CustomerReviewsProps {
-  reviews: {
-    success: boolean
-    message: string
-    data: {
-      reviews: Array<{
-        _id: string
-        user: {
-          _id: string
-          img: {
-            url: string
-          }
-          email: string
-        }
-        rating: number
-        comment: string
-        images: Array<{
-          url: string
-          _id: string
-        }>
-        createdAt: string
-      }>
-      user_reviews: Array<{
-        _id: string
-        user: null
-        product: {
-          _id: string
-          productCode: string
-          brand_name: string
-        }
-        rating: number
-        comment: string
-        images: Array<{
-          url: string
-          _id: string
-        }>
-        createdAt: string
-      }>
-    }
-  }
+  allReviews: any
   averageRating: number
   totalReviews: number
   distribution: Array<{
@@ -61,9 +25,11 @@ interface CustomerReviewsProps {
     onModel: string;
   }
   isActionDisabled?: boolean
+  session : any 
+
 }
 
-export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled }: CustomerReviewsProps) {
+export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
@@ -74,6 +40,11 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
   //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
   // }, [reviews.data.user_reviews, reviews.data.reviews, showWriteReview])
 
+  // const allReviews = useMemo(() => {
+  //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
+  // }, [reviews.data.user_reviews, reviews.data.reviews])
+
+
   const displayedReviews = useMemo(() => {
     return allReviews.slice(0, visibleReviews)
   }, [allReviews, visibleReviews])
@@ -83,6 +54,23 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
   const showMoreReviews = () => {
     setVisibleReviews((prev) => Math.min(prev + 3, allReviews.length))
   }
+
+  const handleDeleteReview = (reviewId: string) => {
+    if (!reviewId) return toast.error("not a valid review id")
+
+      const data = {
+        vendorId : reviewData.vendorId,
+        reviewId : reviewId
+      }
+    
+   const resposne = deleteReview(data);
+  
+    setTimeout(() => {
+      toast.success("Your review for the product has been deleted successfully")
+    }, 2000)
+    
+  }
+
 
   return (
     <div className="space-y-8">
@@ -151,8 +139,8 @@ export function CustomerReviews({ reviews, averageRating, totalReviews, distribu
 
         {/* Review Cards - user_reviews displayed first */}
         <div className="space-y-4">
-          {displayedReviews.map((review , i) => (
-            <ReviewCard key={i} review={review} />
+          {displayedReviews.map((review) => (
+            <ReviewCard key={review._id} review={review} onDelete={handleDeleteReview} loggedId = {session?.user?.id} />
           ))}
         </div>
 

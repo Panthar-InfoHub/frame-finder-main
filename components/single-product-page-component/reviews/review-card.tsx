@@ -1,7 +1,9 @@
-import { Star } from "lucide-react"
+"use client"
+import { Star, Trash2 } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { formatDistanceToNow } from "date-fns"
+import { Button } from "@/components/ui/button"
 
 interface ReviewCardProps {
   review: {
@@ -25,14 +27,22 @@ interface ReviewCardProps {
       _id: string
     }>
     createdAt: string
+    loggedId: string
+    _images?: string[]
   }
+  onDelete?: (reviewId: string) => void
 }
 
-export function ReviewCard({ review }: ReviewCardProps) {
+export function ReviewCard({ review, onDelete, loggedId }: any) {
   const userInitial = review.user?.email?.charAt(0).toUpperCase() || "U"
   const userName = review.user?.email?.split("@")[0] || "Anonymous User"
-  const timeAgo = formatDistanceToNow(new Date(review.createdAt ?? new Date()), { addSuffix: true })
-  
+  const timeAgo = formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })
+
+  const checkIfSameUser = (userId: string) => {
+    if (!loggedId) return false;
+    return userId === loggedId;
+  }
+
   // alert(JSON.stringify(review))
   return (
     <Card className="p-4 space-y-3">
@@ -46,6 +56,16 @@ export function ReviewCard({ review }: ReviewCardProps) {
           <p className="font-medium text-sm capitalize">{userName}</p>
           <p className="text-xs text-muted-foreground">{timeAgo}</p>
         </div>
+        {checkIfSameUser(review.user._id) && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-destructive"
+            onClick={() => onDelete(review._id)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
       </div>
 
       {/* Rating */}
@@ -53,9 +73,8 @@ export function ReviewCard({ review }: ReviewCardProps) {
         {Array.from({ length: 5 }).map((_, index) => (
           <Star
             key={index}
-            className={`h-4 w-4 ${
-              index < review.rating ? "fill-orange-500 text-orange-500" : "fill-gray-200 text-gray-200"
-            }`}
+            className={`h-4 w-4 ${index < review.rating ? "fill-orange-500 text-orange-500" : "fill-gray-200 text-gray-200"
+              }`}
           />
         ))}
       </div>
@@ -64,12 +83,12 @@ export function ReviewCard({ review }: ReviewCardProps) {
       <p className="text-sm leading-relaxed text-foreground">{review.comment}</p>
 
       {/* Review Images */}
-      {review.images && review.images.length > 0 && (
+      {review._images && review._images.length > 0 && (
         <div className="flex gap-2 flex-wrap">
-          {review.images.map((image) => (
+          {review?._images.map((image, i) => (
             <img
-              key={image._id}
-              src={image.url || "/placeholder.svg"}
+              key={`review-image-${i}`}
+              src={image || "/placeholder.svg"}
               alt="Review"
               className="h-20 w-20 object-cover rounded border border-border"
             />
