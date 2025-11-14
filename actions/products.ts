@@ -446,7 +446,6 @@ export const postProductReview = async (payload: any) => {
       throw new Error("No access token found");
     }
     // now we will transform the data that will be sent over in order so that it matches the expected API structure
-    console.log()
     const finalData = {
       vendorId: payload.vendorId,
       user: userId, 
