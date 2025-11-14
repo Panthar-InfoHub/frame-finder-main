@@ -25,6 +25,7 @@ interface ReviewCardProps {
       _id: string
     }>
     createdAt: string
+    _images?: string[]
   }
 }
 
@@ -64,12 +65,12 @@ export function ReviewCard({ review }: ReviewCardProps) {
       <p className="text-sm leading-relaxed text-foreground">{review.comment}</p>
 
       {/* Review Images */}
-      {review.images && review.images.length > 0 && (
+      {review._images && review._images.length > 0 && (
         <div className="flex gap-2 flex-wrap">
-          {review.images.map((image) => (
+          {review?._images.map((image,i) => (
             <img
-              key={image._id}
-              src={image.url || "/placeholder.svg"}
+              key={`review-image-${i}`}
+              src={image || "/placeholder.svg"}
               alt="Review"
               className="h-20 w-20 object-cover rounded border border-border"
             />

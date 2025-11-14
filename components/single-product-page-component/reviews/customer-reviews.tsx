@@ -9,45 +9,7 @@ import { ReviewCard } from "./review-card"
 import { WriteReviewForm } from "./write-review-form"
 
 interface CustomerReviewsProps {
-  reviews: {
-    success: boolean
-    message: string
-    data: {
-      reviews: Array<{
-        _id: string
-        user: {
-          _id: string
-          img: {
-            url: string
-          }
-          email: string
-        }
-        rating: number
-        comment: string
-        images: Array<{
-          url: string
-          _id: string
-        }>
-        createdAt: string
-      }>
-      user_reviews: Array<{
-        _id: string
-        user: null
-        product: {
-          _id: string
-          productCode: string
-          brand_name: string
-        }
-        rating: number
-        comment: string
-        images: Array<{
-          url: string
-          _id: string
-        }>
-        createdAt: string
-      }>
-    }
-  }
+  allReviews: any
   averageRating: number
   totalReviews: number
   distribution: Array<{
@@ -63,16 +25,17 @@ interface CustomerReviewsProps {
   isActionDisabled?: boolean
 }
 
-export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled }: CustomerReviewsProps) {
+export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
 
-  const [allReviews, setAllReviews] = useState([...reviews.data.user_reviews, ...reviews.data.reviews])
+
 
   // const allReviews = useMemo(() => {
   //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
-  // }, [reviews.data.user_reviews, reviews.data.reviews, showWriteReview])
+  // }, [reviews.data.user_reviews, reviews.data.reviews])
+
 
   const displayedReviews = useMemo(() => {
     return allReviews.slice(0, visibleReviews)
