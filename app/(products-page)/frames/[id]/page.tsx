@@ -215,6 +215,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
             isActionDisabled={isActionDisabled}
+            session = {session}
           />
         </div>
         {/* Similar Products -> as if for now no data is coming will look for it in the future */}

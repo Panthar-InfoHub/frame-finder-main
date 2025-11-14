@@ -1,4 +1,6 @@
+"use server"
 import { getSignedViewUrl } from "@/actions/cloud-storage";
+import { auth } from "@/lib/auth";
 
 export async function getImageUrl(url: string): Promise<string> {
   if (!url) return "/placeholder.png";
@@ -57,4 +59,12 @@ export const getProductUrlType = (product_type: string): string => {
     default:
       return "frames";
   }
+}
+
+export const checkIfSameUser = async (loggedID: string) => {
+  const session = await auth();
+  const userid = session.user.id;
+
+  if (!userid) return false;
+  return loggedID === userid;
 }

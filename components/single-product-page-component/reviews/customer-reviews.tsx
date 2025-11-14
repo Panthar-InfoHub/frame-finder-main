@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RatingDistribution } from "./rating-distribution"
 import { ReviewCard } from "./review-card"
 import { WriteReviewForm } from "./write-review-form"
+import { toast } from "sonner"
+import { deleteReview } from "@/actions/products"
 
 interface CustomerReviewsProps {
   allReviews: any
@@ -23,9 +25,11 @@ interface CustomerReviewsProps {
     onModel: string;
   }
   isActionDisabled?: boolean
+  session : any 
+
 }
 
-export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled }: CustomerReviewsProps) {
+export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
@@ -46,6 +50,23 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
   const showMoreReviews = () => {
     setVisibleReviews((prev) => Math.min(prev + 3, allReviews.length))
   }
+
+  const handleDeleteReview = (reviewId: string) => {
+    if (!reviewId) return toast.error("not a valid review id")
+
+      const data = {
+        vendorId : reviewData.vendorId,
+        reviewId : reviewId
+      }
+    
+   const resposne = deleteReview(data);
+  
+    setTimeout(() => {
+      toast.success("Your review for the product has been deleted successfully")
+    }, 2000)
+    
+  }
+
 
   return (
     <div className="space-y-8">
@@ -110,7 +131,7 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
         {/* Review Cards - user_reviews displayed first */}
         <div className="space-y-4">
           {displayedReviews.map((review) => (
-            <ReviewCard key={review._id} review={review} />
+            <ReviewCard key={review._id} review={review} onDelete={handleDeleteReview} loggedId = {session?.user?.id} />
           ))}
         </div>
 
