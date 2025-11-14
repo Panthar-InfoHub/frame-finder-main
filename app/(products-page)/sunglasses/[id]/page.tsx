@@ -12,22 +12,22 @@ import { SimilarProducts } from "@/components/single-product-page-component/simi
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
-import { getImageUrls } from "@/lib/helper";
+import { getImageUrls, transformReviewImages } from "@/lib/helper";
 import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
 import Link from "next/link";
 
 
 interface ProductPageParams {
-  params : Promise<{id : string} >;
-  searchParams: Promise<{variantId : string | undefined}>
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ variantId: string | undefined }>
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await auth();
-  
+
   const isActionDisabled = !!session?.user;
-  
+
   const res = await getSunglassesById(id);
 
   if (!res?.success || !res.data) {
@@ -49,6 +49,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   // Fetch product reviews
   const reviewResponse = await getProductReview(id);
+  const allReviews = await transformReviewImages(reviewResponse.data.reviews);
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,7 +65,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div>
-            <ProductImageGallery imageIds={imageUrls} brandName={product.brand_name} />
+            <ProductImageGallery imageUrls={imageUrls} brandName={product.brand_name} />
           </div>
 
           {/* Right: Product Details */}
@@ -125,7 +126,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
                 variantId={variant._id}
                 productType="Sunglass"
               />
-            </div> 
+            </div>
             {/* Frame Dimensions */}
             <FrameDimensions dimensions={frameDimensions} />
 
@@ -137,10 +138,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               gender={product.gender}
               sizes={product.sizes}
               isPower={product.is_Power}
-              vendorName = {product?.vendorId?.business_name || "Business name" }
-              vendorRating =  {product?.vendorId?.rating || 2.75 }
-              vendorRatingCount = {product?.vendorId?.total_reviews || 4 }
-              sellerSince = {product?.vendorId?.year_of_experience || 5}
+              vendorName={product?.vendorId?.business_name || "Business name"}
+              vendorRating={product?.vendorId?.rating || 2.75}
+              vendorRatingCount={product?.vendorId?.total_reviews || 4}
+              sellerSince={product?.vendorId?.year_of_experience || 5}
 
             />
           </div>
@@ -155,11 +156,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
         <div className="mt-12">
           <CustomerReviews
-            reviews={reviewResponse}
+            allReviews={allReviews}
             averageRating={product.rating}
             totalReviews={reviewResponse.data.totalReviews}
             distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
+            isActionDisabled={isActionDisabled}
+            session={session}
           />
         </div>
 
