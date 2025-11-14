@@ -29,12 +29,16 @@ interface CustomerReviewsProps {
 
 }
 
-export function CustomerReviews({ reviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session }: CustomerReviewsProps) {
+export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
 
 
+
+  // const allReviews = useMemo(() => {
+  //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
+  // }, [reviews.data.user_reviews, reviews.data.reviews])
 
   // const allReviews = useMemo(() => {
   //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
