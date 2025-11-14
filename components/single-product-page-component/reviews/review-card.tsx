@@ -38,7 +38,7 @@ export function ReviewCard({ review , onDelete, loggedId }: any) {
   const userName = review.user?.email?.split("@")[0] || "Anonymous User"
   const timeAgo = formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })
 
-  const checkIfSameUser = (userId) => {
+  const checkIfSameUser = (userId : string) => {
     if (!loggedId) return false;
     return userId === loggedId;
   }
