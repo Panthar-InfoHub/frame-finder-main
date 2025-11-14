@@ -1,107 +1,64 @@
 import { getAllSunglasses } from "@/actions/products";
-import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
+import { ProductFetchingLayout } from "@/components/common/product-fetching";
+import LoadingSkeleton from "@/components/loading-skeleton";
 import { ProductCard } from "@/components/multiple-products-page-component/product-card-with-variant";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { categories } from "@/lib/data";
 import { transformImages } from "@/lib/helper";
-import { SlidersHorizontal } from "lucide-react";
-import Image from "next/image";
+import { searchParamsProps } from "@/lib/type";
 import Link from "next/link";
+import { Suspense } from "react";
 
-interface searchParamsProps {
-  searchParams: Promise<{
-    gender: string | string[]
-    style: string | string[]
-    material: string | string[]
-    brand: string | string[]
-
-  }>
-}
 
 export default async function Sunglasses({ searchParams }: searchParamsProps) {
-  const FilterContent = () => <FilterSidebar />
-  const response = await getAllSunglasses();
+  const { gender, style, material, brand, frame_color, temple_color } = await searchParams;
+
+  const filters = {
+    gender: gender as string || null,
+    style: style as string || null,
+    material: material as string || null,
+    brand: brand as string || null,
+    frame_color: frame_color as string || null,
+    temple_color: temple_color as string || null,
+  };
+  return (
+    <ProductFetchingLayout
+      pageTitle=" SUNGLASSES"
+      heroImageSrc="/images/bg/sun_bg.jpg"
+    >
+      {/* Product Grid with streaming */}
+      <Suspense fallback={<LoadingSkeleton />}>
+        <ProductList filters={filters} />
+      </Suspense>
+    </ProductFetchingLayout>
+
+  );
+}
+
+
+// DATA FETCHING SEPARATED COMPONENT : FOR PPR
+async function ProductList({ filters }: { filters: any }) {
+  const response = await getAllSunglasses(filters);
 
   if (!response.success) {
-    return <p>Error : failed to load the page</p>;
+    return <p>Error : failed to load the products</p>;
   }
 
-  // console.log("response.data.result.products ==> ", response.data.result.products)
   const newArrivals = await transformImages(response.data.result.products)
 
-  const data = { products: newArrivals, pagination: response.data.result.pagination };
   return (
-    <main className="min-h-screen">
-      <section className="relative h-[400px] md:h-[500px] w-full overflow-hidden bg-neutral-800">
-        <div className="absolute inset-0 bg-black/40 z-10" />
-        <div className="absolute inset-0 z-0">
-          <Image src="/images/bg/sun_bg.jpg" alt="Hero Image" fill className="object-cover h-full w-full" />
-        </div>
-        <div className="relative z-20 flex items-center justify-center h-full">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wider">
-            SUNGLASSES
-          </h1>
-        </div>
-      </section>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
-          <aside className="hidden lg:block shrink-0 w-64">
-            <div className="sticky top-8">
-              <FilterContent />
-            </div>
-          </aside>
-          {/* Main Content */}
-          <div className="flex-1">
-            {/* Header & Filters */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="lg:hidden bg-transparent"
-                  >
-                    <SlidersHorizontal className="w-4 h-4 mr-2" />
-                    FILTER
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-80 overflow-y-auto">
-                  <div className="py-6">
-                    <FilterContent />
-                  </div>
-                </SheetContent>
-              </Sheet>
-              <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start">
-                <span className="font-semibold">{data.pagination.totalProducts} PRODUCTS</span>
-              </div>
-            </div>
-            {/* Category Tabs */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              <Button variant="default" className="rounded-full">All</Button>
-              {categories.map((category) => (
-                <Button
-                  key={category.value}
-                  variant="outline"
-                  className="rounded-full bg-transparent"
-                >
-                  {category.label}
-                </Button>
-              ))}
-            </div>
-            {/* Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {data.products.map((product, i) => (
-                <Link href={`/sunglasses/${product._id}`} key={product._id}>
-                  <ProductCard key={i} product={product} />
-                </Link>
-              ))}
-            </div>
-
-          </div>
-        </div>
+    <>
+      <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start mb-6">
+        <span className="font-semibold">
+          {newArrivals.length} PRODUCTS
+        </span>
       </div>
-    </main>
 
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {newArrivals.map((product) => (
+          <Link href={`/frames/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
+            <ProductCard key={product._id} product={product} />
+          </Link>
+        ))}
+      </div>
+    </>
   );
 }

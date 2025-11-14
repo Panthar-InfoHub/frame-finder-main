@@ -12,6 +12,7 @@ import { postProductReview } from "@/actions/products"
 import { ImageUploader } from "@/components/account/profile-img-dialog"
 import { toast } from "sonner"
 import { getSignedUploadUrl } from "@/actions/cloud-storage"
+import { useRouter } from "next/navigation"
 
 interface reviewDataProps {
   reviewData: {
@@ -19,11 +20,12 @@ interface reviewDataProps {
     productId: string;
     onModel: string;
   }
-  afterSubmit: (review : any) => void 
+  afterSubmit?: (review: any) => void
   setShowWriteReview: (show: boolean) => void
+  variantId?: string
 }
 
-export function WriteReviewForm({ reviewData, setShowWriteReview , afterSubmit }: reviewDataProps) {
+export function WriteReviewForm({ reviewData, setShowWriteReview, variantId }: reviewDataProps) {
   const [rating, setRating] = useState(0)
   const [imgs, setImgs] = useState<string[]>([])
   const [pendingImageFile, setPendingImageFile] = useState<File | File[] | null>(null)
@@ -31,6 +33,7 @@ export function WriteReviewForm({ reviewData, setShowWriteReview , afterSubmit }
   const [hoveredRating, setHoveredRating] = useState(0)
   const [comment, setComment] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     // The command below this will stop the page from refreshing
@@ -129,19 +132,20 @@ export function WriteReviewForm({ reviewData, setShowWriteReview , afterSubmit }
       toast.loading("Submitting review...");
 
       // Submit the review
-      const result = await postProductReview(reviewPayload);
+      const result = await postProductReview(reviewPayload, variantId || "");
 
       toast.dismiss();
 
       if (result?.success) {
         toast.success("Review submitted successfully!");
         // Clear form
+        router.refresh();
         setComment("");
         setRating(0);
         setPendingImageFile(null);
         setPreviewUrl(null);
         setImgs([]);
-        setShowWriteReview(false);
+        // setShowWriteReview(false);
       } else {
         toast.error(result?.message || "Failed to submit review");
       }
@@ -232,57 +236,6 @@ export function WriteReviewForm({ reviewData, setShowWriteReview , afterSubmit }
           />
         </div>
 
-        <div className="space-y-2">
-          <Label>Upload Product Images (Optional)</Label>
-          <div className="space-y-3">
-            {/* Upload Button */}
-            <div className="flex items-center gap-2">
-              <input
-                type="file"
-                id="review-images"
-                accept="image/*"
-                multiple
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <label htmlFor="review-images">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="cursor-pointer bg-transparent"
-                  onClick={() => document.getElementById("review-images")?.click()}
-                >
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload Images
-                </Button>
-              </label>
-              <span className="text-sm text-muted-foreground">Max 5 images</span>
-            </div>
-
-            {/* Image Preview Grid */}
-            {uploadedImages.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                {uploadedImages.map((image, index) => (
-                  <div key={index} className="relative group aspect-square">
-                    <img
-                      src={image || "/placeholder.svg"}
-                      alt={`Upload ${index + 1}`}
-                      className="w-full h-full object-cover rounded-lg border border-gray-200"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                      aria-label="Remove image"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
 
         <div className="flex gap-2 items-center justify-between">
           {/* Submit Button */}

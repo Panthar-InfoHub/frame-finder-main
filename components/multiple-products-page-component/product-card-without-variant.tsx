@@ -5,7 +5,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
-import type { Product  } from "@/lib/data"
+import type { Product } from "@/lib/data"
+import Image from "next/image"
 
 interface ProductCardProps {
   product: Product
@@ -26,35 +27,10 @@ export function ProductCard({ product }: ProductCardProps) {
           </div>
         )}
 
-        {/* Top-right wishlist heart */}
-        <button
-          type="button"
-          aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
-          onClick={() => setLiked((v) => !v)}
-          className="absolute right-5 top-5 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-600 shadow-sm hover:bg-white"
-        >
-          <Heart className="h-5 w-5" fill={liked ? "currentColor" : "none"} />
-        </button>
 
-        <div
-          className={`${product.is_Power ? "mt-5" : "mt-2"} aspect-4/3 w-full rounded-xl bg-neutral-100 flex items-center justify-center`}
-        >
+        <div className={`aspect-4/3 w-full rounded-xl bg-neutral-100 flex items-center justify-center relative`}>
           {/* Placeholder only; will be replaced with actual image later */}
-          <svg
-            className="h-24 w-36 text-neutral-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1}
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-            />
-          </svg>
+          <Image src={product._image} alt='Accessories' fill className="object-cover h-full w-full" />
         </div>
 
         {/* Bottom content */}

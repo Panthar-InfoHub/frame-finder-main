@@ -1,49 +1,23 @@
 "use client"
-import { Star, Trash2 } from "lucide-react"
+import { Loader2, Star, Trash2 } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { formatDistanceToNow } from "date-fns"
 import { Button } from "@/components/ui/button"
 
-interface ReviewCardProps {
-  review: {
-    _id: string
-    user: {
-      _id: string
-      img: {
-        url: string
-      }
-      email: string
-    } | null
-    product?: {
-      _id: string
-      productCode: string
-      brand_name: string
-    }
-    rating: number
-    comment: string
-    images: Array<{
-      url: string
-      _id: string
-    }>
-    createdAt: string
-    loggedId : string 
-    _images?: string[]
-  }
-  onDelete?: (reviewId: string) => void
-}
 
-export function ReviewCard({ review , onDelete, loggedId }: any) {
+export function ReviewCard({ review, onDelete, loggedId , isPending }: any) {
   const userInitial = review.user?.email?.charAt(0).toUpperCase() || "U"
   const userName = review.user?.email?.split("@")[0] || "Anonymous User"
   const timeAgo = formatDistanceToNow(new Date(review.createdAt), { addSuffix: true })
 
-  const checkIfSameUser = (userId : string) => {
+  const checkIfSameUser = (userId: string) => {
     if (!loggedId) return false;
     return userId === loggedId;
   }
-  
-  // alert(JSON.stringify(review))
+
+  console.log("Review ==> ", review);
+
   return (
     <Card className="p-4 space-y-3">
       {/* User Info */}
@@ -61,9 +35,10 @@ export function ReviewCard({ review , onDelete, loggedId }: any) {
             variant="ghost"
             size="icon"
             className="h-8 w-8 text-muted-foreground hover:text-destructive"
+            disabled={isPending}
             onClick={() => onDelete(review._id)}
           >
-            <Trash2 className="h-4 w-4" />
+            {isPending ? <Loader2 className="animate-spin" /> : <Trash2 className="h-4 w-4" />}
           </Button>
         )}
       </div>
@@ -73,9 +48,8 @@ export function ReviewCard({ review , onDelete, loggedId }: any) {
         {Array.from({ length: 5 }).map((_, index) => (
           <Star
             key={index}
-            className={`h-4 w-4 ${
-              index < review.rating ? "fill-orange-500 text-orange-500" : "fill-gray-200 text-gray-200"
-            }`}
+            className={`h-4 w-4 ${index < review.rating ? "fill-orange-500 text-orange-500" : "fill-gray-200 text-gray-200"
+              }`}
           />
         ))}
       </div>
@@ -86,7 +60,7 @@ export function ReviewCard({ review , onDelete, loggedId }: any) {
       {/* Review Images */}
       {review._images && review._images.length > 0 && (
         <div className="flex gap-2 flex-wrap">
-          {review?._images.map((image,i) => (
+          {review?._images.map((image, i) => (
             <img
               key={`review-image-${i}`}
               src={image || "/placeholder.svg"}

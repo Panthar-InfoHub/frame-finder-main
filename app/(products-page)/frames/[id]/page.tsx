@@ -36,7 +36,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   // The below given fetching is for displaying the product information on the page 
 
-  const [res, reviewResponse] = await Promise.all([
+  const [res, reviews] = await Promise.all([
     getFrameById(id),
     getProductReview(id),
   ])
@@ -72,18 +72,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     onModel: product.type
   }
 
-
-
-  // now this fetching is to be done for getting the reviews
-  const reviewResponse = await getProductReview(id);
-
-
-  const allReviews = await transformReviewImages(reviewResponse);
-
-  console.log("all reviews with images", allReviews);
-
-
-
+  const allReviews = await transformReviewImages(reviews);
 
   return (
     <div className="min-h-screen bg-background">
@@ -216,11 +205,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
           <CustomerReviews
             allReviews={allReviews}
             averageRating={product.rating}
-            totalReviews={reviewResponse.data.totalReviews}
-            distribution={reviewResponse.data.ratingDistribution}
+            totalReviews={reviews.data.totalReviews}
+            distribution={reviews.data.ratingDistribution}
             reviewData={reviewData}
             isActionDisabled={isActionDisabled}
-            session = {session}
+            session={session}
+            variantId={variant._id}
           />
         </div>
         {/* Similar Products -> as if for now no data is coming will look for it in the future */}

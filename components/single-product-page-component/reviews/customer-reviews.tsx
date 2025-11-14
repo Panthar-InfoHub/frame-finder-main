@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useTransition } from "react"
 import { Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -9,6 +9,7 @@ import { ReviewCard } from "./review-card"
 import { WriteReviewForm } from "./write-review-form"
 import { toast } from "sonner"
 import { deleteReview } from "@/actions/products"
+import { useRouter } from "next/navigation"
 
 interface CustomerReviewsProps {
   allReviews: any
@@ -25,25 +26,17 @@ interface CustomerReviewsProps {
     onModel: string;
   }
   isActionDisabled?: boolean
-  session : any 
+  session: any
+  variantId?: string
 
 }
 
-export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session }: CustomerReviewsProps) {
+export function CustomerReviews({ allReviews, averageRating, totalReviews, distribution, reviewData, isActionDisabled, session, variantId }: CustomerReviewsProps) {
   const [sortBy, setSortBy] = useState("recent")
+  const [isPending, startTransition] = useTransition()
   const [showWriteReview, setShowWriteReview] = useState(false)
   const [visibleReviews, setVisibleReviews] = useState(3)
-
-
-
-  // const allReviews = useMemo(() => {
-  //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
-  // }, [reviews.data.user_reviews, reviews.data.reviews])
-
-  // const allReviews = useMemo(() => {
-  //   return [...reviews.data.user_reviews, ...reviews.data.reviews]
-  // }, [reviews.data.user_reviews, reviews.data.reviews])
-
+  const router = useRouter();
 
   const displayedReviews = useMemo(() => {
     return allReviews.slice(0, visibleReviews)
@@ -55,20 +48,29 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
     setVisibleReviews((prev) => Math.min(prev + 3, allReviews.length))
   }
 
-  const handleDeleteReview = (reviewId: string) => {
-    if (!reviewId) return toast.error("not a valid review id")
+  const handleDeleteReview = async (reviewId: string) => {
+    try {
+      if (!reviewId) return toast.error("not a valid review id")
 
       const data = {
-        vendorId : reviewData.vendorId,
-        reviewId : reviewId
+        vendorId: reviewData.vendorId,
+        reviewId: reviewId,
+        variantId
       }
-    
-   const resposne = deleteReview(data);
-  
-    setTimeout(() => {
-      toast.success("Your review for the product has been deleted successfully")
-    }, 2000)
-    
+
+      startTransition(async () => {
+        const resposne = await deleteReview(data);
+
+        if (resposne.success) {
+          toast.success("Your review for the product has been deleted successfully");
+          router.refresh();
+        } else {
+          toast.warning("Review could not be deleted. Please try again.");
+        }
+      });
+    } catch (error) {
+      toast.error("Failed to delete the review. Please try again.");
+    }
   }
 
 
@@ -110,11 +112,11 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
             <WriteReviewForm
               reviewData={reviewData}
               setShowWriteReview={setShowWriteReview}
-              afterSubmit={(review) => {
-                console.log('review is here', review)
-                setAllReviews([review, ...allReviews, ])
-                console.log('New reviews array', [review, ...allReviews])
-              }}
+              variantId={variantId}
+            // afterSubmit={(review) => {
+            //   console.log('review is here', review)
+            //   setAllReviews([review, ...allReviews,])
+            //   console.log('New reviews array', [review, ...allReviews])}}
             />
           )}
         </div>
@@ -140,7 +142,7 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
         {/* Review Cards - user_reviews displayed first */}
         <div className="space-y-4">
           {displayedReviews.map((review) => (
-            <ReviewCard key={review._id} review={review} onDelete={handleDeleteReview} loggedId = {session?.user?.id} />
+            <ReviewCard key={review._id}  review={review} onDelete={handleDeleteReview} loggedId={session?.user?.id} isPending={isPending} />
           ))}
         </div>
 
