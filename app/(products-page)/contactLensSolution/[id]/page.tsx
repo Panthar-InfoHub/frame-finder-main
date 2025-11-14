@@ -11,7 +11,7 @@ import { CustomerReviews } from "@/components/single-product-page-component/revi
 import { SimilarProducts } from "@/components/single-product-page-component/similar-products";
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { auth } from "@/lib/auth";
-import { getImageUrls } from "@/lib/helper";
+import { getImageUrls, transformReviewImages } from "@/lib/helper";
 import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
 // import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 
@@ -27,7 +27,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     return <p>{`product not found - ${id}`}</p>;
   }
 
-  const product = res.data;
+  const product = res.data; 
   const variant = product.variants?.[0]; // default variant
   const images = variant?.images || [];
 
@@ -42,6 +42,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   // Fetch product reviews
   const reviewResponse = await getProductReview(id);
+
+  const allReviews = await transformReviewImages(reviewResponse);
 
   return (
     <div className="min-h-screen bg-background">
@@ -138,11 +140,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
         <div className="mt-12">
           <CustomerReviews
-            reviews={reviewResponse}
+            allReviews={allReviews}
             averageRating={product.rating}
             totalReviews={reviewResponse.data.totalReviews}
             distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
+            isActionDisabled={isActionDisabled}
+            session={session}
           />
         </div>
 

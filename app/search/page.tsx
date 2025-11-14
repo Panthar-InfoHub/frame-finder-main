@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { categories } from "@/lib/data";
-import { getProductUrlType } from "@/lib/helper";
+import { getProductUrlType } from "@/lib/utils";
 import { Search, SlidersHorizontal } from "lucide-react";
 import Form from 'next/form';
 import Image from "next/image";

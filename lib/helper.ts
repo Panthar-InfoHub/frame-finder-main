@@ -40,27 +40,6 @@ export const transformReviewImages = async (reviewResponse: any) => {
   return all_reviews;
 }
 
-export const getProductUrlType = (product_type: string): string => {
-  switch (product_type.toLowerCase()) {
-    case "product":
-      return "frames";
-    case "sunglass":
-      return "sunglasses";
-    case "reader":
-      return "readingGlasses";
-    case "contactlens":
-      return "contactLens";
-    case "colorcontactlens":
-      return "colorContactLens";
-    case "accessories":
-      return "accessories";
-    case "lenssolution":
-      return "contactLensSolution";
-    default:
-      return "frames";
-  }
-}
-
 export const checkIfSameUser = async (loggedID: string) => {
   const session = await auth();
   const userid = session.user.id;

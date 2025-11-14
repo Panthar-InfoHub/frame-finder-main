@@ -12,11 +12,11 @@ import { SimilarProducts } from "@/components/single-product-page-component/simi
 import { TrustBadges } from "@/components/single-product-page-component/trust-badges";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
-import { getImageUrls } from "@/lib/helper";
+import { getImageUrls, transformReviewImages } from "@/lib/helper";
 import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
 import Link from "next/link";
 // import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
-
+ 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const session = await auth();
@@ -44,6 +44,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   // Fetch product reviews
   const reviewResponse = await getProductReview(id);
+
+  const allReviews = await transformReviewImages(reviewResponse);
 
   return (
     <div className="min-h-screen bg-background">
@@ -151,11 +153,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
         <div className="mt-12">
           <CustomerReviews
-            reviews={reviewResponse}
+            allReviews={allReviews}
             averageRating={product.rating}
             totalReviews={reviewResponse.data.totalReviews}
             distribution={reviewResponse.data.ratingDistribution}
             reviewData={reviewData}
+            isActionDisabled={isActionDisabled}
+            session={session}
           />
         </div>
 
