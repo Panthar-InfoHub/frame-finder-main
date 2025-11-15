@@ -113,34 +113,9 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
           color: "#3399cc",
         },
         handler: async function (response: any) {
-          try {
-            // Verify payment on server
-            const verifyResponse = await fetch("/api/payment/verify", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
-
-            const verifyResult = await verifyResponse.json();
-
-            if (verifyResult.success) {
-              toast.success("Payment successful! 🎉");
-              router.push("/account?tab=orders");
-            } else {
-              toast.error("Payment verification failed");
-              setIsSubmitting(false);
-            }
-          } catch (error) {
-            console.error("Payment verification error:", error);
-            toast.error("Payment verification failed");
-            setIsSubmitting(false);
-          }
+          console.log("Razorpay payment response:", response);
+          toast.success("Order Placed Successfully! 🎉");
+          router.push("/account?tab=orders");
         },
         modal: {
           ondismiss: function () {
@@ -280,38 +255,6 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
                 <span>Coupon {checkoutData.appliedCoupon.coupon_code} applied</span>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Progress Tabs */}
-        <div className="mb-8">
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={() => setActiveTab("shipping")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${activeTab === "shipping"
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-white text-muted-foreground hover:bg-gray-50"
-                }`}
-            >
-              <MapPin className="w-4 h-4" />
-              <span className="font-medium">Shipping Address</span>
-            </button>
-            <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <button
-              onClick={() => setActiveTab("payment")}
-              disabled
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-muted-foreground opacity-50 cursor-not-allowed"
-            >
-              <span className="font-medium">Payment</span>
-            </button>
-            <ChevronRight className="w-5 h-5 text-muted-foreground" />
-            <button
-              onClick={() => setActiveTab("summary")}
-              disabled
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-muted-foreground opacity-50 cursor-not-allowed"
-            >
-              <span className="font-medium">Summary</span>
-            </button>
           </div>
         </div>
 
