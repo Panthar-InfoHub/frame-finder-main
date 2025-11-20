@@ -12,33 +12,60 @@ import { TrustBadges } from "@/components/single-product-page-component/trust-ba
 import { auth } from "@/lib/auth";
 import { getImageUrls, transformReviewImages } from "@/lib/helper";
 import { mockSimilarProducts, trustBadges } from "@/lib/mock-data";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+interface ProductPageParams {
+  params: Promise<{ id: string }>;
+  // searchParams: Promise<{ variantId: string | undefined }>
+}
+
+export default async function ProductPage({ params,  }: ProductPageParams) {
+  
+
   const { id } = await params;
+  // const query = await searchParams;
   const session = await auth();
 
   const isActionDisabled = !!session?.user;
 
-  const [res, reviewResponse] = await Promise.all([getAccessoriesById(id), await getProductReview(id)]);
+  
+// if (!id || !query.variantId) {
+//     return redirect('/');
+//   }
+
+ const [res, reviews] = await Promise.all([
+     getAccessoriesById(id),
+     getProductReview(id),
+   ])
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
 
   const product = res.data;
+  // const variant = product.variants.find((f) => f._id === query.variantId);
 
-  // Process image URLs - check if they're already complete URLs or need signed URLs
-  const imageUrls = await getImageUrls(product.images?.map((img: any) => img.url) || []);
+  // if (!variant) {
+  //   const newVariantId = product.variants[0]._id;
+  //   console.log('variant not found', 'redirecting to', newVariantId);
+  //   return redirect(`/frames/${id}?variantId=${newVariantId}`)
+  // }
+
+
+  const rawDim = product.dimension || {};
+  const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
+    label: k,
+    value: String(v ?? ""),
+  }));
+  const imageUrls = await getImageUrls(product.images.map((i) => i.url));
 
   const reviewData = {
     vendorId: product.vendorId._id,
     productId: product._id,
-    onModel: product.type
+    onModel: product.type,
   }
-
-  // Fetch product reviews
-  // const reviewResponse = await getProductReview(id);
-  const allReviews = await transformReviewImages(reviewResponse.data.reviews);
+  const allReviews = await transformReviewImages(reviews);
 
   return (
     <div className="min-h-screen bg-background">
@@ -150,15 +177,16 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           <CustomerReviews
             allReviews={allReviews}
             averageRating={product.rating}
-            totalReviews={reviewResponse.data.totalReviews}
-            distribution={reviewResponse.data.ratingDistribution}
+            totalReviews={reviews.data.totalReviews}
+            distribution={reviews.data.ratingDistribution}
+            isActionDisabled={isActionDisabled}
             reviewData={reviewData}
             session={session}
           />
         </div>
 
         {/* Similar Products */}
-        <SimilarProducts products={mockSimilarProducts} />
+        {/* <SimilarProducts products={mockSimilarProducts} /> */}
       </div>
     </div>
   );

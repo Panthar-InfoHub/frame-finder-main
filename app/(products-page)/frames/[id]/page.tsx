@@ -69,7 +69,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   const reviewData = {
     vendorId: product.vendorId._id,
     productId: product._id,
-    onModel: product.type
+    onModel: product.type,
   }
 
   const allReviews = await transformReviewImages(reviews);
@@ -124,6 +124,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
               productId={id}
               variants={product.variants}
               selectedVariantId={query.variantId}
+              productType = {"frames"}
             />
 
             {/* Color Selection */}

@@ -26,9 +26,10 @@ interface VariantSelectorProps {
   productId: string
   variants: Variant[]
   selectedVariantId: string
+  productType : string
 }
 
-export function VariantSelector({ productId, variants, selectedVariantId }: VariantSelectorProps) {
+export function VariantSelector({ productId, variants, selectedVariantId , productType }: VariantSelectorProps) {
 
   const router = useRouter();
   const [isTransitioning, Transition] = useTransition();
@@ -62,7 +63,7 @@ export function VariantSelector({ productId, variants, selectedVariantId }: Vari
               onClick={() => {
                 if (!isOutOfStock) {
                   Transition(() => {
-                    router.push(`/frames/${productId}?variantId=${variant._id}`)
+                    router.push(`/${productType}/${productId}?variantId=${variant._id}`)
                   })
                 }
               }}
