@@ -39,6 +39,7 @@ export const navigationLinks = [
   { label: "READING GLASSES", href: "/readingGlasses" },
   { label: "SUNGLASSES", href: "/sunglasses" },
   { label: "CONTACT LENSES", href: "/contactLens" },
+  { label: "COLOR CONTACT LENS", href: "/colorContactLens" },
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
 ];
@@ -212,14 +213,12 @@ export const navigationMenuData = {
   "CONTACT LENSES": {
     type: "simple-categories",
     categories: [
-      { name: "By Disposibility", href: "/contact-lenses?disposibility=disposibility" },
-      { name: "By Color", href: "/contact-lenses?color=color" },
+      { name: "By Disposibility", href: "/contactLens?disposibility=disposibility" },
     ],
   },
   ACCESSORIES: {
     type: "simple-categories",
-    categories: [
-      { name: "Contact lens Solutions", href: "/accessories?name=solution" },
+    categories: [ 
       { name: "Chains", href: "/accessories?name=chains" },
       { name: "Packaging Case", href: "/accessories?name=packaging" },
     ],

@@ -62,7 +62,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="self-end justify-self-end rounded-full bg-emerald-500 text-white hover:bg-emerald-600"
             aria-label={`Add ${product.brand_name} to cart`}
           >
-            Add to cart
+            View Details
           </Button>
         </div>
       </CardContent>
