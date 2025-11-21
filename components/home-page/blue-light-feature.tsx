@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function BlueLightFeature() {
   return (
@@ -27,9 +28,11 @@ export function BlueLightFeature() {
               <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
                 Blu computer glasses help reduce eye strain and enhance visual comfort during long hours of screen use.
               </p>
-              <Button size="lg" variant="outline" className="px-12 bg-transparent">
+              <Link href = "/readingGlasses">
+                <Button size="lg" variant="outline" className="px-12 bg-transparent">
                 Shop
               </Button>
+              </Link>
               {/* Decorative stars */}
               <div className="absolute top-8 right-8 w-2 h-2 bg-orange-500 rounded-full" />
               <div className="absolute bottom-12 right-12 w-2 h-2 bg-orange-500 rounded-full" />
