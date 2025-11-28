@@ -17,13 +17,15 @@ import { trustBadges } from "@/lib/mock-data";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-interface ProductPageParams {
+interface ProductPageParams { 
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ variantId: string | undefined }>
+  searchParams: Promise<{ variantId: string | undefined }>;
 }
 
-export default async function ProductPage({ params, searchParams }: ProductPageParams) {
-
+export default async function ProductPage({
+  params,
+  searchParams,
+}: ProductPageParams) {
   const { id } = await params;
   const query = await searchParams;
   const session = await auth();
@@ -31,30 +33,28 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   const isActionDisabled = !!session?.user;
 
   if (!id || !query.variantId) {
-    return redirect('/');
+    return redirect("/");
   }
 
-  // The below given fetching is for displaying the product information on the page 
+  // The below given fetching is for displaying the product information on the page
 
   const [res, reviews] = await Promise.all([
     getFrameById(id),
     getProductReview(id),
-  ])
+  ]);
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
   }
   const product = res.data;
 
-
   const variant = product.variants.find((f) => f._id === query.variantId);
 
   if (!variant) {
     const newVariantId = product.variants[0]._id;
-    console.log('variant not found', 'redirecting to', newVariantId);
-    return redirect(`/frames/${id}?variantId=${newVariantId}`)
+    console.log("variant not found", "redirecting to", newVariantId);
+    return redirect(`/frames/${id}?variantId=${newVariantId}`);
   }
-
 
   const rawDim = product.dimension || {};
   const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
@@ -65,25 +65,22 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   // Process image URLs - check if they're already complete URLs or need signed URLs
   const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
-
   const reviewData = {
     vendorId: product.vendorId._id,
     productId: product._id,
     onModel: product.type,
-  }
+  };
 
   const allReviews = await transformReviewImages(reviews);
 
   return (
     <div className="min-h-screen bg-background">
-
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-sm text-muted-foreground">
             Home | Eyeware | {product.brand_name}
           </p>
-
         </div>
       </div>
 
@@ -119,12 +116,11 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
               basePrice={variant.price.base_price}
             />
 
-
             <VariantSelector
               productId={id}
               variants={product.variants}
               selectedVariantId={query.variantId}
-              productType = {"frames"}
+              productType={"frames"}
             />
 
             {/* Color Selection */}
@@ -163,7 +159,14 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
                 aria-disabled={variant.stock.current === 0 || !isActionDisabled}
               >
-                <Link href={`/cart/onboarding/frames/${product._id}`} className={variant.stock.current === 0 || !isActionDisabled ? "pointer-events-none" : ""} >
+                <Link
+                  href={`/cart/onboarding/frames/${product._id}`}
+                  className={
+                    variant.stock.current === 0 || !isActionDisabled
+                      ? "pointer-events-none"
+                      : ""
+                  }
+                >
                   Select Lenses and Purchase
                 </Link>
               </Button>
