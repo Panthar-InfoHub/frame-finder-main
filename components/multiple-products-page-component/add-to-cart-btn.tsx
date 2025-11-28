@@ -43,8 +43,7 @@ export function AddToCartBtn({
     });
   };
 
-  const buttonText = btnText || "Add to Cart";
-
+  
   return (
     <Button
       variant="outline"
@@ -53,7 +52,7 @@ export function AddToCartBtn({
       disabled={isPending || isDisabled}
       className="min-w-[130px] flex-1 bg-transparent"
     >
-      {isPending ? "Adding..." : buttonText}
+      {productType === "Product" || productType === "Sunglass" ? "Buy only Frame" : "Add to cart"}
     </Button>
   );
 }

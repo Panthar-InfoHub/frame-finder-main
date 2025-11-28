@@ -35,7 +35,7 @@ export function HeroSection() {
                     <h1 className="text-5xl md:text-7xl font-bold mb-4">{slide.title}</h1>
                     <p className="text-xl md:text-2xl">{slide.subtitle}</p>
                   </div>
-                </div> */}
+                </div> */}x
               </div>
             </CarouselItem>
           ))}
