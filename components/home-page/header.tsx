@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { Menu, Search, ShoppingCart } from "lucide-react"
-import { navigationLinks, promoData } from "@/lib/data"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu, Search, ShoppingCart } from "lucide-react";
+import { navigationLinks, promoData } from "@/lib/data";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,32 +12,32 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu"
-import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu"
-import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu"
-import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu"
-import { UserAccountMenu } from "./dropdown-components/user-account-menu"
+} from "@/components/ui/navigation-menu";
+import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu";
+import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu";
+import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu";
+import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu";
+import { UserAccountMenu } from "./dropdown-components/user-account-menu";
 
 interface HeaderProps {
-  alwaysBlurred?: boolean
+  alwaysBlurred?: boolean;
 }
 
 export function Header({ alwaysBlurred = false }: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       // Trigger sticky nav after scrolling 50px
-      setIsScrolled(window.scrollY > 50)
-    }
+      setIsScrolled(window.scrollY > 50);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const shouldBlur = alwaysBlurred || isScrolled
+  const shouldBlur = alwaysBlurred || isScrolled;
 
   return (
     <>
@@ -45,7 +45,9 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
       <div className="bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden z-40 relative">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link href="/" className="font-semibold text-sm md:text-base">FrameFinder</Link>
+            <Link href="/" className="font-semibold text-sm md:text-base">
+              FrameFinder
+            </Link>
           </div>
           <div className="flex items-center gap-2 text-xs md:text-sm text-center flex-1 justify-center">
             <span>{promoData.text}</span>
@@ -59,8 +61,11 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
 
       {/* Navigation - Made sticky with blur effect when scrolled */}
       <nav
-        className={`sticky top-0 z-50 transition-all duration-300 ${shouldBlur ? "bg-white/80 backdrop-blur-md shadow-md" : "bg-transparent"
-          }`}
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          shouldBlur
+            ? "bg-white/80 backdrop-blur-md shadow-md"
+            : "bg-transparent"
+        }`}
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
@@ -70,10 +75,10 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                   {navigationLinks.map((link) => {
                     const textColorClass = shouldBlur
                       ? "text-black hover:text-black/70"
-                      : "text-white hover:text-white/80"
+                      : "text-white hover:text-white/80";
                     const bgClass = shouldBlur
                       ? "bg-transparent hover:bg-emerald-500 data-[state=open]:bg-emerald-500"
-                      : "bg-transparent hover:bg-transparent data-[state=open]:bg-transparent"
+                      : "bg-transparent hover:bg-transparent data-[state=open]:bg-transparent";
 
                     if (link.label === "EYEGLASSES") {
                       return (
@@ -89,7 +94,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                             <EyeglassesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      )
+                      );
                     }
 
                     if (link.label === "SUNGLASSES") {
@@ -106,7 +111,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                             <SunglassesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      )
+                      );
                     }
 
                     if (link.label === "CONTACT LENSES") {
@@ -123,7 +128,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                             <ContactLensesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      )
+                      );
                     }
 
                     if (link.label === "ACCESSORIES") {
@@ -140,7 +145,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                             <AccessoriesMegaMenu />
                           </NavigationMenuContent>
                         </NavigationMenuItem>
-                      )
+                      );
                     }
 
                     return (
@@ -154,7 +159,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                           </NavigationMenuLink>
                         </Link>
                       </NavigationMenuItem>
-                    )
+                    );
                   })}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -165,7 +170,11 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={`${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
+                  className={`${
+                    shouldBlur
+                      ? "text-black hover:bg-black/10"
+                      : "text-white hover:bg-white/10"
+                  }`}
                 >
                   <Search className="h-5 w-5 md:h-6 md:w-6" />
                 </Button>
@@ -174,7 +183,9 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`${shouldBlur ? "text-black" : "text-white hover:bg-[#00AA78]"}`}
+                className={`${
+                  shouldBlur ? "text-black" : "text-white hover:bg-[#00AA78]"
+                }`}
               >
                 <Link href="/cart">
                   <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
@@ -183,7 +194,11 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`lg:hidden ${shouldBlur ? "text-black hover:bg-black/10" : "text-white hover:bg-white/10"}`}
+                className={`lg:hidden ${
+                  shouldBlur
+                    ? "text-black hover:bg-black/10"
+                    : "text-white hover:bg-white/10"
+                }`}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 <Menu className="h-5 w-5 md:h-6 md:w-6" />
@@ -210,5 +225,5 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
         </div>
       </nav>
     </>
-  )
+  );
 }
