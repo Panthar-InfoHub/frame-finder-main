@@ -12,7 +12,7 @@ interface ProductCardProps {
 export function ProductCard({ name, price, rating, image }: ProductCardProps) {
   return (
     <div className="group relative">
-      <div className="relative aspect-[4/3] bg-muted rounded-lg overflow-hidden mb-3">
+      <div className="relative aspect-4/3 bg-muted rounded-lg overflow-hidden mb-3">
         {/* Product Image */}
         <Image src={image || "/placeholder.svg"} alt={name} fill className="object-cover" />
 

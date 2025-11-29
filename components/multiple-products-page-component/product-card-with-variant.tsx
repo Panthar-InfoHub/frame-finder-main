@@ -44,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
 
 
-        <div className={`aspect-[4/3] w-full rounded-xl bg-neutral-100 flex items-center justify-center relative`}>
+        <div className={`aspect-4/3 w-full rounded-xl bg-neutral-100 flex items-center justify-center relative`}>
           {/* Placeholder only; will be replaced with actual image later */}
           <Image src={product._image} alt={product.brand_name} fill className="object-cover h-full w-full" />
         </div>

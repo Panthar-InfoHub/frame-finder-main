@@ -56,16 +56,16 @@ export const applyCoupon = async (couponCode: string) => {
   }
 };
 
-export const getWishlist = async () => {
+export const getCart = async () => {
   try {
     const token = await getAccessToken();
-    const resp = await axios.get(`${API_URL}/wishlist`, {
+    const resp = await axios.get(`${API_URL}/cart`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     const data = resp.data;
     if (resp.status !== 200 || !data.success) {
-      throw new Error("Failed to load wishlist");
+      throw new Error("Failed to load cart");
     }
 
     return data.data; // array of items
@@ -74,12 +74,12 @@ export const getWishlist = async () => {
   }
 };
 
-// ✅ Remove single wishlist item
-export const removeFromWishlist = async (itemId: string) => {
+// ✅ Remove single cart item
+export const removeFromCart = async (itemId: string) => {
   try {
     const token = await getAccessToken();
     const resp = await axios.put(
-      `${API_URL}/wishlist/remove`,
+      `${API_URL}/cart/remove`,
       { itemId },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -102,12 +102,12 @@ export const removeFromWishlist = async (itemId: string) => {
   }
 };
 
-// ✅ Clear entire wishlist
-export const clearWishlist = async () => {
+// ✅ Clear entire cart
+export const clearCart = async () => {
   try {
     const token = await getAccessToken();
     const resp = await axios.put(
-      `${API_URL}/wishlist/clear`,
+      `${API_URL}/cart/clear`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -115,7 +115,7 @@ export const clearWishlist = async () => {
     const data = resp.data;
     revalidatePath("/cart");
     if (!data.success) {
-      const errorMsg = data?.error?.message || data?.message || "Failed to clear wishlist";
+      const errorMsg = data?.error?.message || data?.message || "Failed to clear cart";
       throw new Error(errorMsg);
     }
     return { success: true };
@@ -125,13 +125,13 @@ export const clearWishlist = async () => {
       error?.response?.data?.error?.message ||
       error?.response?.data?.message ||
       error?.message ||
-      "Failed to clear wishlist";
+      "Failed to clear cart";
     return { success: false, message: errorMsg };
   }
 };
 
-// ✅ Add item to wishlist with variant (for frames, sunglasses, etc.)
-export const addDirectToWishlist = async (
+// ✅ Add item to cart with variant (for frames, sunglasses, etc.)
+export const addDirectToCart = async (
   productId: string,
   variantId: string,
   quantity: number,
@@ -147,8 +147,8 @@ export const addDirectToWishlist = async (
         type: productType,
       },
     };
-    console.log("Add direct to wishlist payload:", payload);
-    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+    console.log("Add direct to cart payload:", payload);
+    const resp = await axios.post(`${API_URL}/cart/add`, payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -169,8 +169,8 @@ export const addDirectToWishlist = async (
   }
 };
 
-// ✅ Add item to wishlist without variant (for accessories)
-export const addToWishlistWithoutVariant = async (
+// ✅ Add item to cart without variant (for accessories)
+export const addToCartWithoutVariant = async (
   productId: string,
   quantity: number,
   productType: ProductType
@@ -184,8 +184,8 @@ export const addToWishlistWithoutVariant = async (
         type: productType,
       },
     };
-    console.log("Add to wishlist without variant payload:", payload);
-    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+    console.log("Add to cart without variant payload:", payload);
+    const resp = await axios.post(`${API_URL}/cart/add`, payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -206,11 +206,11 @@ export const addToWishlistWithoutVariant = async (
   }
 };
 
-// ✅ Add full item (with prescription and/or lens package) to wishlist
-export const addItemToWishlist = async (payload: any) => {
+// ✅ Add full item (with prescription and/or lens package) to cart
+export const addItemToCart = async (payload: any) => {
   try {
     const token = await getAccessToken();
-    const resp = await axios.post(`${API_URL}/wishlist/add`, payload, {
+    const resp = await axios.post(`${API_URL}/cart/add`, payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

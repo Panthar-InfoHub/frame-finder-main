@@ -1,6 +1,6 @@
 "use client";
 
-import { clearWishlist, removeFromWishlist, applyCoupon } from "@/actions/cart";
+import { clearCart, removeFromCart, applyCoupon } from "@/actions/cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -76,10 +76,10 @@ interface CartItem {
 }
 
 export default function CartPageClient({
-  wishlist,
+  cartItems,
   priceBreakdown,
 }: {
-  wishlist: CartItem[];
+  cartItems: CartItem[];
   priceBreakdown: PriceBreakdown | null;
 }) {
   const router = useRouter();
@@ -93,7 +93,7 @@ export default function CartPageClient({
   const handleRemove = async (itemId: string) => {
     setRemovingItemId(itemId);
     try {
-      const res = await removeFromWishlist(itemId);
+      const res = await removeFromCart(itemId);
       if (res?.success) {
         toast.success("Item removed from cart");
         router.refresh();
@@ -112,7 +112,7 @@ export default function CartPageClient({
   const handleClear = async () => {
     setIsClearing(true);
     try {
-      const res = await clearWishlist();
+      const res = await clearCart();
       if (res?.success) {
         toast.success("Cart cleared successfully");
         router.refresh();
@@ -212,7 +212,7 @@ export default function CartPageClient({
       .join(" ");
   };
 
-  if (!wishlist?.length) {
+  if (!cartItems?.length) {
     return <EmptyComponent name="Your Cart is empty" />;
   }
 
@@ -226,7 +226,7 @@ export default function CartPageClient({
             Shopping Cart
           </h1>
           <p className="text-muted-foreground mt-2">
-            {wishlist.length} {wishlist.length === 1 ? "item" : "items"} in your cart
+            {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in your cart
           </p>
         </div>
 
@@ -249,7 +249,7 @@ export default function CartPageClient({
 
             {/* Cart Items */}
             <div className="space-y-4">
-              {wishlist.map((item) => (
+              {cartItems.map((item) => (
                 <div
                   key={item._id}
                   className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow"
@@ -441,7 +441,7 @@ export default function CartPageClient({
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">
-                      Subtotal ({wishlist.length} items)
+                      Subtotal ({cartItems.length} items)
                     </span>
                     <span className="font-medium">
                       ₹{priceBreakdown?.sub_total?.toLocaleString() || 0}

@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import StepPrescription from "./step-prescription";
 import { useRouter } from "next/navigation";
-import { addItemToWishlist } from "@/actions/cart";
+import { addItemToCart } from "@/actions/cart";
 import { ProductType } from "@/types/product";
 import { toast } from "sonner";
 
@@ -60,9 +60,9 @@ export default function AddToCartFormLens({
     console.log("Final Payload:", payload);
     setIsSubmitting(true);
     try {
-      const resp = await addItemToWishlist(payload);
-      if (!resp?.success) {
-        const errorMsg = resp?.message || "Failed to add to wishlist";
+      const resp = await addItemToCart(payload);
+      if (!resp.success) {
+        const errorMsg = resp?.message || "Failed to add to cart";
         toast.error(errorMsg);
         return;
       }

@@ -1,14 +1,14 @@
-import { getWishlist } from "@/actions/cart";
+import { getCart } from "@/actions/cart";
 import CartPageClient from "@/components/cart/cart-page";
 import { getImageUrl } from "@/lib/helper";
 
 export default async function CartPage() {
-  const wishlist = await getWishlist();
-  console.log(wishlist);
+  const cart = await getCart();
+  console.log(cart);
 
   // Extract items array and price breakdown from the response
-  const items = wishlist?.items || [];
-  const priceBreakdown = wishlist?.price_breakdown || null;
+  const items = cart?.items || [];
+  const priceBreakdown = cart?.price_breakdown || null;
 
   // Process images for each item (handles variant images, product images, and item-level images)
   const itemsWithProcessedImages = await Promise.all(
@@ -50,5 +50,5 @@ export default async function CartPage() {
     })
   );
 
-  return <CartPageClient wishlist={itemsWithProcessedImages} priceBreakdown={priceBreakdown} />;
+  return <CartPageClient cartItems={itemsWithProcessedImages} priceBreakdown={priceBreakdown} />;
 }
