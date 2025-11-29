@@ -1,1 +1,8 @@
-export type ProductType = 'Sunglass' | 'Product' | 'ContactLens' | 'ColorContactLens' |'Reader' | 'Accessories';
+export type ProductType =
+  | "Sunglass"
+  | "Product"
+  | "ContactLens"
+  | "ColorContactLens"
+  | "Reader"
+  | "Accessories"
+  | "LensSolution";
