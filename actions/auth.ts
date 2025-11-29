@@ -73,7 +73,7 @@ export const registerUser = async (userData: {
 
 export const logoutUser = async () => {
   try {
-    await signOut({ redirectTo: "/login" });
+    await signOut({ redirect: false });
     return { success: true };
   } catch (error) {
     console.error("Error logging out:", error);
