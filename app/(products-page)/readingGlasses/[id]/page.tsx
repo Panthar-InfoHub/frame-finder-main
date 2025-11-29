@@ -13,11 +13,7 @@ import { TrustBadges } from "@/components/single-product-page-component/trust-ba
 import { VariantSelector } from "@/components/single-product-page-component/variant-selector";
 import { auth } from "@/lib/auth";
 import { getImageUrls, transformReviewImages } from "@/lib/helper";
-import {
-  frameDimensions,
-  mockSimilarProducts,
-  trustBadges,
-} from "@/lib/mock-data";
+import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
 // import { mockProduct, mockSimilarProducts, frameDimensions, trustBadges } from "@/lib/mock-data"
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -27,10 +23,7 @@ interface ProductPageParams {
   searchParams: Promise<{ variantId: string | undefined }>;
 }
 
-export default async function ProductPage({
-  params,
-  searchParams,
-}: ProductPageParams) {
+export default async function ProductPage({ params, searchParams }: ProductPageParams) {
   const { id } = await params;
   const query = await searchParams;
   const session = await auth();
@@ -41,10 +34,7 @@ export default async function ProductPage({
     return redirect("/");
   }
 
-  const [res, reviews] = await Promise.all([
-    getReadingGlassById(id),
-    getProductReview(id),
-  ]);
+  const [res, reviews] = await Promise.all([getReadingGlassById(id), getProductReview(id)]);
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
@@ -80,9 +70,7 @@ export default async function ProductPage({
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-sm text-muted-foreground">
-            Home | Eyeware | {product.brand_name}
-          </p>
+          <p className="text-sm text-muted-foreground">Home | Eyeware | {product.brand_name}</p>
         </div>
       </div>
 
@@ -91,10 +79,7 @@ export default async function ProductPage({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div>
-            <ProductImageGallery
-              imageUrls={imageUrls}
-              brandName={product.brand_name}
-            />
+            <ProductImageGallery imageUrls={imageUrls} brandName={product.brand_name} />
           </div>
 
           {/* Right: Product Details */}
@@ -105,12 +90,12 @@ export default async function ProductPage({
               status={product.status}
               vendor={product.vendorId}
               createdAt={product.createdAt}
+              productId={product._id}
+              productType="Reader"
+              selectedVariantId={query.variantId}
             />
 
-            <ProductRating
-              rating={product.rating}
-              totalReviews={product.total_reviews}
-            />
+            <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
 
             <ProductPrice
               totalPrice={variant.price.total_price}
@@ -129,15 +114,11 @@ export default async function ProductPage({
             <div className="space-y-2">
               <p className="text-sm font-medium">
                 Frame Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.frame_color}
-                </span>
+                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
               </p>
               <p className="text-sm font-medium">
                 Temple Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.temple_color}
-                </span>
+                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
               </p>
             </div>
 
@@ -147,9 +128,7 @@ export default async function ProductPage({
                 In Stock ({variant.stock.current} available)
               </p>
             ) : (
-              <p className="text-sm text-destructive font-medium">
-                Out of Stock
-              </p>
+              <p className="text-sm text-destructive font-medium">Out of Stock</p>
             )}
 
             {/* Action Buttons */}

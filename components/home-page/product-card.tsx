@@ -1,15 +1,28 @@
-import Image from "next/image"
-import { Heart, Star } from "lucide-react"
+"use client";
+
+import Image from "next/image";
+import { Star } from "lucide-react";
+import { WishlistHeartButton } from "@/components/common/wishlist-heart-button";
 
 interface ProductCardProps {
-  id: number
-  name: string
-  price: number
-  rating: number
-  image: string
+  id: string;
+  name: string;
+  price: number;
+  rating: number;
+  image: string;
+  productType?: string;
+  variantId?: string;
 }
 
-export function ProductCard({ name, price, rating, image }: ProductCardProps) {
+export function ProductCard({
+  id,
+  name,
+  price,
+  rating,
+  image,
+  productType,
+  variantId,
+}: ProductCardProps) {
   return (
     <div className="group relative">
       <div className="relative aspect-4/3 bg-muted rounded-lg overflow-hidden mb-3">
@@ -31,10 +44,16 @@ export function ProductCard({ name, price, rating, image }: ProductCardProps) {
         </div>
 
         {/* Wishlist Heart */}
-        <button className="p-1 hover:scale-110 transition-transform" aria-label="Add to wishlist">
-          <Heart className="w-5 h-5 md:w-6 md:h-6 text-foreground hover:fill-red-500 hover:text-red-500 transition-colors" />
-        </button>
+        {id && productType && (
+          <WishlistHeartButton
+            productId={id}
+            productType={productType as any}
+            variantId={variantId}
+            size="sm"
+            className="mt-1"
+          />
+        )}
       </div>
     </div>
-  )
+  );
 }

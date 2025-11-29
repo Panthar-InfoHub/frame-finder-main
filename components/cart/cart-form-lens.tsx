@@ -38,7 +38,7 @@ export default function AddToCartFormLens({
 
   const handleFinish = async () => {
     const variant = product?.variants?.[0] || product?.variant || {};
-    
+
     // Payload only includes prescription, no lens package
     const payload = {
       item: {
@@ -79,11 +79,7 @@ export default function AddToCartFormLens({
   return (
     <div className="bg-white shadow-xl rounded-2xl p-6 max-w-5xl mx-auto mt-6">
       {step === 1 && (
-        <StepPrescription
-          product={product}
-          onNext={nextStep}
-          onBack={() => router.back()}
-        />
+        <StepPrescription product={product} onNext={nextStep} onBack={() => router.back()} />
       )}
       {step === 2 && (
         <div>
@@ -98,12 +94,16 @@ export default function AddToCartFormLens({
                   className="w-full h-52 object-contain bg-white"
                 />
               </div>
-              <div className="font-semibold">{product?.brand_name || product?.name || "Product"}</div>
+              <div className="font-semibold">
+                {product?.brand_name || product?.name || "Product"}
+              </div>
               <div className="text-sm text-gray-600">
-                ₹{product?.variants?.[0]?.price?.total_price || 
-                  product?.variants?.[0]?.price?.base_price || 
-                  product?.price || 
-                  0}/-
+                ₹
+                {product?.variants?.[0]?.price?.total_price ||
+                  product?.variants?.[0]?.price?.base_price ||
+                  product?.price ||
+                  0}
+                /-
               </div>
             </div>
             {/* Right: Prescription summary */}
@@ -120,15 +120,19 @@ export default function AddToCartFormLens({
                     {formData.prescription.values?.rightSPH && (
                       <div>
                         <strong>Right Eye:</strong> SPH: {formData.prescription.values.rightSPH}
-                        {formData.prescription.values.rightCYL && `, CYL: ${formData.prescription.values.rightCYL}`}
-                        {formData.prescription.values.rightAXIS && `, Axis: ${formData.prescription.values.rightAXIS}`}
+                        {formData.prescription.values.rightCYL &&
+                          `, CYL: ${formData.prescription.values.rightCYL}`}
+                        {formData.prescription.values.rightAXIS &&
+                          `, Axis: ${formData.prescription.values.rightAXIS}`}
                       </div>
                     )}
                     {formData.prescription.values?.leftSPH && (
                       <div>
                         <strong>Left Eye:</strong> SPH: {formData.prescription.values.leftSPH}
-                        {formData.prescription.values.leftCYL && `, CYL: ${formData.prescription.values.leftCYL}`}
-                        {formData.prescription.values.leftAXIS && `, Axis: ${formData.prescription.values.leftAXIS}`}
+                        {formData.prescription.values.leftCYL &&
+                          `, CYL: ${formData.prescription.values.leftCYL}`}
+                        {formData.prescription.values.leftAXIS &&
+                          `, Axis: ${formData.prescription.values.leftAXIS}`}
                       </div>
                     )}
                     {formData.prescription.values?.pd && (
@@ -170,10 +174,7 @@ export default function AddToCartFormLens({
         </div>
       )}
 
-      <div className="flex justify-center text-sm text-gray-500 mt-4">
-        Step {step} of 2
-      </div>
+      <div className="flex justify-center text-sm text-gray-500 mt-4">Step {step} of 2</div>
     </div>
   );
 }
-
