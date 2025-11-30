@@ -26,10 +26,18 @@ export default async function AllContactlens({ searchParams }: searchParamsProps
     brand: brand as string || null,
   };
 
+  const category = [
+  { label: "Toric", value: "toric" },
+  { label: "Non-Toric", value: "non-toric" },
+  { label: "Multifocal", value: "multifocal" },
+];
+
   return (
     <ProductFetchingLayout
       pageTitle="CONTACT LENSES"
       heroImageSrc="/images/bg/cl_bg.png"
+      category={category}
+      productType="contactLens"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>

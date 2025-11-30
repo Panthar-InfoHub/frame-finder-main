@@ -19,10 +19,17 @@ export default async function Sunglasses({ searchParams }: searchParamsProps) {
     frame_color: frame_color as string || null,
     temple_color: temple_color as string || null,
   };
+
+  const category = [
+  { label: "Eyeglasses", value: "eyeglasses" },
+  { label: "Sunglasses", value: "sunglasses" },
+  { label: "Frames", value: "frames" },
+];
   return (
     <ProductFetchingLayout
       pageTitle=" SUNGLASSES"
       heroImageSrc="/images/bg/sun_bg.jpg"
+      category={category}
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>

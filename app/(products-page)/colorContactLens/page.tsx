@@ -25,11 +25,18 @@ export default async function ColorContactLens({ searchParams }: searchParamsPro
     material: material as string || null,
     brand: brand as string || null,
   };
+  const category = [
+  { label: "Zero", value: "zero" },
+  { label: "Power", value: "power" },
+  { label: "Toric", value: "toric" },
+];
 
   return (
     <ProductFetchingLayout
       pageTitle="COLOR CONTACT LENSES"
       heroImageSrc="/images/bg/cl_bg.png"
+      category={category}
+      productType="colorContactLens"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>
