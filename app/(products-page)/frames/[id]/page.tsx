@@ -212,7 +212,7 @@ const newVariants = product.variants.map(v => {
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={dimensionArray} />
+            <FrameDimensions dimension={product.dimension} />
 
             {/* Accordion Details */}
             <ProductDetailsAccordion

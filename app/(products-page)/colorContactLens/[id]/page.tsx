@@ -51,7 +51,7 @@ export default async function ProductPage({
   }
 
   const product = res.data;
-  console.log(product)
+  console.log(product);
   const variant = product.variants.find((f) => f._id === query.variantId);
 
   if (!variant) {
@@ -68,27 +68,31 @@ export default async function ProductPage({
 
   // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
-  const rawUrls = product.variants.map(v => v.images?.[0]?.url || null);
-const [processedUrls, imageUrls] = await Promise.all([
-  getImageUrls(rawUrls.filter(Boolean)),
-  getImageUrls(variant.images.map((i) => i.url)),
-]);
-// const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+  const rawUrls = product.variants.map((v) => v.images?.[0]?.url || null);
+  const [processedUrls, imageUrls] = await Promise.all([
+    getImageUrls(rawUrls.filter(Boolean)),
+    getImageUrls(variant.images.map((i) => i.url)),
+  ]);
+  // const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
 
-let i = 0;
+  let i = 0;
 
-const newVariants = product.variants.map(v => {
-  const hasImg = v.images?.[0]?.url;
+  const newVariants = product.variants.map((v) => {
+    const hasImg = v.images?.[0]?.url;
 
-  return {
-    _id: v._id,
-    image: hasImg ? processedUrls[i++] : null,
-    stock: v.stock,
-    frame_color: v.frame_color,
-    temple_color: v.temple_color,
-    price: v.price,
-  };
-});
+    return {
+      _id: v._id,
+      image: hasImg ? processedUrls[i++] : null,
+      stock: v.stock,
+      frame_color: v.frame_color,
+      temple_color: v.temple_color,
+      price: v.price,
+    };
+  });
+
+  const rawDate = variant.exp_date;
+  const date = new Date(rawDate);
+  const formattedDate = date.toLocaleDateString("en-IN");
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
 
@@ -154,15 +158,21 @@ const newVariants = product.variants.map(v => {
             {/* Color Selection */}
             <div className="space-y-2">
               <p className="text-sm font-medium">
-                Frame Color:{" "}
+                Color:{" "}
                 <span className="text-muted-foreground capitalize">
-                  {variant.frame_color}
+                  {variant.color}
                 </span>
               </p>
               <p className="text-sm font-medium">
-                Temple Color:{" "}
+                Disposability:{" "}
                 <span className="text-muted-foreground capitalize">
-                  {variant.temple_color}
+                  {variant.disposability}
+                </span>
+              </p>
+              <p className="text-sm font-medium">
+                Expiry:{" "}
+                <span className="text-muted-foreground capitalize">
+                  {formattedDate}
                 </span>
               </p>
             </div>
@@ -208,7 +218,7 @@ const newVariants = product.variants.map(v => {
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            {/* <FrameDimensions dimensions={frameDimensions} /> */}
 
             {/* Accordion Details */}
             <ProductDetailsAccordion

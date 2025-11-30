@@ -167,6 +167,12 @@ const newVariants = product.variants.map(v => {
                   {variant.temple_color}
                 </span>
               </p>
+              <p className="text-sm font-medium">
+                Lens Color:{" "}
+                <span className="text-muted-foreground capitalize">
+                  {variant.lens_color}
+                </span>
+              </p>
             </div>
 
             {/* Stock Status */}
@@ -208,7 +214,7 @@ const newVariants = product.variants.map(v => {
               />
             </div>
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            <FrameDimensions dimension={product.dimension} />
 
             {/* Accordion Details */}
             <ProductDetailsAccordion

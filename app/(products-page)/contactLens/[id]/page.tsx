@@ -92,6 +92,10 @@ const newVariants = product.variants.map(v => {
   };
 });
 
+const rawDate = variant.exp_date;
+const date = new Date(rawDate);
+const formattedDate = date.toLocaleDateString("en-IN");
+
   const reviewData = {
     vendorId: product.vendorId._id,
     productId: product._id,
@@ -154,15 +158,15 @@ const newVariants = product.variants.map(v => {
             {/* Color Selection */}
             <div className="space-y-2">
               <p className="text-sm font-medium">
-                Frame Color:{" "}
+                Disposability:{" "}
                 <span className="text-muted-foreground capitalize">
-                  {variant.frame_color}
+                  {variant.disposability}
                 </span>
               </p>
               <p className="text-sm font-medium">
-                Temple Color:{" "}
+                Expiry:{" "}
                 <span className="text-muted-foreground capitalize">
-                  {variant.temple_color}
+                  {formattedDate}
                 </span>
               </p>
             </div>
@@ -208,7 +212,7 @@ const newVariants = product.variants.map(v => {
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            {/* <FrameDimensions dimensions={frameDimensions} /> */}
 
             {/* Accordion Details */}
             <ProductDetailsAccordion

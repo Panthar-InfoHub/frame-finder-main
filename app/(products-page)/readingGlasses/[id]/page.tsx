@@ -2,6 +2,7 @@ import { getReadingGlassById, getProductReview } from "@/actions/products";
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
+import { LensPowerSelector } from "@/components/single-product-page-component/lens-power-selector";
 import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
 import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
 import { ProductInfo } from "@/components/single-product-page-component/product-info";
@@ -67,27 +68,27 @@ export default async function ProductPage({
 
   // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
-  const rawUrls = product.variants.map(v => v.images?.[0]?.url || null);
-const [processedUrls, imageUrls] = await Promise.all([
-  getImageUrls(rawUrls.filter(Boolean)),
-  getImageUrls(variant.images.map((i) => i.url)),
-]);
-// const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+  const rawUrls = product.variants.map((v) => v.images?.[0]?.url || null);
+  const [processedUrls, imageUrls] = await Promise.all([
+    getImageUrls(rawUrls.filter(Boolean)),
+    getImageUrls(variant.images.map((i) => i.url)),
+  ]);
+  // const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
 
-let i = 0;
+  let i = 0;
 
-const newVariants = product.variants.map(v => {
-  const hasImg = v.images?.[0]?.url;
+  const newVariants = product.variants.map((v) => {
+    const hasImg = v.images?.[0]?.url;
 
-  return {
-    _id: v._id,
-    image: hasImg ? processedUrls[i++] : null,
-    stock: v.stock,
-    frame_color: v.frame_color,
-    temple_color: v.temple_color,
-    price: v.price,
-  };
-});
+    return {
+      _id: v._id,
+      image: hasImg ? processedUrls[i++] : null,
+      stock: v.stock,
+      frame_color: v.frame_color,
+      temple_color: v.temple_color,
+      price: v.price,
+    };
+  });
 
   const reviewData = {
     vendorId: product.vendorId._id,
@@ -134,11 +135,22 @@ const newVariants = product.variants.map(v => {
               totalReviews={product.total_reviews}
             />
 
-            <ProductPrice
-              totalPrice={variant.price.total_price}
-              mrp={variant.price.mrp}
-              basePrice={variant.price.base_price}
-            />
+
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+              <div className="flex-1">
+              <ProductPrice
+                totalPrice={variant.price.total_price}
+                mrp={variant.price.mrp}
+                basePrice={variant.price.base_price}
+              />
+              {variant.power && variant.power.length > 0 && (
+                <div className="sm:w-auto w-full">
+                  <LensPowerSelector lensPowers={variant.power} />
+                </div>
+              )}
+            </div>
+            </div>
+            
 
             <VariantSelector
               productId={id}
@@ -186,7 +198,7 @@ const newVariants = product.variants.map(v => {
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            <FrameDimensions dimension={product.dimension} />
 
             {/* Accordion Details */}
             <ProductDetailsAccordion

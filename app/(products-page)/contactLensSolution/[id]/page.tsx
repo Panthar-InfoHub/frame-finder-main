@@ -156,15 +156,9 @@ const newVariants = product.variants.map(v => {
             {/* Color Selection */}
             <div className="space-y-2">
               <p className="text-sm font-medium">
-                Frame Color:{" "}
+                Size:{" "}
                 <span className="text-muted-foreground capitalize">
-                  {variant.frame_color}
-                </span>
-              </p>
-              <p className="text-sm font-medium">
-                Temple Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.temple_color}
+                  {variant.sizes}
                 </span>
               </p>
             </div>
@@ -192,7 +186,7 @@ const newVariants = product.variants.map(v => {
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            {/* <FrameDimensions dimensions={frameDimensions} /> */}
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
