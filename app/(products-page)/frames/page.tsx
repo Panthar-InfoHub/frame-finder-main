@@ -56,9 +56,9 @@ async function ProductList({ filters }: { filters: any }) {
         {newArrivals.map((product) => (
           <ProductCard key={product._id} product={product} productType="frames" />
           // <Link href={`/frames/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
-            
           // </Link>
         ))}
+        
       </div>
     </>
   );

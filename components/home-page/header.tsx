@@ -43,7 +43,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
   return (
     <>
       {/* Top Banner - Removed sticky positioning so only nav sticks */}
-      <div className="bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden z-40 ">
+      <div className=" sticky top-0 bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden z-40 ">
         <div className="container mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 md:gap-3">
             <Link href="/contact" className="flex items-center gap-2">

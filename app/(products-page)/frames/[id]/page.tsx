@@ -48,6 +48,16 @@ export default async function ProductPage({
   }
   const product = res.data;
 
+  // this here will extract url of each variant's first image
+//   const firstImages = product.variants
+//   .map(v => v.images?.[0]?.url)
+//   .filter(Boolean);
+// const processedUrls = await getImageUrls(firstImages);
+
+// const variantImages = product.variants.map(v => ({
+//   id: v._id,
+//   url: v.images?.[0]?.url || null,
+// }));
   const variant = product.variants.find((f) => f._id === query.variantId);
 
   if (!variant) {
@@ -62,8 +72,29 @@ export default async function ProductPage({
     value: String(v ?? ""),
   }));
 
-  // Process image URLs - check if they're already complete URLs or need signed URLs
-  const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+  // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+
+  const rawUrls = product.variants.map(v => v.images?.[0]?.url || null);
+const [processedUrls, imageUrls] = await Promise.all([
+  getImageUrls(rawUrls.filter(Boolean)),
+  getImageUrls(variant.images.map((i) => i.url)),
+]);
+// const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+
+let i = 0;
+
+const newVariants = product.variants.map(v => {
+  const hasImg = v.images?.[0]?.url;
+
+  return {
+    _id: v._id,
+    image: hasImg ? processedUrls[i++] : null,
+    stock: v.stock,
+    frame_color: v.frame_color,
+    temple_color: v.temple_color,
+    price: v.price,
+  };
+});
 
   const reviewData = {
     vendorId: product.vendorId._id,
@@ -118,9 +149,10 @@ export default async function ProductPage({
 
             <VariantSelector
               productId={id}
-              variants={product.variants}
+              variants={newVariants}
               selectedVariantId={query.variantId}
               productType={"frames"}
+              // processedUrls={processedUrls}
             />
 
             {/* Color Selection */}
