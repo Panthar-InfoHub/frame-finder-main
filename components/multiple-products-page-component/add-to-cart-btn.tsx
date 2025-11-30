@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { addDirectToWishlist, addToWishlistWithoutVariant } from "@/actions/cart";
+import { addDirectToCart, addToCartWithoutVariant } from "@/actions/cart";
 import { toast } from "sonner";
 import { ProductType } from "@/types/product";
 
@@ -28,10 +28,10 @@ export function AddToCartBtn({
       // Use appropriate function based on whether variantId is provided
       if (variantId) {
         // Products with variants (frames, sunglasses, etc.)
-        res = await addDirectToWishlist(productId, variantId, 1, productType);
+        res = await addDirectToCart(productId, variantId, 1, productType);
       } else {
         // Products without variants (accessories)
-        res = await addToWishlistWithoutVariant(productId, 1, productType);
+        res = await addToCartWithoutVariant(productId, 1, productType);
       }
 
       if (res?.success) {

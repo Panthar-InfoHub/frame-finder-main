@@ -32,8 +32,11 @@ export function UserAccountMenu({ shouldBlur }: { shouldBlur: boolean }) {
     toast.dismiss();
 
     try {
-      await logoutUser();
-      toast.success("Logged out successfully!");
+      const result = await logoutUser();
+      if (result.success) {
+        toast.success("Logged out successfully!");
+        router.push("/login");
+      }
     } catch (error) {
       console.error("Logout error:", error);
       toast.error("Failed to logout. Please try again.");

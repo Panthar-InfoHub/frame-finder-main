@@ -14,11 +14,7 @@ import { VariantSelector } from "@/components/single-product-page-component/vari
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { getImageUrls, transformReviewImages } from "@/lib/helper";
-import {
-  frameDimensions,
-  mockSimilarProducts,
-  trustBadges,
-} from "@/lib/mock-data";
+import { frameDimensions, mockSimilarProducts, trustBadges } from "@/lib/mock-data";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -27,10 +23,7 @@ interface ProductPageParams {
   searchParams: Promise<{ variantId: string | undefined }>;
 }
 
-export default async function ProductPage({
-  params,
-  searchParams,
-}: ProductPageParams) {
+export default async function ProductPage({ params, searchParams }: ProductPageParams) {
   const { id } = await params;
   const query = await searchParams;
   const session = await auth();
@@ -41,10 +34,7 @@ export default async function ProductPage({
     return redirect("/");
   }
 
-  const [res, reviews] = await Promise.all([
-    getSunglassesById(id),
-    getProductReview(id),
-  ]);
+  const [res, reviews] = await Promise.all([getSunglassesById(id), getProductReview(id)]);
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
@@ -76,19 +66,16 @@ export default async function ProductPage({
 
   const allReviews = await transformReviewImages(reviews);
 
-  console.log(`product id : ${id}`)
-  console.log(`variants: ${product.variants}`)
-  console.log(`selected variant  id : ${query.variantId}`)
-
+  console.log(`product id : ${id}`);
+  console.log(`variants: ${product.variants}`);
+  console.log(`selected variant  id : ${query.variantId}`);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <p className="text-sm text-muted-foreground">
-            Home | Eyeware | {product.brand_name}
-          </p>
+          <p className="text-sm text-muted-foreground">Home | Eyeware | {product.brand_name}</p>
         </div>
       </div>
 
@@ -97,10 +84,7 @@ export default async function ProductPage({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image Gallery */}
           <div>
-            <ProductImageGallery
-              imageUrls={imageUrls}
-              brandName={product.brand_name}
-            />
+            <ProductImageGallery imageUrls={imageUrls} brandName={product.brand_name} />
           </div>
 
           {/* Right: Product Details */}
@@ -111,12 +95,12 @@ export default async function ProductPage({
               status={product.status}
               vendor={product.vendorId}
               createdAt={product.createdAt}
+              productId={product._id}
+              productType="Sunglass"
+              selectedVariantId={query.variantId}
             />
 
-            <ProductRating
-              rating={product.rating}
-              totalReviews={product.total_reviews}
-            />
+            <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
 
             <ProductPrice
               totalPrice={variant.price.total_price}
@@ -124,27 +108,22 @@ export default async function ProductPage({
               basePrice={variant.price.base_price}
             />
 
-
             <VariantSelector
               productId={id}
               variants={product.variants}
               selectedVariantId={query.variantId}
-              productType = {"sunglasses"}
+              productType={"sunglasses"}
             />
 
             {/* Color Selection */}
             <div className="space-y-2">
               <p className="text-sm font-medium">
                 Frame Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.frame_color}
-                </span>
+                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
               </p>
               <p className="text-sm font-medium">
                 Temple Color:{" "}
-                <span className="text-muted-foreground capitalize">
-                  {variant.temple_color}
-                </span>
+                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
               </p>
             </div>
 
@@ -154,9 +133,7 @@ export default async function ProductPage({
                 In Stock ({variant.stock.current} available)
               </p>
             ) : (
-              <p className="text-sm text-destructive font-medium">
-                Out of Stock
-              </p>
+              <p className="text-sm text-destructive font-medium">Out of Stock</p>
             )}
 
             {/* Action Buttons */}
@@ -171,9 +148,7 @@ export default async function ProductPage({
                 <Link
                   href={`/cart/onboarding/sunglasses/${product._id}`}
                   className={
-                    variant.stock.current === 0 || !isActionDisabled
-                      ? "pointer-events-none"
-                      : ""
+                    variant.stock.current === 0 || !isActionDisabled ? "pointer-events-none" : ""
                   }
                 >
                   Select Lenses and Purchase
