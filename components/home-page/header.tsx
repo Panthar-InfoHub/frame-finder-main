@@ -164,22 +164,22 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                       );
                     }
 
-                    if (link.label === "CONTACT LENSES") {
-                      return (
-                        <NavigationMenuItem key={link.href}>
-                          <Link href="/contactLens">
-                            <NavigationMenuTrigger
-                              className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
-                            >
-                              {link.label}
-                            </NavigationMenuTrigger>
-                          </Link>
-                          <NavigationMenuContent>
-                            <ContactLensesMegaMenu />
-                          </NavigationMenuContent>
-                        </NavigationMenuItem>
-                      );
-                    }
+                    // if (link.label === "CONTACT LENSES") {
+                    //   return (
+                    //     <NavigationMenuItem key={link.href}>
+                    //       <Link href="/contactLens">
+                    //         <NavigationMenuTrigger
+                    //           className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                    //         >
+                    //           {link.label}
+                    //         </NavigationMenuTrigger>
+                    //       </Link>
+                    //       <NavigationMenuContent>
+                    //         <ContactLensesMegaMenu />
+                    //       </NavigationMenuContent>
+                    //     </NavigationMenuItem>
+                    //   );
+                    // }
 
                     if (link.label === "ACCESSORIES") {
                       return (
