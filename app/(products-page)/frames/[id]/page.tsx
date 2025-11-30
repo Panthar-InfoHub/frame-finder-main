@@ -74,7 +74,7 @@ export default async function ProductPage({
 
   // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
-  const rawUrls = product.variants.map(v => v.images?.[0]?.url || null);
+  const rawUrls = product.variants.map(v => v.images?.[0]?.url || null);  
 const [processedUrls, imageUrls] = await Promise.all([
   getImageUrls(rawUrls.filter(Boolean)),
   getImageUrls(variant.images.map((i) => i.url)),
