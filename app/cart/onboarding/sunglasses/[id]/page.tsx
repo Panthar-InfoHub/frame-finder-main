@@ -1,7 +1,7 @@
 import { getSignedViewUrl } from "@/actions/cloud-storage";
 import { Suspense } from "react";
 import { getSunglassesById } from "@/actions/products";
-import AddToCartForm from "@/components/cart/cart-form";
+import AddToCartFormSunglasses from "@/components/cart/cart-form-sunglasses";
 
 export default async function AddToCartPage({ params }: { params: Promise<{ id?: string }> }) {
   const { id } = await params;
@@ -31,10 +31,9 @@ const CartPage = async ({ id }: { id: string }) => {
 
   return (
     <div className="h-full w-full p-6">
-      <AddToCartForm
+      <AddToCartFormSunglasses
         product={{ ...product, _signedImage: productImg }}
         vendorId={vendorId}
-        productType={"Sunglass"}
       />
     </div>
   );

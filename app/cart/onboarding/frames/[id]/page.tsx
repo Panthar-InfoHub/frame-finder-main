@@ -32,11 +32,7 @@ const CartPage = async ({ id }: { id: string }) => {
 
   return (
     <div className="h-full w-full p-6">
-      <AddToCartForm
-        product={{ ...product, _signedImage: productImg }}
-        vendorId={vendorId}
-        productType="Product"
-      />
+      <AddToCartForm product={{ ...product, _signedImage: productImg }} vendorId={vendorId} />
     </div>
   );
 };

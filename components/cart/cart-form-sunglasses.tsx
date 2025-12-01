@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import StepLensType from "./step-lens-type";
+import StepLensTypeSunglasses from "./step-lens-type-sunglasses";
 import StepPrescription from "./step-prescription";
 import StepLensPackage from "./step-lens-package";
 import StepSummary from "./step-summary";
@@ -8,7 +8,13 @@ import { useRouter } from "next/navigation";
 import { addItemToCart } from "@/actions/cart";
 import { toast } from "sonner";
 
-export default function AddToCartForm({ product, vendorId }: { product: any; vendorId?: string }) {
+export default function AddToCartFormSunglasses({
+  product,
+  vendorId,
+}: {
+  product: any;
+  vendorId?: string;
+}) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -38,7 +44,7 @@ export default function AddToCartForm({ product, vendorId }: { product: any; ven
 
   const prevStep = () => setStep((prev) => Math.max(1, prev - 1));
 
-  // Fetch packages lazily when moving to step 3 and we have lensType + vendorId
+  // Fetch packages lazily when moving to step 2 and we have lensType + vendorId
   const handlePackagesLoaded = (list: any[]) => {
     setPackages(list || []);
   };
@@ -52,7 +58,7 @@ export default function AddToCartForm({ product, vendorId }: { product: any; ven
         productId: product?._id,
         variantId: variant?._id,
         quantity: 1,
-        type: "Product",
+        type: "Sunglass",
         prescription:
           formData?.prescription?.method === "manual"
             ? {
@@ -94,21 +100,32 @@ export default function AddToCartForm({ product, vendorId }: { product: any; ven
 
   return (
     <div className="bg-white shadow-xl rounded-2xl p-6 max-w-5xl mx-auto mt-6">
+      {/* Step 1: Lens Type (Single Vision only for sunglasses) */}
       {step === 1 && (
-        <StepLensType product={product} onCancel={() => router.back()} onNext={nextStep} />
+        <StepLensTypeSunglasses
+          product={product}
+          onCancel={() => router.back()}
+          onNext={nextStep}
+        />
       )}
+
+      {/* Step 2: Prescription */}
       {step === 2 && <StepPrescription product={product} onNext={nextStep} onBack={prevStep} />}
+
+      {/* Step 3: Lens Package */}
       {step === 3 && (
         <StepLensPackage
           product={product}
           vendorId={vendorId}
-          productType="Product"
+          productType="Sunglass"
           lensTypeValue={formData.lensType?.value}
           onPackagesLoaded={handlePackagesLoaded}
           onNext={nextStep}
           onBack={prevStep}
         />
       )}
+
+      {/* Step 4: Summary */}
       {step === 4 && (
         <StepSummary
           product={product}

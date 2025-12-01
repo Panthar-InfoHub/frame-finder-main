@@ -10,7 +10,7 @@ interface FilterSidebarProps {
   onFilterChange?: (filters: any) => void
 }
 
-export function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
+export function  FilterSidebar({ onFilterChange }: FilterSidebarProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [selectedStyles, setSelectedStyles] = useState<string[]>([])
