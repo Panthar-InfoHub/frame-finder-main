@@ -17,7 +17,7 @@ import { trustBadges } from "@/lib/mock-data";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-interface ProductPageParams { 
+interface ProductPageParams {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ variantId: string | undefined }>;
 }
@@ -49,15 +49,15 @@ export default async function ProductPage({
   const product = res.data;
 
   // this here will extract url of each variant's first image
-//   const firstImages = product.variants
-//   .map(v => v.images?.[0]?.url)
-//   .filter(Boolean);
-// const processedUrls = await getImageUrls(firstImages);
+  //   const firstImages = product.variants
+  //   .map(v => v.images?.[0]?.url)
+  //   .filter(Boolean);
+  // const processedUrls = await getImageUrls(firstImages);
 
-// const variantImages = product.variants.map(v => ({
-//   id: v._id,
-//   url: v.images?.[0]?.url || null,
-// }));
+  // const variantImages = product.variants.map(v => ({
+  //   id: v._id,
+  //   url: v.images?.[0]?.url || null,
+  // }));
   const variant = product.variants.find((f) => f._id === query.variantId);
 
   if (!variant) {
@@ -74,27 +74,27 @@ export default async function ProductPage({
 
   // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
 
-  const rawUrls = product.variants.map(v => v.images?.[0]?.url || null);  
-const [processedUrls, imageUrls] = await Promise.all([
-  getImageUrls(rawUrls.filter(Boolean)),
-  getImageUrls(variant.images.map((i) => i.url)),
-]);
-// const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+  const rawUrls = product.variants.map((v) => v.images?.[0]?.url || null);
+  const [processedUrls, imageUrls] = await Promise.all([
+    getImageUrls(rawUrls.filter(Boolean)),
+    getImageUrls(variant.images.map((i) => i.url)),
+  ]);
+  // const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
 
-let i = 0;
+  let i = 0;
 
-const newVariants = product.variants.map(v => {
-  const hasImg = v.images?.[0]?.url;
+  const newVariants = product.variants.map((v) => {
+    const hasImg = v.images?.[0]?.url;
 
-  return {
-    _id: v._id,
-    image: hasImg ? processedUrls[i++] : null,
-    stock: v.stock,
-    frame_color: v.frame_color,
-    temple_color: v.temple_color,
-    price: v.price,
-  };
-});
+    return {
+      _id: v._id,
+      image: hasImg ? processedUrls[i++] : null,
+      stock: v.stock,
+      frame_color: v.frame_color,
+      temple_color: v.temple_color,
+      price: v.price,
+    };
+  });
 
   const reviewData = {
     vendorId: product.vendorId._id,
@@ -103,6 +103,19 @@ const newVariants = product.variants.map(v => {
   };
 
   const allReviews = await transformReviewImages(reviews);
+
+  const details = {
+    material: product.material,
+    shape: product.shape,
+    style: product.style,
+    gender: product.gender,
+    sizes: product.sizes,
+    isPower: product.is_Power,
+    vendorName: product.vendorId.business_name,
+    vendorRating: product.vendorId.rating,
+    vendorRatingCount: product.vendorId.total_reviews,
+    sellerSince: product.vendorId.year_of_experience,
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -216,16 +229,8 @@ const newVariants = product.variants.map(v => {
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product.vendorId.business_name}
-              vendorRating={product.vendorId.vendor_rating}
-              vendorRatingCount={product.vendorId.vendor_rating_count}
-              sellerSince={product.vendorId.seller_since}
+              details={details}
+              productType={"frames"}
             />
           </div>
         </div>

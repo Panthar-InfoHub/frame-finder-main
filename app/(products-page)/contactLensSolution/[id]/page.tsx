@@ -103,6 +103,20 @@ const newVariants = product.variants.map(v => {
   // Fetch product reviews
   const allReviews = await transformReviewImages(reviews);
 
+  const manufactureDate = new Date(variant.mfg_date);
+  const formattedMfgDate = manufactureDate.toLocaleDateString("en-IN");
+  const details = {
+    lens_material: variant.lens_material,
+    origin_contry: variant.origin_country,
+    case_avilability: variant.case_available,
+    mfg_date: formattedMfgDate,
+    isPower: product.is_Power,
+    vendorName: product?.vendorId?.business_name,
+    vendorRating: product?.vendorId?.rating,
+    vendorRatingCount: product?.vendorId?.total_reviews,
+    sellerSince: product?.vendorId?.year_of_experience,
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
@@ -190,16 +204,8 @@ const newVariants = product.variants.map(v => {
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+              details={details}
+              productType="contactLensSolution"
             />
           </div>
         </div>

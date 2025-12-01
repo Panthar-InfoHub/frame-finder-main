@@ -26,9 +26,8 @@ export default async function ColorContactLens({ searchParams }: searchParamsPro
     brand: brand as string || null,
   };
   const category = [
-  { label: "Zero", value: "zero" },
-  { label: "Power", value: "power" },
-  { label: "Toric", value: "toric" },
+  { label: "Spherical/Non-Toric", value: "spherical-non-toric" },
+  { label: "Zero Power", value: "zero-power" },
 ];
 
   return (

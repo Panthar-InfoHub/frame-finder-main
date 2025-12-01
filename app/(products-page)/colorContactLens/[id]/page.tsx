@@ -105,6 +105,21 @@ export default async function ProductPage({
   // Fetch product reviews
   const allReviews = await transformReviewImages(reviews);
 
+  const manufactureDate = new Date(variant.mfg_date);
+  const formattedMfgDate = manufactureDate.toLocaleDateString("en-IN");
+  const details = {
+    lens_type: product.lens_type,
+    lens_width: product.dimension?.lens_width,
+    lens_height: product.dimension?.lens_height,
+    quantity: variant?.pieces_per_box,
+    mfg_date: formattedMfgDate,
+    isPower: product?.is_Power,
+    vendorName: product?.vendorId?.business_name,
+    vendorRating: product?.vendorId?.rating,
+    vendorRatingCount: product?.vendorId?.total_reviews,
+    sellerSince: product?.vendorId?.year_of_experience,
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
@@ -222,16 +237,8 @@ export default async function ProductPage({
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+              details={details}
+              productType="contactLens"
             />
           </div>
         </div>

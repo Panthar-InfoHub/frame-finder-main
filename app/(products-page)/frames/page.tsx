@@ -23,8 +23,8 @@ export default async function Frames({ searchParams }: searchParamsProps) {
 
   const category = [
   { label: "Eyeglasses", value: "eyeglasses" },
-  { label: "Sunglasses", value: "sunglasses" },
-  { label: "Frames", value: "frames" },
+  { label: "Prescription", value: "prescription" },
+  { label: "Non-Prescription", value: "non-prescription" },
 ];
 
   return (

@@ -98,6 +98,19 @@ export default async function ProductPage({
 
   const allReviews = await transformReviewImages(reviews);
 
+  const details = {
+    material: product.material,
+    shape: product.shape,
+    style: product.style,
+    gender: product.gender,
+    sizes: product.sizes,
+    isPower: product.is_Power,
+    vendorName: product.vendorId.business_name,
+    vendorRating: product.vendorId.rating,
+    vendorRatingCount: product.vendorId.total_reviews,
+    sellerSince: product.vendorId.year_of_experience,
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
@@ -202,16 +215,8 @@ export default async function ProductPage({
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+             details={details}
+              productType="readingGlasses"
             />
           </div>
         </div>

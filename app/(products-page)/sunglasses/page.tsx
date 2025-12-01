@@ -21,15 +21,16 @@ export default async function Sunglasses({ searchParams }: searchParamsProps) {
   };
 
   const category = [
-  { label: "Eyeglasses", value: "eyeglasses" },
   { label: "Sunglasses", value: "sunglasses" },
-  { label: "Frames", value: "frames" },
+  { label: "Prescription Sunglasses", value: "prescription-sunglasses" },
+  { label: "Non-Prescription Sunglasses", value: "non-prescription-sunglasses" },
 ];
   return (
     <ProductFetchingLayout
       pageTitle=" SUNGLASSES"
       heroImageSrc="/images/bg/sun_bg.jpg"
       category={category}
+      productType="sunglasses"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>

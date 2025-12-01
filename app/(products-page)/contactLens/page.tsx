@@ -27,8 +27,8 @@ export default async function AllContactlens({ searchParams }: searchParamsProps
   };
 
   const category = [
+  { label: "Spherical/Non-Toric", value: "spherical-non-toric" },
   { label: "Toric", value: "toric" },
-  { label: "Non-Toric", value: "non-toric" },
   { label: "Multifocal", value: "multifocal" },
 ];
 

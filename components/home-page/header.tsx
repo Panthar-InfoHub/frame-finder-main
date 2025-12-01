@@ -28,22 +28,22 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Trigger sticky nav after scrolling 50px
-      setIsScrolled(window.scrollY > 50);
-    };
+    useEffect(() => {
+      const handleScroll = () => {
+        // Trigger sticky nav after scrolling 50px
+        setIsScrolled(window.scrollY > 50);
+      };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
   const shouldBlur = alwaysBlurred || isScrolled;
 
   return (
-    <>
+    <header className="sticky top-0 z-100 ">
       {/* Top Banner - Removed sticky positioning so only nav sticks */}
-      <div className=" sticky top-0 bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden z-40 ">
+      <div className=" bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden">
         <div className="container mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 md:gap-3">
             <Link href="/contact" className="flex items-center gap-2">
@@ -236,6 +236,6 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
           )}
         </div>
       </nav>
-    </>
+    </header>
   );
 }

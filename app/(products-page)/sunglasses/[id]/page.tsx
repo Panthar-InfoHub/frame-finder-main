@@ -97,9 +97,18 @@ const newVariants = product.variants.map(v => {
 
   const allReviews = await transformReviewImages(reviews);
 
-  console.log(`product id : ${id}`)
-  console.log(`variants: ${product.variants}`)
-  console.log(`selected variant  id : ${query.variantId}`)
+  const details = {
+    material: product.material,
+    shape: product.shape,
+    style: product.style,
+    gender: product.gender,
+    sizes: product.sizes,
+    isPower: product.is_Power,
+    vendorName: product.vendorId.business_name,
+    vendorRating: product.vendorId.rating,
+    vendorRatingCount: product.vendorId.total_reviews,
+    sellerSince: product.vendorId.year_of_experience,
+  };
 
 
   return (
@@ -218,16 +227,8 @@ const newVariants = product.variants.map(v => {
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+              details={details}
+              productType={"sunglasses"}
             />
           </div>
         </div>
