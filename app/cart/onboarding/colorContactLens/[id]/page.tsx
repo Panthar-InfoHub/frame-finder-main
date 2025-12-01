@@ -1,7 +1,7 @@
 import { getSignedViewUrl } from "@/actions/cloud-storage";
 import { Suspense } from "react";
 import { getColorContactLensById } from "@/actions/products";
-import AddToCartFormLens from "@/components/cart/cart-form-lens";
+import AddToCartFormColorContactLens from "@/components/cart/cart-form-color-contact-lens";
 
 export default async function AddToCartPage({ params }: { params: Promise<{ id?: string }> }) {
   const { id } = await params;
@@ -32,10 +32,7 @@ const CartPage = async ({ id }: { id: string }) => {
 
   return (
     <div className="h-full w-full p-6">
-      <AddToCartFormLens
-        product={{ ...product, _signedImage: productImg }}
-        productType="ColorContactLens"
-      />
+      <AddToCartFormColorContactLens product={{ ...product, _signedImage: productImg }} />
     </div>
   );
 };

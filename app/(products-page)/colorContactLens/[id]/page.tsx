@@ -41,7 +41,8 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }
 
   const product = res.data;
-  console.log(product);
+  const lensType = product?.lens_type;
+  console.log(lensType);
   const variant = product.variants.find((f) => f._id === query.variantId);
 
   if (!variant) {
