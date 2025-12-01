@@ -13,6 +13,13 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu";
 import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu";
 import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu";
@@ -28,15 +35,15 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-    useEffect(() => {
-      const handleScroll = () => {
-        // Trigger sticky nav after scrolling 50px
-        setIsScrolled(window.scrollY > 50);
-      };
+  useEffect(() => {
+    const handleScroll = () => {
+      // Trigger sticky nav after scrolling 50px
+      setIsScrolled(window.scrollY > 50);
+    };
 
-      window.addEventListener("scroll", handleScroll);
-      return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const shouldBlur = alwaysBlurred || isScrolled;
 
@@ -47,7 +54,9 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
         <div className="container mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 md:gap-3">
             <Link href="/contact" className="flex items-center gap-2">
-              <span className="font-semibold text-xs md:text-sm">Contact Us</span>
+              <span className="font-semibold text-xs md:text-sm">
+                Contact Us
+              </span>
             </Link>
             <div className="flex items-center gap-1">
               <Phone className="h-3 w-3 md:h-4 md:w-4" />
@@ -59,54 +68,60 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
             <span>{promoData.icon}</span>
           </div>
           <div className="flex items-center gap-2 md:gap-3">
-              <Link href="/search">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={`${
-                    shouldBlur
-                      ? "text-black hover:bg-black/10"
-                      : "text-white hover:bg-white/10"
-                  }`}
-                >
-                  <Search className="h-5 w-5 md:h-6 md:w-6" />
-                </Button>
-              </Link>
-              <UserAccountMenu shouldBlur={shouldBlur} />
+            <Link href="/search">
               <Button
                 variant="ghost"
                 size="icon"
                 className={`${
-                  shouldBlur ? "text-black" : "text-white hover:bg-[#00AA78]"
-                }`}
-              >
-                <Link href="/cart">
-                  <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
-                </Link>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={`lg:hidden ${
                   shouldBlur
                     ? "text-black hover:bg-black/10"
                     : "text-white hover:bg-white/10"
                 }`}
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                <Menu className="h-5 w-5 md:h-6 md:w-6" />
+                <Search className="h-5 w-5 md:h-6 md:w-6" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 h-8 w-8 md:h-9 md:w-9">
+            </Link>
+            <UserAccountMenu shouldBlur={shouldBlur} />
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`${
+                shouldBlur ? "text-black" : "text-white hover:bg-[#00AA78]"
+              }`}
+            >
+              <Link href="/cart">
+                <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
+              </Link>
+            </Button>
+            {/* <Button
+              variant="ghost"
+              size="icon"
+              className={`lg:hidden ${
+                shouldBlur
+                  ? "text-black hover:bg-black/10"
+                  : "text-white hover:bg-white/10"
+              }`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu className="h-5 w-5 md:h-6 md:w-6" />
+            </Button> */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`lg:hidden ${
+                shouldBlur
+                  ? "text-black hover:bg-black/10"
+                  : "text-white hover:bg-white/10"
+              }`}
+            >
               <Heart className="h-4 w-4 md:h-5 md:w-5" />
             </Button>
-            </div>
+          </div>
         </div>
       </div>
 
       {/* Navigation - Made sticky with blur effect when scrolled */}
-      <nav
-          className={`sticky top-0 z-50 left-0 right-0 bg-emerald-500`}
-      >
+      <nav className={`sticky top-0 z-50 left-0 right-0 bg-emerald-500`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" className="shrink-0">
@@ -164,23 +179,6 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                       );
                     }
 
-                    // if (link.label === "CONTACT LENSES") {
-                    //   return (
-                    //     <NavigationMenuItem key={link.href}>
-                    //       <Link href="/contactLens">
-                    //         <NavigationMenuTrigger
-                    //           className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
-                    //         >
-                    //           {link.label}
-                    //         </NavigationMenuTrigger>
-                    //       </Link>
-                    //       <NavigationMenuContent>
-                    //         <ContactLensesMegaMenu />
-                    //       </NavigationMenuContent>
-                    //     </NavigationMenuItem>
-                    //   );
-                    // }
-
                     if (link.label === "ACCESSORIES") {
                       return (
                         <NavigationMenuItem key={link.href}>
@@ -214,26 +212,46 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
-
-            
-          </div>
-
-          {isMenuOpen && (
-            <div className="lg:hidden py-4 bg-black/10 backdrop-blur-sm ">
-              <div className="flex flex-col gap-4 items-center">
-                {navigationLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-sm font-medium text-white hover:text-white/80 transition-colors uppercase tracking-wide"
-                    onClick={() => setIsMenuOpen(false)}
+            <div className="flex items-top gap-3 md:gap-4 lg:ml-auto w-full lg:w-auto justify-end">
+              <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`lg:hidden ${
+                      shouldBlur
+                        ? "text-black hover:bg-black/10"
+                        : "text-white hover:bg-white/10"
+                    }`}
                   >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+                    <Menu className="h-5 w-5 md:h-6 md:w-6" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent
+                  side="left"
+                  className="bg-emerald-500 border-emerald-600 w-[280px] sm:w-[350px]"
+                >
+                  <SheetHeader>
+                    <SheetTitle className="text-white text-lg font-bold">
+                      Menu
+                    </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col gap-1 mt-8">
+                    {navigationLinks.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wide py-3 px-4 rounded-md"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
-          )}
+          </div>
         </div>
       </nav>
     </header>
