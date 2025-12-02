@@ -39,10 +39,7 @@ export function ProductCard({ product, productType }: ProductCardProps) {
               )}
             </>
           )}
-          <span className="absolute top-0 self-end right-0 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-600 shadow-sm hover:bg-white">
-            {/* <Heart className="h-5 w-5" fill={liked ? "currentColor" : "none"} /> */}
-            <ShareButton />
-          </span>
+          
           <div className="absolute right-5 top-5 z-10">
             <WishlistHeartButton
               productId={product._id}
