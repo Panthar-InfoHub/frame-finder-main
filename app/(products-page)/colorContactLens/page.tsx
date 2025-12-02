@@ -25,11 +25,17 @@ export default async function ColorContactLens({ searchParams }: searchParamsPro
     material: material as string || null,
     brand: brand as string || null,
   };
+  const category = [
+  { label: "Spherical/Non-Toric", value: "spherical-non-toric" },
+  { label: "Zero Power", value: "zero-power" },
+];
 
   return (
     <ProductFetchingLayout
       pageTitle="COLOR CONTACT LENSES"
       heroImageSrc="/images/bg/cl_bg.png"
+      category={category}
+      productType="colorContactLens"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>
@@ -58,10 +64,8 @@ async function ProductList({ filters }: { filters: any }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {newArrivals.map((product: any) => (
-          <Link href={`/colorContactLens/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
-            <ProductCard key={product._id} product={product} />
-          </Link>
+        {newArrivals.map((product: any) => (   
+            <ProductCard key={product._id} product={product} productType="colorContactLens"/>
         ))}
       </div>
     </>

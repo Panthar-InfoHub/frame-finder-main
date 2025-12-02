@@ -26,10 +26,18 @@ export default async function AllContactlens({ searchParams }: searchParamsProps
     brand: brand as string || null,
   };
 
+  const category = [
+  { label: "Spherical/Non-Toric", value: "spherical-non-toric" },
+  { label: "Toric", value: "toric" },
+  { label: "Multifocal", value: "multifocal" },
+];
+
   return (
     <ProductFetchingLayout
       pageTitle="CONTACT LENSES"
       heroImageSrc="/images/bg/cl_bg.png"
+      category={category}
+      productType="contactLens"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>
@@ -59,9 +67,7 @@ async function ProductList({ filters }: { filters: any }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {transformedData.map((product: any) => (
-          <Link href={`/contactLens/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
-            <ProductCard key={product._id} product={product} />
-          </Link>
+            <ProductCard key={product._id} product={product} productType="contactLens" />
         ))}
       </div>
     </>

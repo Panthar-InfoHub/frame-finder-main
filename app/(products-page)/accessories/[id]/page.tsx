@@ -60,6 +60,20 @@ export default async function ProductPage({ params }: ProductPageParams) {
   };
   const allReviews = await transformReviewImages(reviews);
 
+  
+  const manufactureDate = new Date(product.mfg_date);
+  const formattedMfgDate = manufactureDate.toLocaleDateString("en-IN");
+  const details = {
+    materials: product.material,
+    size: product.sizes,
+    origin_country: product.origin_country,
+    mfg_date: formattedMfgDate,
+    vendorName: product?.vendorId?.business_name,
+    vendorRating: product?.vendorId?.rating,
+    vendorRatingCount: product?.vendorId?.total_reviews,
+    sellerSince: product?.vendorId?.year_of_experience,
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
@@ -147,16 +161,8 @@ export default async function ProductPage({ params }: ProductPageParams) {
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+              details={details}
+              productType="accessories"
             />
           </div>
         </div>

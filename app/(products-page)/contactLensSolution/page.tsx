@@ -58,9 +58,7 @@ async function ProductList({ filters }: { filters: any }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {transformedProducts.map((product) => (
-          <Link href={`/contactLensSolution/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
-            <ProductCard key={product._id} product={product} />
-          </Link>
+            <ProductCard key={product._id} product={product} productType="contactLensSolution"/>
         ))}
       </div>
     </>
