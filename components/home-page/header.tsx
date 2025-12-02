@@ -1,9 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Heart, Menu, Phone, Search, ShoppingCart } from "lucide-react";
-import { navigationLinks, promoData } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -20,12 +16,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { navigationLinks, promoData } from "@/lib/data";
+import { Heart, Menu, Phone, Search, ShoppingCart } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { EyeglassesMegaMenu } from "./dropdown-components/eyeglasses-mega-menu";
 import { SunglassesMegaMenu } from "./dropdown-components/sunglasses-mega-menu";
-import { ContactLensesMegaMenu } from "./dropdown-components/contact-lenses-mega-menu";
-import { AccessoriesMegaMenu } from "./dropdown-components/accessories-mega-menu";
 import { UserAccountMenu } from "./dropdown-components/user-account-menu";
-import Image from "next/image";
 
 interface HeaderProps {
   alwaysBlurred?: boolean;
@@ -48,7 +46,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
   const shouldBlur = alwaysBlurred || isScrolled;
 
   return (
-    <header className="sticky top-0 z-100 ">
+    <header className="sticky top-0 z-50 ">
       {/* Top Banner - Removed sticky positioning so only nav sticks */}
       <div className=" bg-emerald-500 text-white py-2 px-4 max-w-full overflow-hidden">
         <div className="container mx-auto flex items-center justify-between gap-2">
@@ -93,18 +91,6 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                 <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
               </Link>
             </Button>
-            {/* <Button
-              variant="ghost"
-              size="icon"
-              className={`lg:hidden ${
-                shouldBlur
-                  ? "text-black hover:bg-black/10"
-                  : "text-white hover:bg-white/10"
-              }`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <Menu className="h-5 w-5 md:h-6 md:w-6" />
-            </Button> */}
             <Button
               variant="ghost"
               size="icon"
@@ -121,7 +107,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
       </div>
 
       {/* Navigation - Made sticky with blur effect when scrolled */}
-      <nav className={`sticky top-0 z-50 left-0 right-0 bg-emerald-500`}>
+      <nav className={`sticky top-0  left-0  z-50  right-0 bg-emerald-500`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" className="shrink-0">
@@ -178,24 +164,6 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                         </NavigationMenuItem>
                       );
                     }
-
-                    if (link.label === "ACCESSORIES") {
-                      return (
-                        <NavigationMenuItem key={link.href}>
-                          <Link href="/accessories">
-                            <NavigationMenuTrigger
-                              className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
-                            >
-                              {link.label}
-                            </NavigationMenuTrigger>
-                          </Link>
-                          <NavigationMenuContent>
-                            <AccessoriesMegaMenu />
-                          </NavigationMenuContent>
-                        </NavigationMenuItem>
-                      );
-                    }
-
                     return (
                       <NavigationMenuItem key={link.href}>
                         <Link href={link.href}>
