@@ -5,10 +5,12 @@ import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 import { useTransition } from "react"
 import { Skeleton } from "../ui/skeleton"
+import Image from "next/image"
 
 
 interface Variant {
   _id: string
+  image: string | null
   frame_color: string
   temple_color: string
   price: {
@@ -27,64 +29,80 @@ interface VariantSelectorProps {
   variants: Variant[]
   selectedVariantId: string
   productType : string
+  processedUrls ?: string[]
 }
 
-export function VariantSelector({ productId, variants, selectedVariantId , productType }: VariantSelectorProps) {
+  export function VariantSelector({ productId, variants, selectedVariantId , productType , processedUrls    }: VariantSelectorProps) {
 
-  const router = useRouter();
-  const [isTransitioning, Transition] = useTransition();
+    const router = useRouter();
+    const [isTransitioning, Transition] = useTransition();
+    // console.log("processedUrls in VariantSelector:", processedUrls);
+    // console.log(`varaints in VariantSelector:`, variants);
+    // console.log("VariantSelector imgUrls:", imgUrls);
+    // const displayImage = imgUrls?.[0] || "/placeholder.png";
+    // console.log("Display Image in VariantSelector:", displayImage);
 
-  if (isTransitioning) {
+    if (isTransitioning) {
+      return (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ">
+          <Skeleton className="h-30 w-32" />
+          <Skeleton className="h-30 w-32" />
+        </div>
+      )
+    }
+    
+
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ">
-        <Skeleton className="h-30 w-32" />
-        <Skeleton className="h-30 w-32" />
+      <div className="space-y-3">
+        <h3 className="text-sm font-semibold">Other Options</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {variants.map((variant) => {
+            const isSelected = variant._id === selectedVariantId
+            const isOutOfStock = variant.stock.current === 0
+
+            return (
+              <Button
+                key={variant._id}
+                variant="outline"
+                className={cn(
+                  "h-auto p-3 flex flex-col items-start gap-2 relative transition-all",
+                  isSelected && "border-emerald-600 border-2 bg-emerald-50",
+                  isOutOfStock && "opacity-60 cursor-not-allowed",
+                )}
+                onClick={() => {
+                  if (!isOutOfStock) {
+                    Transition(() => {
+                      router.push(`/${productType}/${productId}?variantId=${variant._id}`)
+                    })
+                  }
+                }}
+                disabled={isOutOfStock}
+              >
+                <div className="w-full aspect-square relative mb-2 bg-gray-100 rounded overflow-hidden">
+                  <Image
+                    src={variant.image || "/placeholder.png"  }
+                    alt={`${variant.frame_color} frame with ${variant.temple_color} temple`}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="text-left w-full space-y-1">
+                  {/* <p className="text-xs text-muted-foreground">Frame Color:</p>
+                  <p className="text-sm font-medium capitalize">{variant.frame_color}</p>
+                  <p className="text-xs text-muted-foreground mt-2">Temple Color:</p>
+                  <p className="text-sm font-medium capitalize">{variant.temple_color}</p> */}
+                  <p className="text-xs text-muted-foreground mt-2">Product Price:</p>
+                  <p className="text-sm font-medium capitalize">₹{variant.price.total_price}</p>
+                </div>
+                {isOutOfStock && (
+                  <span className="absolute top-1 right-1 text-[10px] bg-destructive text-destructive-foreground px-1.5 py-0.5 rounded">
+                    Out of Stock
+                  </span>
+                )}
+              </Button>
+            )
+          })}
+        </div>
       </div>
     )
   }
-
-  return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-semibold">Color Options</h3>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3">
-        {variants.map((variant) => {
-          const isSelected = variant._id === selectedVariantId
-          const isOutOfStock = variant.stock.current === 0
-
-          return (
-            <Button
-              key={variant._id}
-              variant="outline"
-              className={cn(
-                "h-auto p-3 flex flex-col items-start gap-2 relative transition-all",
-                isSelected && "border-emerald-600 border-2 bg-emerald-50",
-                isOutOfStock && "opacity-60 cursor-not-allowed",
-              )}
-              onClick={() => {
-                if (!isOutOfStock) {
-                  Transition(() => {
-                    router.push(`/${productType}/${productId}?variantId=${variant._id}`)
-                  })
-                }
-              }}
-              disabled={isOutOfStock}
-            >
-              <div className="text-left w-full space-y-1">
-                <p className="text-xs text-muted-foreground">Frame Color:</p>
-                <p className="text-sm font-medium capitalize">{variant.frame_color}</p>
-                <p className="text-xs text-muted-foreground mt-2">Temple Color:</p>
-                <p className="text-sm font-medium capitalize">{variant.temple_color}</p>
-                <p className="text-xs text-muted-foreground mt-2">₹{variant.price.total_price}</p>
-              </div>
-              {isOutOfStock && (
-                <span className="absolute top-1 right-1 text-[10px] bg-destructive text-destructive-foreground px-1.5 py-0.5 rounded">
-                  Out of Stock
-                </span>
-              )}
-            </Button>
-          )
-        })}
-      </div>
-    </div>
-  )
-}

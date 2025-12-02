@@ -58,7 +58,35 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }));
 
   // Process image URLs - check if they're already complete URLs or need signed URLs
-  const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+  // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+
+  const rawUrls = product.variants.map((v) => v.images?.[0]?.url || null);
+  const [processedUrls, imageUrls] = await Promise.all([
+    getImageUrls(rawUrls.filter(Boolean)),
+    getImageUrls(variant.images.map((i) => i.url)),
+  ]);
+  // const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+
+  let i = 0;
+
+  const newVariants = product.variants.map((v) => {
+    const hasImg = v.images?.[0]?.url;
+
+    return {
+      _id: v._id,
+      image: hasImg ? processedUrls[i++] : null,
+      stock: v.stock,
+      frame_color: v.frame_color,
+      temple_color: v.temple_color,
+      price: v.price,
+    };
+  });
+
+  const rawDate = variant.exp_date;
+  const date = new Date(rawDate);
+  const formattedDate = date.toLocaleDateString("en-IN");
+  const manufactureDate = new Date(variant.mfg_date);
+  const formattedMfgDate = manufactureDate.toLocaleDateString("en-IN");
 
   const reviewData = {
     vendorId: product.vendorId._id,
@@ -69,6 +97,19 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   // Fetch product reviews
 
   const allReviews = await transformReviewImages(reviews);
+
+  const details = {
+    lens_type: product.lens_type,
+    lens_width: product.dimension.lens_width,
+    lens_height: product.dimension.lens_height,
+    quantity: variant.pieces_per_box,
+    mfg_date: formattedMfgDate,
+    isPower: product.is_Power,
+    vendorName: product?.vendorId?.business_name,
+    vendorRating: product?.vendorId?.rating,
+    vendorRatingCount: product?.vendorId?.total_reviews,
+    sellerSince: product?.vendorId?.year_of_experience,
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
@@ -109,7 +150,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
             <VariantSelector
               productId={id}
-              variants={product.variants}
+              variants={newVariants}
               selectedVariantId={query.variantId}
               productType={"contactLens"}
             />
@@ -117,12 +158,16 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             {/* Color Selection */}
             <div className="space-y-2">
               <p className="text-sm font-medium">
-                Frame Color:{" "}
-                <span className="text-muted-foreground capitalize">{variant.frame_color}</span>
+                Disposability:{" "}
+                <span className="text-muted-foreground capitalize">
+                  {variant.disposability}
+                </span>
               </p>
               <p className="text-sm font-medium">
-                Temple Color:{" "}
-                <span className="text-muted-foreground capitalize">{variant.temple_color}</span>
+                Expiry:{" "}
+                <span className="text-muted-foreground capitalize">
+                  {formattedDate}
+                </span>
               </p>
             </div>
 
@@ -163,20 +208,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            {/* <FrameDimensions dimensions={frameDimensions} /> */}
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+              details={details}
+              productType="contactLens"
             />
           </div>
         </div>

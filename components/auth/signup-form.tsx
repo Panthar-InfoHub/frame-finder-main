@@ -99,7 +99,7 @@ export function SignupForm() {
                 id="firstName"
                 type="text"
                 value={firstName}
-                placeholder="Gagan"
+                placeholder="First Name"
                 onChange={(e) => setFirstName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50"
                 required
@@ -113,7 +113,7 @@ export function SignupForm() {
                 id="lastName"
                 type="text"
                 value={lastName}
-                placeholder="Singh"
+                placeholder="Last Name"
                 onChange={(e) => setLastName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white/50"
                 required

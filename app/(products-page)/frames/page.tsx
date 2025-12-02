@@ -21,9 +21,15 @@ export default async function Frames({ searchParams }: searchParamsProps) {
     temple_color: temple_color as string || null,
   };
 
+  const category = [
+  { label: "Eyeglasses", value: "eyeglasses" },
+  { label: "Prescription", value: "prescription" },
+  { label: "Non-Prescription", value: "non-prescription" },
+];
+
   return (
 
-    <ProductFetchingLayout pageTitle="EYEWARE GLASSES" heroImageSrc="/images/bg/frame_bg.png">
+    <ProductFetchingLayout pageTitle="EYEWARE GLASSES" heroImageSrc="/images/bg/frame_bg.png" category={category} productType="frames" >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>
         <ProductList filters={filters} />
@@ -54,10 +60,10 @@ async function ProductList({ filters }: { filters: any }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {newArrivals.map((product) => (
-          <Link href={`/frames/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
-            <ProductCard key={product._id} product={product} />
-          </Link>
-        ))}
+          <ProductCard key={product._id} product={product} productType="frames" />
+          // <Link href={`/frames/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
+          // </Link>
+        ))}  
       </div>
     </>
   );

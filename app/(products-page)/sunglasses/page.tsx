@@ -19,10 +19,18 @@ export default async function Sunglasses({ searchParams }: searchParamsProps) {
     frame_color: frame_color as string || null,
     temple_color: temple_color as string || null,
   };
+
+  const category = [
+  { label: "Sunglasses", value: "sunglasses" },
+  { label: "Prescription Sunglasses", value: "prescription-sunglasses" },
+  { label: "Non-Prescription Sunglasses", value: "non-prescription-sunglasses" },
+];
   return (
     <ProductFetchingLayout
       pageTitle=" SUNGLASSES"
       heroImageSrc="/images/bg/sun_bg.jpg"
+      category={category}
+      productType="sunglasses"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>
@@ -54,9 +62,7 @@ async function ProductList({ filters }: { filters: any }) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {newArrivals.map((product) => (
-          <Link href={`/sunglasses/${product._id}?variantId=${product?.variants?.[0]?._id}`} key={product._id}>
-            <ProductCard key={product._id} product={product} />
-          </Link>
+            <ProductCard key={product._id} product={product} productType="sunglasses" />
         ))}
       </div>
     </>

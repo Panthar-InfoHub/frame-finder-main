@@ -2,6 +2,7 @@ import { getReadingGlassById, getProductReview } from "@/actions/products";
 import { BlueLightFeature } from "@/components/home-page/blue-light-feature";
 import { AddToCartBtn } from "@/components/multiple-products-page-component/add-to-cart-btn";
 import { FrameDimensions } from "@/components/single-product-page-component/frame-dimensions";
+import { LensPowerSelector } from "@/components/single-product-page-component/lens-power-selector";
 import { ProductDetailsAccordion } from "@/components/single-product-page-component/product-details-accordion";
 import { ProductImageGallery } from "@/components/single-product-page-component/product-image-gallery";
 import { ProductInfo } from "@/components/single-product-page-component/product-info";
@@ -55,7 +56,29 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     value: String(v ?? ""),
   }));
 
-  const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+  // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+
+  const rawUrls = product.variants.map((v) => v.images?.[0]?.url || null);
+  const [processedUrls, imageUrls] = await Promise.all([
+    getImageUrls(rawUrls.filter(Boolean)),
+    getImageUrls(variant.images.map((i) => i.url)),
+  ]);
+  // const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+
+  let i = 0;
+
+  const newVariants = product.variants.map((v) => {
+    const hasImg = v.images?.[0]?.url;
+
+    return {
+      _id: v._id,
+      image: hasImg ? processedUrls[i++] : null,
+      stock: v.stock,
+      frame_color: v.frame_color,
+      temple_color: v.temple_color,
+      price: v.price,
+    };
+  });
 
   const reviewData = {
     vendorId: product.vendorId._id,
@@ -64,6 +87,19 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   };
 
   const allReviews = await transformReviewImages(reviews);
+
+  const details = {
+    material: product.material,
+    shape: product.shape,
+    style: product.style,
+    gender: product.gender,
+    sizes: product.sizes,
+    isPower: product.is_Power,
+    vendorName: product.vendorId.business_name,
+    vendorRating: product.vendorId.rating,
+    vendorRatingCount: product.vendorId.total_reviews,
+    sellerSince: product.vendorId.year_of_experience,
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -97,15 +133,26 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
             <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
 
-            <ProductPrice
-              totalPrice={variant.price.total_price}
-              mrp={variant.price.mrp}
-              basePrice={variant.price.base_price}
-            />
+
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+              <div className="flex-1">
+              <ProductPrice
+                totalPrice={variant.price.total_price}
+                mrp={variant.price.mrp}
+                basePrice={variant.price.base_price}
+              />
+              {variant.power && variant.power.length > 0 && (
+                <div className="sm:w-auto w-full">
+                  <LensPowerSelector lensPowers={variant.power} />
+                </div>
+              )}
+            </div>
+            </div>
+            
 
             <VariantSelector
               productId={id}
-              variants={product.variants}
+              variants={newVariants}
               selectedVariantId={query.variantId}
               productType={"reading"}
             />
@@ -143,20 +190,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={frameDimensions} />
+            <FrameDimensions dimension={product.dimension} />
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product?.vendorId?.business_name || "Business name"}
-              vendorRating={product?.vendorId?.rating || 2.75}
-              vendorRatingCount={product?.vendorId?.total_reviews || 4}
-              sellerSince={product?.vendorId?.year_of_experience || 5}
+             details={details}
+              productType="readingGlasses"
             />
           </div>
         </div>

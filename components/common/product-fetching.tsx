@@ -7,17 +7,22 @@ import { SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import { Suspense, ReactNode } from "react";
 import LoadingSkeleton from "@/components/loading-skeleton";
+import { CategoryTab } from "./category-tab";
 
 interface ProductPageLayoutProps {
   pageTitle: string;
   heroImageSrc: string;
   children: ReactNode; // Dynamic product list goes here
+  category?: any;
+  productType?: string;
 }
 
 export function ProductFetchingLayout({
   pageTitle,
   heroImageSrc,
   children,
+  category,
+  productType,
 }: ProductPageLayoutProps) {
   return (
     <main className="min-h-screen">
@@ -68,20 +73,11 @@ export function ProductFetchingLayout({
                 RESET
               </Button>
             </div>
-
+    
             {/* Category Tabs - STATIC */}
-            <div className="flex flex-wrap gap-2 mb-6">
-              <Button variant="default" className="rounded-full">All</Button>
-              {categories.map((category) => (
-                <Button
-                  key={category.value}
-                  variant="outline"
-                  className="rounded-full bg-transparent"
-                >
-                  {category.label}
-                </Button>
-              ))}
-            </div>
+            {(productType === "frames" || productType === "colorContactLens" || productType === "contactLens" || productType === "sunglasses") &&(
+              <CategoryTab categories={category} />
+            )}
 
             {/* DYNAMIC CONTENT WITH SUSPENSE - STREAMS */}
             <Suspense fallback={<LoadingSkeleton />}>

@@ -7,148 +7,301 @@ import {
 import { VendorRatingGauge } from "./vendor-rating-gauge";
 
 interface ProductDetailsAccordionProps {
-  material: string[];
-  shape: string[];
-  style: string[];
-  gender: string[];
-  sizes: string[];
-  isPower: boolean;
-  vendorName?: string;
-  vendorRating?: number;
-  vendorRatingCount?: number;
-  sellerSince?: string;
+  details: any;
+  productType?: string;
 }
 
 export function ProductDetailsAccordion({
-  material,
-  shape,
-  style,
-  gender,
-  sizes,
-  isPower,
-  vendorName,
-  vendorRating,
-  vendorRatingCount,
-  sellerSince,
+  details,
+  productType,
 }: ProductDetailsAccordionProps) {
-  return (
-    <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="details">
-        <AccordionTrigger className="text-sm font-semibold">
-          DETAILS
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <p>
-              <strong className="text-foreground">Material:</strong>{" "}
-              {material?.join(", ")}
-            </p>
-            <p>
-              <strong className="text-foreground">Shape:</strong>{" "}
-              {shape?.join(", ")}
-            </p>
-            <p>
-              <strong className="text-foreground">Style:</strong>{" "}
-              {style?.join(", ")}
-            </p>
-            <p>
-              <strong className="text-foreground">Gender:</strong>{" "}
-              {gender?.join(", ")}
-            </p>
-            <p>
-              <strong className="text-foreground">Available Sizes:</strong>{" "}
-              {sizes?.join(", ")}
-            </p>
-          </div>
-        </AccordionContent>
-      </AccordionItem>
+  if (productType === "frames" || productType === "sunglasses" || productType === "readingGlasses") {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="details">
+          <AccordionTrigger className="text-sm font-semibold">
+            DETAILS
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>
+                <strong className="text-foreground">Material:</strong>{" "}
+                {details?.material?.join(", ")}
+              </p>
+              <p>
+                <strong className="text-foreground">Shape:</strong>{" "}
+                {details?.shape?.join(", ")}
+              </p>
+              <p>
+                <strong className="text-foreground">Style:</strong>{" "}
+                {details?.style?.join(", ")}
+              </p>
+              <p>
+                <strong className="text-foreground">Gender:</strong>{" "}
+                {details?.gender?.join(", ")}
+              </p>
+              <p>
+                <strong className="text-foreground">Available Sizes:</strong>{" "}
+                {details?.sizes?.join(", ")}
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
 
-      <AccordionItem value="prescription">
-        <AccordionTrigger className="text-sm font-semibold">
-          SUITABLE FOR PRESCRIPTION
-        </AccordionTrigger>
-        <AccordionContent>
-          <p className="text-sm text-muted-foreground">
-            {isPower
-              ? "Yes, this frame is suitable for prescription lenses. You can add your prescription details during checkout."
-              : "This product is designed for non-prescription use only."}
-          </p>
-        </AccordionContent>
-      </AccordionItem>
-
-      {/* <AccordionItem value="lenses">
-        <AccordionTrigger className="text-sm font-semibold">
-          ABOUT OUR LENSES
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <p>
-              Our lenses are crafted with premium materials to ensure optimal
-              clarity and protection.
+        <AccordionItem value="prescription">
+          <AccordionTrigger className="text-sm font-semibold">
+            SUITABLE FOR PRESCRIPTION
+          </AccordionTrigger>
+          <AccordionContent>
+            <p className="text-sm text-muted-foreground">
+              {details?.isPower
+                ? "Yes, this frame is suitable for prescription lenses. You can add your prescription details during checkout."
+                : "This product is designed for non-prescription use only."}
             </p>
-            <ul className="list-disc list-inside space-y-1 ml-2">
-              <li>100% UV Protection</li>
-              <li>Anti-glare coating</li>
-              <li>Scratch-resistant</li>
-              <li>Blue light filtering available</li>
-            </ul>
-          </div>
-        </AccordionContent>
-      </AccordionItem> */}
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="vendor">
+          <AccordionTrigger className="text-sm font-semibold">
+            VENDOR RATING
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4">
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Name:</strong>{" "}
+                    {details?.vendorName}
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Rating:</strong>{" "}
+                    {details?.vendorRating?.toFixed(1)} ({" "}
+                    {details?.vendorRatingCount} Ratings )
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Seller Since:</strong>{" "}
+                    {details?.sellerSince}
+                  </span>
+                </li>
+              </ul>
 
-      <AccordionItem value="vendor">
-        <AccordionTrigger className="text-sm font-semibold">
-          VENDOR RATING
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="space-y-4">
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>
-                  <strong className="text-foreground">Vendor Name:</strong>{" "}
-                  {vendorName}
-                </span>
-              </li>
-              <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>
-                  <strong className="text-foreground">Vendor Rating:</strong>{" "}
-                  {vendorRating?.toFixed(1)} ( {vendorRatingCount} Ratings )
-                </span>
-              </li>
-              <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>
-                  <strong className="text-foreground">Seller Since:</strong>{" "}
-                  {sellerSince}
-                </span>
-              </li>
-            </ul>
+              <VendorRatingGauge rating={details?.vendorRating} />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }else if (productType === "contactLens") {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="details">
+          <AccordionTrigger className="text-sm font-semibold">
+            DETAILS
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>
+                <strong className="text-foreground">Lens Type:</strong>{" "}
+                {details?.lens_type || "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Lens Width:</strong>{" "}
+                {details?.lens_width || "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Lens Height:</strong>{" "}
+                {details?.lens_height || "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Quantity:</strong>{" "}
+                {details?.quantity}
+              </p>
+              <p>
+                <strong className="text-foreground">Manufacture Date:</strong>{" "}
+                {details?.mfg_date}
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
 
-            <VendorRatingGauge rating={vendorRating} />
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-
-      {/* <AccordionItem value="exchange">
-        <AccordionTrigger className="text-sm font-semibold">
-          EXCHANGE & RETURN
-        </AccordionTrigger>
-        <AccordionContent>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <p>
-              We offer a 14-day return and exchange policy for all our products.
+        <AccordionItem value="prescription">
+          <AccordionTrigger className="text-sm font-semibold">
+            SUITABLE FOR PRESCRIPTION
+          </AccordionTrigger>
+          <AccordionContent>
+            <p className="text-sm text-muted-foreground">
+              Yes, this frame is suitable for prescription lenses. You can add your prescription details during checkout.
             </p>
-            <ul className="list-disc list-inside space-y-1 ml-2">
-              <li>Products must be in original condition</li>
-              <li>Original packaging required</li>
-              <li>Free return shipping on defective items</li>
-              <li>Refund processed within 5-7 business days</li>
-            </ul>
-          </div>
-        </AccordionContent>
-      </AccordionItem> */}
-    </Accordion>
-  );
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="vendor">
+          <AccordionTrigger className="text-sm font-semibold">
+            VENDOR RATING
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4">
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Name:</strong>{" "}
+                    {details?.vendorName}
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Rating:</strong>{" "}
+                    {details?.vendorRating?.toFixed(1)} ({" "}
+                    {details?.vendorRatingCount} Ratings )
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Seller Since:</strong>{" "}
+                    {details?.sellerSince}
+                  </span>
+                </li>
+              </ul>
+
+              <VendorRatingGauge rating={details?.vendorRating} />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+  }else if (productType === "contactLensSolution") {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="details">
+          <AccordionTrigger className="text-sm font-semibold">
+            DETAILS
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>
+                <strong className="text-foreground">Lens Material:</strong>{" "}
+                {details?.lens_material?.join(", ")|| "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Origin Country:</strong>{" "}
+                {details?.origin_contry || "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Manufacturing Date:</strong>{" "}
+                {details?.mfg_date || "N/A"}
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="vendor">
+          <AccordionTrigger className="text-sm font-semibold">
+            VENDOR RATING
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4">
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Name:</strong>{" "}
+                    {details?.vendorName}
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Rating:</strong>{" "}
+                    {details?.vendorRating?.toFixed(1)} ({" "}
+                    {details?.vendorRatingCount} Ratings )
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Seller Since:</strong>{" "}
+                    {details?.sellerSince}
+                  </span>
+                </li>
+              </ul>
+
+              <VendorRatingGauge rating={details?.vendorRating} />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+  }else if (productType === "accessories") {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="details">
+          <AccordionTrigger className="text-sm font-semibold">
+            DETAILS
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p>
+                <strong className="text-foreground">Materials:</strong>{" "}
+                {details?.materials?.join(", ")|| "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Origin Country:</strong>{" "}
+                {details?.origin_country || "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Size:</strong>{" "}
+                {details?.size?.join(", ") || "N/A"}
+              </p>
+              <p>
+                <strong className="text-foreground">Manufacturing Date:</strong>{" "}
+                {details?.mfg_date || "N/A"}
+              </p>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="vendor">
+          <AccordionTrigger className="text-sm font-semibold">
+            VENDOR RATING
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-4">
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Name:</strong>{" "}
+                    {details?.vendorName}
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Vendor Rating:</strong>{" "}
+                    {details?.vendorRating?.toFixed(1)} ({" "}
+                    {details?.vendorRatingCount} Ratings )
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    <strong className="text-foreground">Seller Since:</strong>{" "}
+                    {details?.sellerSince}
+                  </span>
+                </li>
+              </ul>
+
+              <VendorRatingGauge rating={details?.vendorRating} />
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+  }
 }

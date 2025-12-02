@@ -56,8 +56,29 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     value: String(v ?? ""),
   }));
 
-  // Process image URLs - check if they're already complete URLs or need signed URLs
-  const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+  // const imageUrls = await getImageUrls(variant.images.map((i) => i.url));
+
+  const rawUrls = product.variants.map((v) => v.images?.[0]?.url || null);
+  const [processedUrls, imageUrls] = await Promise.all([
+    getImageUrls(rawUrls.filter(Boolean)),
+    getImageUrls(variant.images.map((i) => i.url)),
+  ]);
+  // const processedUrls = await getImageUrls(rawUrls.filter(Boolean));
+
+  let i = 0;
+
+  const newVariants = product.variants.map((v) => {
+    const hasImg = v.images?.[0]?.url;
+
+    return {
+      _id: v._id,
+      image: hasImg ? processedUrls[i++] : null,
+      stock: v.stock,
+      frame_color: v.frame_color,
+      temple_color: v.temple_color,
+      price: v.price,
+    };
+  });
 
   const reviewData = {
     vendorId: product.vendorId._id,
@@ -66,6 +87,19 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   };
 
   const allReviews = await transformReviewImages(reviews);
+
+  const details = {
+    material: product.material,
+    shape: product.shape,
+    style: product.style,
+    gender: product.gender,
+    sizes: product.sizes,
+    isPower: product.is_Power,
+    vendorName: product.vendorId.business_name,
+    vendorRating: product.vendorId.rating,
+    vendorRatingCount: product.vendorId.total_reviews,
+    sellerSince: product.vendorId.year_of_experience,
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -107,7 +141,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
             <VariantSelector
               productId={id}
-              variants={product.variants}
+              variants={newVariants}
               selectedVariantId={query.variantId}
               productType={"frames"}
             />
@@ -161,20 +195,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             </div>
 
             {/* Frame Dimensions */}
-            <FrameDimensions dimensions={dimensionArray} />
+            <FrameDimensions dimension={product.dimension} />
 
             {/* Accordion Details */}
             <ProductDetailsAccordion
-              material={product.material}
-              shape={product.shape}
-              style={product.style}
-              gender={product.gender}
-              sizes={product.sizes}
-              isPower={product.is_Power}
-              vendorName={product.vendorId.business_name}
-              vendorRating={product.vendorId.vendor_rating}
-              vendorRatingCount={product.vendorId.vendor_rating_count}
-              sellerSince={product.vendorId.seller_since}
+              details={details}
+              productType={"frames"}
             />
           </div>
         </div>
