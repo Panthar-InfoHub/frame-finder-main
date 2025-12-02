@@ -5,7 +5,7 @@ import StepPrescription from "./step-prescription";
 import StepLensPackage from "./step-lens-package";
 import StepSummary from "./step-summary";
 import { useRouter } from "next/navigation";
-import { addItemToWishlist } from "@/actions/cart";
+import { addItemToCart } from "@/actions/cart";
 import { ProductType } from "@/types/product";
 import { toast } from "sonner";
 
@@ -16,7 +16,7 @@ export default function AddToCartForm({
 }: {
   product: any;
   vendorId?: string;
-  productType: ProductType
+  productType: ProductType;
 }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -36,9 +36,7 @@ export default function AddToCartForm({
     [product]
   );
   const productPrice = useMemo(
-    () =>
-      product?.variants?.[0]?.price?.total_price ||
-      product?.variants?.[0]?.price?.base_price,
+    () => product?.variants?.[0]?.price?.total_price || product?.variants?.[0]?.price?.base_price,
     [product]
   );
 
@@ -56,9 +54,7 @@ export default function AddToCartForm({
 
   const handleFinish = async () => {
     const variant = product?.variants?.[0];
-    const selectedPackage = (packages || []).find(
-      (p: any) => p._id === formData.lensPackageId
-    );
+    const selectedPackage = (packages || []).find((p: any) => p._id === formData.lensPackageId);
 
     const payload = {
       item: {
@@ -81,8 +77,7 @@ export default function AddToCartForm({
               package_type: selectedPackage.prescription_type,
               package_design: selectedPackage.lens_type,
               package_price:
-                selectedPackage?.price?.total_price ||
-                selectedPackage?.price?.base_price,
+                selectedPackage?.price?.total_price || selectedPackage?.price?.base_price,
             }
           : undefined,
       },
@@ -90,9 +85,9 @@ export default function AddToCartForm({
     console.log("Final Payload:", payload);
     setIsSubmitting(true);
     try {
-      const resp = await addItemToWishlist(payload);
-      if (!resp?.success) {
-        const errorMsg = resp?.message || "Failed to add to wishlist";
+      const resp = await addItemToCart(payload);
+      if (!resp.success) {
+        const errorMsg = resp?.message || "Failed to add to cart";
         toast.error(errorMsg);
         return;
       }
@@ -109,19 +104,9 @@ export default function AddToCartForm({
   return (
     <div className="bg-white shadow-xl rounded-2xl p-6 max-w-5xl mx-auto mt-6">
       {step === 1 && (
-        <StepLensType
-          product={product}
-          onCancel={() => router.back()}
-          onNext={nextStep}
-        />
+        <StepLensType product={product} onCancel={() => router.back()} onNext={nextStep} />
       )}
-      {step === 2 && (
-        <StepPrescription
-          product={product}
-          onNext={nextStep}
-          onBack={prevStep}
-        />
-      )}
+      {step === 2 && <StepPrescription product={product} onNext={nextStep} onBack={prevStep} />}
       {step === 3 && (
         <StepLensPackage
           product={product}
@@ -144,9 +129,7 @@ export default function AddToCartForm({
         />
       )}
 
-      <div className="flex justify-center text-sm text-gray-500 mt-4">
-        Step {step} of 4
-      </div>
+      <div className="flex justify-center text-sm text-gray-500 mt-4">Step {step} of 4</div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { getWishlist, applyCoupon } from "@/actions/cart";
+import { getCart, applyCoupon } from "@/actions/cart";
 import { CheckoutPageClient } from "@/components/checkout/checkout-page";
 import { redirect } from "next/navigation";
 
@@ -11,12 +11,11 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
   const params = await searchParams;
 
   // Fetch fresh cart data from backend
-  const wishlist = await getWishlist();
+  const cart = await getCart();
 
   // Extract items and price breakdown
-  const items = wishlist?.items || [];
-  const priceBreakdown = wishlist?.price_breakdown || null;
-
+  const items = cart?.items || [];
+  const priceBreakdown = cart?.price_breakdown || null;
   // Redirect to cart if empty
   if (!items || items.length === 0) {
     redirect("/cart");

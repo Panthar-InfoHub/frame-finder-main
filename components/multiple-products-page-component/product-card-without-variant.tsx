@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import type { Product } from "@/lib/data";
 import Image from "next/image";
 import { ShareButton } from "../share-component";
 import Link from "next/link";
+import { WishlistHeartButton } from "@/components/common/wishlist-heart-button";
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +15,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, productType }: ProductCardProps) {
+
   const productPrice = product.price.base_price;
 
   return (
@@ -42,7 +43,17 @@ export function ProductCard({ product, productType }: ProductCardProps) {
             {/* <Heart className="h-5 w-5" fill={liked ? "currentColor" : "none"} /> */}
             <ShareButton />
           </span>
+          <div className="absolute right-5 top-5 z-10">
+            <WishlistHeartButton
+              productId={product._id}
+              productType={product.type as any}
+              size="sm"
+            />
+          </div>
+
         </div>
+       
+
         <div
           className={`aspect-4/3 w-full rounded-xl bg-neutral-100 flex items-center justify-center relative`}
         >

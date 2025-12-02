@@ -1,22 +1,38 @@
-import { Badge } from "@/components/ui/badge"
-import { ShareButton } from "../share-component"
+"use client";
+
+import { Badge } from "@/components/ui/badge";
+import { ShareButton } from "../share-component";
+import { WishlistHeartButton } from "@/components/common/wishlist-heart-button";
+import { ProductType } from "@/types/product";
 
 interface Vendor {
-  _id: string
-  business_name: string
-  email: string
-  phone: string
+  _id: string;
+  business_name: string;
+  email: string;
+  phone: string;
 }
 
 interface ProductInfoProps {
-  brandName: string
-  productCode: string
-  status: string
-  vendor: Vendor
-  createdAt: string
+  brandName: string;
+  productCode: string;
+  status: string;
+  vendor: Vendor;
+  createdAt: string;
+  productId: string;
+  productType: ProductType;
+  selectedVariantId?: string;
 }
 
-export function ProductInfo({ brandName, productCode, status, vendor, createdAt }: ProductInfoProps) {
+export function ProductInfo({
+  brandName,
+  productCode,
+  status,
+  vendor,
+  createdAt,
+  productId,
+  productType,
+  selectedVariantId,
+}: ProductInfoProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
@@ -29,6 +45,12 @@ export function ProductInfo({ brandName, productCode, status, vendor, createdAt 
         </div>
 
         <div className="flex gap-3">
+          <WishlistHeartButton
+            productId={productId}
+            productType={productType}
+            variantId={selectedVariantId}
+            size="md"
+          />
           <ShareButton />
         </div>
       </div>
@@ -50,5 +72,5 @@ export function ProductInfo({ brandName, productCode, status, vendor, createdAt 
         </p>
       </div>
     </div>
-  )
+  );
 }

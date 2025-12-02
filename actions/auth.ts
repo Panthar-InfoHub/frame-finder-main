@@ -41,6 +41,7 @@ export const registerUser = async (userData: {
   last_name: string;
   email: string;
   phone: string;
+  password: string;
 }) => {
   try {
     const resp = await axios.post(`${API_URL}/user`, userData);
@@ -72,7 +73,7 @@ export const registerUser = async (userData: {
 
 export const logoutUser = async () => {
   try {
-    await signOut({ redirectTo: "/login" });
+    await signOut({ redirect: false });
     return { success: true };
   } catch (error) {
     console.error("Error logging out:", error);

@@ -20,24 +20,18 @@ interface ProductPageParams {
   // searchParams: Promise<{ variantId: string | undefined }>
 }
 
-export default async function ProductPage({ params,  }: ProductPageParams) {
-  
-
+export default async function ProductPage({ params }: ProductPageParams) {
   const { id } = await params;
   // const query = await searchParams;
   const session = await auth();
 
   const isActionDisabled = !!session?.user;
 
-  
-// if (!id || !query.variantId) {
-//     return redirect('/');
-//   }
+  // if (!id || !query.variantId) {
+  //     return redirect('/');
+  //   }
 
- const [res, reviews] = await Promise.all([
-     getAccessoriesById(id),
-     getProductReview(id),
-   ])
+  const [res, reviews] = await Promise.all([getAccessoriesById(id), getProductReview(id)]);
 
   if (!res?.success || !res.data) {
     return <p>{`product not found - ${id}`}</p>;
@@ -52,7 +46,6 @@ export default async function ProductPage({ params,  }: ProductPageParams) {
   //   return redirect(`/frames/${id}?variantId=${newVariantId}`)
   // }
 
-
   const rawDim = product.dimension || {};
   const dimensionArray = Object.entries(rawDim).map(([k, v]) => ({
     label: k,
@@ -64,7 +57,7 @@ export default async function ProductPage({ params,  }: ProductPageParams) {
     vendorId: product.vendorId._id,
     productId: product._id,
     onModel: product.type,
-  }
+  };
   const allReviews = await transformReviewImages(reviews);
 
   
@@ -106,6 +99,8 @@ export default async function ProductPage({ params,  }: ProductPageParams) {
               status={product.status}
               vendor={product.vendorId}
               createdAt={product.createdAt}
+              productId={product._id}
+              productType="Accessories"
             />
 
             <ProductRating rating={product.rating} totalReviews={product.total_reviews} />
