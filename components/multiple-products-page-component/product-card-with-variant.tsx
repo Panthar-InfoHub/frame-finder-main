@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,7 +7,7 @@ import type { Product } from "@/lib/data";
 import Image from "next/image";
 import { ShareButton } from "../share-component";
 import Link from "next/link";
-import { WishlistHeartButton } from "@/components/common/wishlist-heart-button"
+import { WishlistHeartButton } from "@/components/common/wishlist-heart-button";
 
 interface ProductCardProps {
   product: Product;
@@ -16,7 +15,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, productType }: ProductCardProps) {
-
   const productPrice = product.variants[0].price.base_price;
 
   return (
@@ -25,27 +23,23 @@ export function ProductCard({ product, productType }: ProductCardProps) {
         <div className="flex items-center justify-between relative mb-15">
           {(productType === "sunglasses" || productType === "frames") && (
             <>
-            {product.is_Power ? (
-            <div className="absolute -left-10 top-0 z-10">
-              <Badge className="rounded-full bg-emerald-500 hover:bg-emerald-600 px-4 py-1.5 text-white text-sm">
-                Prescription Only
-              </Badge>
-            </div>
-          ) : (
-            <div className="absolute -left-10 top-0 z-10">
-              <Badge className="rounded-full bg-emerald-500 hover:bg-emerald-600 px-4 py-1.5 text-white text-sm">
-                Non-prescription
-              </Badge>
-            </div>
-          )}
+              {product.is_Power ? (
+                <div className="absolute -left-10 top-0 z-10">
+                  <Badge className="rounded-full bg-emerald-500 hover:bg-emerald-600 px-4 py-1.5 text-white text-sm">
+                    Prescription Only
+                  </Badge>
+                </div>
+              ) : (
+                <div className="absolute -left-10 top-0 z-10">
+                  <Badge className="rounded-full bg-emerald-500 hover:bg-emerald-600 px-4 py-1.5 text-white text-sm">
+                    Non-prescription
+                  </Badge>
+                </div>
+              )}
             </>
           )}
 
           {/* Top-right wishlist heart */}
-          <span className="absolute top-0 self-end right-0 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 bg-white/95 text-neutral-600 shadow-sm hover:bg-white">
-            {/* <Heart className="h-5 w-5" fill={liked ? "currentColor" : "none"} /> */}
-            <ShareButton />
-          </span>
           <div className="absolute top-0 self-end right-0 z-10">
             <WishlistHeartButton
               productId={product._id}
