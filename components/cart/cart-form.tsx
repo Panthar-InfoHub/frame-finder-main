@@ -73,7 +73,6 @@ export default function AddToCartForm({ product, vendorId }: { product: any; ven
           : undefined,
       },
     };
-    console.log("Final Payload:", payload);
     setIsSubmitting(true);
     try {
       const resp = await addItemToCart(payload);

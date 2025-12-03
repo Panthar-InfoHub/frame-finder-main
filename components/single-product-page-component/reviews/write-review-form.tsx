@@ -101,7 +101,6 @@ export function WriteReviewForm({ reviewData, setShowWriteReview, variantId }: r
 
         if (successfulUploads.length > 0) {
           uploadedImagePaths = successfulUploads.map(r => r.path!);
-          console.log("[ReviewForm] Successfully uploaded images:", uploadedImagePaths);
         }
 
         if (failedUploads.length > 0) {
@@ -195,7 +194,6 @@ export function WriteReviewForm({ reviewData, setShowWriteReview, variantId }: r
               <ImageUploader
                 images={imgs}
                 onChange={(file) => {
-                  console.log("[ReviewForm] Image file selected:", file)
                   setPendingImageFile(file)
                   const preview = Array.isArray(file) ? file.map(f => URL.createObjectURL(f)) : URL.createObjectURL(file)
                   setPreviewUrl(preview)

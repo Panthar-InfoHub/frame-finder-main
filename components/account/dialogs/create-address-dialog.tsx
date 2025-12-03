@@ -45,7 +45,6 @@ export function CreateAddressDialog({ children, addresses }: CreateAddressDialog
         canSubmitWhenInvalid: true,
         onSubmit: async ({ value }) => {
             const address = { ...value, }
-            console.log("Create address values ==> ", value)
             startTransition(async () => {
                 try {
                     const result = await updateUser({ address: [...addresses, address] })

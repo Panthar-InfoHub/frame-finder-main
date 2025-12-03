@@ -8,27 +8,30 @@ import { Suspense } from "react";
 
 interface searchParamsProps {
   searchParams: Promise<{
-    gender: string | string[]
-    style: string | string[]
-    material: string | string[]
-    brand: string | string[]
-
-  }>
+    gender: string | string[];
+    style: string | string[];
+    material: string | string[];
+    brand: string | string[];
+  }>;
 }
 export default async function AllContactlens({ searchParams }: searchParamsProps) {
-  const { gender, style, material, brand } = await searchParams;
+  const params = await searchParams;
 
-  const filters = {
-    gender: gender as string || null,
-    style: style as string || null,
-    material: material as string || null,
-    brand: brand as string || null,
-  };
+  // Build filters object from all possible params
+  const filters: Record<string, string | string[]> = {};
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) {
+      filters[key] = value;
+    }
+  });
 
   return (
     <ProductFetchingLayout
       pageTitle="CONTACT LENS SOLUTION"
       heroImageSrc="/images/bg/solution_bg.png"
+      productType="contactLensSolution"
+      searchParams={params}
+      basePath="/contactLensSolution"
     >
       <Suspense fallback={<LoadingSkeleton />}>
         <ProductList filters={filters} />
@@ -38,8 +41,8 @@ export default async function AllContactlens({ searchParams }: searchParamsProps
 }
 
 // DATA FETCHING SEPARATED COMPONENT : FOR PPR
-async function ProductList({ filters }: { filters: any }) {
-  const response = await getAllLensSolution();
+async function ProductList({ filters }: { filters: Record<string, string | string[]> }) {
+  const response = await getAllLensSolution(filters);
 
   if (!response.success) {
     return <p>Error: Failed to load products</p>;
@@ -51,14 +54,12 @@ async function ProductList({ filters }: { filters: any }) {
   return (
     <>
       <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start mb-6">
-        <span className="font-semibold">
-          {totalProducts} PRODUCTS
-        </span>
+        <span className="font-semibold">{totalProducts} PRODUCTS</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {transformedProducts.map((product) => (
-            <ProductCard key={product._id} product={product} productType="contactLensSolution"/>
+          <ProductCard key={product._id} product={product} productType="contactLensSolution" />
         ))}
       </div>
     </>

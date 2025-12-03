@@ -24,7 +24,6 @@ export async function getUser() {
     try {
         const headers = await getAuthHeaders()
         const res = await axios.get(`${API_URL}/user`, { headers })
-        // console.log("getUser response", res.data)
         return res.data
     } catch (error: any) {
         console.error("getUser error", error)
@@ -37,7 +36,6 @@ export async function updateUser(data: any) {
     try {
         const headers = await getAuthHeaders()
         const res = await axios.put(`${API_URL}/user`, data, { headers })
-        // console.log("getUser response", res.data)
         revalidatePath("/account")
         return res.data
     } catch (error: any) {

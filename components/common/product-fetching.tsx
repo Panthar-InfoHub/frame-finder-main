@@ -1,5 +1,5 @@
 // components/products/ProductPageLayout.tsx
-import { FilterSidebar } from "@/components/multiple-products-page-component/filter-sidebar";
+import { SimplifiedFilterSidebar } from "@/components/filters";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { categories } from "@/lib/data";
@@ -8,6 +8,10 @@ import Image from "next/image";
 import { Suspense, ReactNode } from "react";
 import LoadingSkeleton from "@/components/loading-skeleton";
 import { CategoryTab } from "./category-tab";
+import { getFilterConfig } from "@/lib/filters/filter-configs";
+import { FilterErrorBoundary } from "@/components/filters/FilterErrorBoundary";
+import { FilterParams } from "@/lib/filters/filter-utils";
+import Link from "next/link";
 
 interface ProductPageLayoutProps {
   pageTitle: string;
@@ -15,6 +19,8 @@ interface ProductPageLayoutProps {
   children: ReactNode; // Dynamic product list goes here
   category?: any;
   productType?: string;
+  searchParams?: FilterParams; // NEW: Pass search params for filters
+  basePath?: string; // NEW: Base path for filter URLs
 }
 
 export function ProductFetchingLayout({
@@ -23,7 +29,12 @@ export function ProductFetchingLayout({
   children,
   category,
   productType,
+  searchParams = {},
+  basePath = "",
 }: ProductPageLayoutProps) {
+  // Automatically get filter config based on product type
+  const filterConfig = getFilterConfig(productType);
+
   return (
     <main className="min-h-screen">
       {/* Hero Section - STATIC */}
@@ -41,10 +52,16 @@ export function ProductFetchingLayout({
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Desktop Sidebar - STATIC */}
+          {/* Desktop Sidebar - SIMPLIFIED */}
           <aside className="hidden lg:block shrink-0 w-64">
             <div className="sticky top-8">
-              <FilterSidebar />
+              <FilterErrorBoundary>
+                <SimplifiedFilterSidebar
+                  filterConfig={filterConfig}
+                  searchParams={searchParams}
+                  basePath={basePath}
+                />
+              </FilterErrorBoundary>
             </div>
           </aside>
 
@@ -62,27 +79,34 @@ export function ProductFetchingLayout({
                 </SheetTrigger>
                 <SheetContent side="left" className="w-80 overflow-y-auto">
                   <div className="py-6">
-                    <FilterSidebar />
+                    <FilterErrorBoundary>
+                      <SimplifiedFilterSidebar
+                        filterConfig={filterConfig}
+                        searchParams={searchParams}
+                        basePath={basePath}
+                      />
+                    </FilterErrorBoundary>
                   </div>
                 </SheetContent>
               </Sheet>
 
               {/* Product count placeholder - will be replaced by streaming content */}
 
-              <Button variant="ghost" className="text-sm font-semibold">
-                RESET
-              </Button>
+              <Link href={basePath} scroll={false}>
+                <Button variant="ghost" className="text-sm font-semibold">
+                  RESET
+                </Button>
+              </Link>
             </div>
-    
+
             {/* Category Tabs - STATIC */}
-            {(productType === "frames" || productType === "colorContactLens" || productType === "contactLens" || productType === "sunglasses") &&(
-              <CategoryTab categories={category} />
-            )}
+            {(productType === "frames" ||
+              productType === "colorContactLens" ||
+              productType === "contactLens" ||
+              productType === "sunglasses") && <CategoryTab categories={category} />}
 
             {/* DYNAMIC CONTENT WITH SUSPENSE - STREAMS */}
-            <Suspense fallback={<LoadingSkeleton />}>
-              {children}
-            </Suspense>
+            <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
           </div>
         </div>
       </div>

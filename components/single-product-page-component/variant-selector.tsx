@@ -36,11 +36,8 @@ interface VariantSelectorProps {
 
     const router = useRouter();
     const [isTransitioning, Transition] = useTransition();
-    // console.log("processedUrls in VariantSelector:", processedUrls);
-    // console.log(`varaints in VariantSelector:`, variants);
-    // console.log("VariantSelector imgUrls:", imgUrls);
+ 
     // const displayImage = imgUrls?.[0] || "/placeholder.png";
-    // console.log("Display Image in VariantSelector:", displayImage);
 
     if (isTransitioning) {
       return (

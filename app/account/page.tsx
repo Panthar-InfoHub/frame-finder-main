@@ -90,7 +90,6 @@ export default async function ProfilePage() {
         )
       : [];
 
-  // console.log("Order Data ==> ", user_data)
 
   return (
     <main className="min-h-screen">

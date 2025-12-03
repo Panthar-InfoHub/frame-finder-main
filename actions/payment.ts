@@ -60,7 +60,6 @@ export async function createRazorpayOrder(params: CreateRazorpayOrderParams) {
 
     // Create Razorpay order
     const razorpayOrder = await razorpay.orders.create(options);
-    console.log(razorpayOrder);
 
     return {
       success: true,

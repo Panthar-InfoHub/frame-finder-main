@@ -4,7 +4,6 @@ import { getImageUrl } from "@/lib/helper";
 
 export default async function CartPage() {
   const cart = await getCart();
-  console.log(cart);
 
   // Extract items array and price breakdown from the response
   const items = cart?.items || [];

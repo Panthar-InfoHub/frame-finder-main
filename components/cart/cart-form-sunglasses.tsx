@@ -79,7 +79,6 @@ export default function AddToCartFormSunglasses({
           : undefined,
       },
     };
-    console.log("Final Payload:", payload);
     setIsSubmitting(true);
     try {
       const resp = await addItemToCart(payload);

@@ -9,28 +9,31 @@ import { transformImages } from "@/lib/helper";
 
 interface searchParamsProps {
   searchParams: Promise<{
-    gender: string | string[]
-    style: string | string[]
-    material: string | string[]
-    brand: string | string[]
-
-  }>
+    gender: string | string[];
+    style: string | string[];
+    material: string | string[];
+    brand: string | string[];
+  }>;
 }
 
 export default async function Frames({ searchParams }: searchParamsProps) {
-  const { gender, style, material, brand } = await searchParams;
+  const params = await searchParams;
 
-  const filters = {
-    gender: gender as string || null,
-    style: style as string || null,
-    material: material as string || null,
-    brand: brand as string || null,
-  };
+  // Build filters object from all possible params
+  const filters: Record<string, string | string[]> = {};
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) {
+      filters[key] = value;
+    }
+  });
 
   return (
     <ProductFetchingLayout
       pageTitle="READING GLASSES"
       heroImageSrc="/images/bg/frame_bg.png"
+      productType="readingGlasses"
+      searchParams={params}
+      basePath="/readingGlasses"
     >
       <Suspense fallback={<LoadingSkeleton />}>
         <ProductList filters={filters} />
@@ -40,7 +43,7 @@ export default async function Frames({ searchParams }: searchParamsProps) {
 }
 
 // DATA FETCHING SEPARATED COMPONENT : FOR PPR
-async function ProductList({ filters }: { filters: any }) {
+async function ProductList({ filters }: { filters: Record<string, string | string[]> }) {
   const response = await getAllReadingGlass(filters);
 
   if (!response.success) {
@@ -54,14 +57,12 @@ async function ProductList({ filters }: { filters: any }) {
   return (
     <>
       <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start mb-6">
-        <span className="font-semibold">
-          {totalProducts} PRODUCTS
-        </span>
+        <span className="font-semibold">{totalProducts} PRODUCTS</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 auto-rows-fr">
-        {productsWithImages.map((product) => (  
-            <ProductCard key={product._id} product={product} productType="readingGlasses"/>
+        {productsWithImages.map((product) => (
+          <ProductCard key={product._id} product={product} productType="readingGlasses" />
         ))}
       </div>
     </>

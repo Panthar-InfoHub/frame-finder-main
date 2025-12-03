@@ -41,14 +41,12 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
         },
         canSubmitWhenInvalid: true,
         onSubmit: async ({ value }) => {
-            console.log("Form values submitting ==> ", value)
             startTransition(async () => {
                 try {
                     let imageUrl = profileImage;
 
 
                     if (pendingImageFile) {
-                        console.log("[v0] Uploading image before saving profile:", pendingImageFile.name)
 
                         const { url, path } = await getSignedUploadUrl({
                             filename: pendingImageFile.name,
@@ -57,7 +55,6 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
                             folderName: "profile",
                         })
 
-                        console.log("[v0] Got signed URL, uploading to:", url)
 
                         const response = await fetch(url, {
                             method: "PUT",
@@ -71,7 +68,6 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
                             throw new Error("Image upload failed")
                         }
 
-                        console.log("[v0] Image uploaded successfully, path:", path)
                         imageUrl = path
 
                         if (previewUrl) {
@@ -114,7 +110,6 @@ export function AccountInformationTab({ userData }: AccountInformationTabProps) 
                     <ImageUploader
                         images={profileImage}
                         onChange={(file: File) => {
-                            console.log("[v0] Image file selected:", file)
                             setPendingImageFile(file)
                             const preview = URL.createObjectURL(file)
                             setPreviewUrl(preview)

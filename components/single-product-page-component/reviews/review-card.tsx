@@ -16,7 +16,6 @@ export function ReviewCard({ review, onDelete, loggedId , isPending }: any) {
     return userId === loggedId;
   }
 
-  // console.log("Review ==> ", review);
 
   return (
     <Card className="p-4 space-y-3">

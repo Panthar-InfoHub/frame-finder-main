@@ -25,10 +25,7 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
   let couponData = null;
   if (params.coupon && params.coupon !== "undefined") {
     try {
-      console.log("📍 Applying coupon from URL:", params.coupon);
       const result = await applyCoupon(params.coupon);
-      console.log("📍 Coupon API result:", result);
-      console.log("📍 result.data content:", JSON.stringify(result.data, null, 2));
 
       if (result.success && result.data) {
         // Extract coupon code from API response structure
@@ -37,9 +34,7 @@ export default async function Checkout({ searchParams }: CheckoutPageProps) {
           total_discount_price: result.data.total_discount_price,
           vendors: result.data.items_breakdown || [],
         };
-        console.log("✅ Coupon data set:", couponData);
       } else {
-        console.log("❌ Coupon validation failed:", result.message);
       }
     } catch (error) {
       console.error("❌ Error applying coupon:", error);

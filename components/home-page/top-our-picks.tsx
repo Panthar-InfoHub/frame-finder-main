@@ -17,8 +17,6 @@ export async function TopOurPicks() {
   const newArrivalsData = res.data?.data?.products || [];
   const bestSellersData = bestSellerRes.data?.data?.data || [];
 
-  console.debug("new arrivals data ", newArrivalsData);
-  console.debug("best sellers data ", bestSellersData);
 
   const newArrivals = await Promise.all(
     newArrivalsData?.map(async (product: any) => {

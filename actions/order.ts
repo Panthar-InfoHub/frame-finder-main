@@ -24,7 +24,6 @@ export async function getOrderByUser() {
     try {
         const headers = await getAuthHeaders()
         const res = await axios.get(`${API_URL}/order/my-order`, { headers })
-        // console.log("getOrderByUser response", res.data)
         return res.data
     } catch (error: any) {
         console.error("getOrderByUser error", error)

@@ -16,7 +16,6 @@ interface AddressBookTabProps {
 
 export function AddressBookTab({ addresses, userName }: AddressBookTabProps) {
 
-  console.log("Addresses ==> ", addresses)
   return (
     <div className="space-y-6">
 

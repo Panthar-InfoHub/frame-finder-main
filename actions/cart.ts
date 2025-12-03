@@ -147,7 +147,6 @@ export const addDirectToCart = async (
         type: productType,
       },
     };
-    console.log("Add direct to cart payload:", payload);
     const resp = await axios.post(`${API_URL}/cart/add`, payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -184,7 +183,6 @@ export const addToCartWithoutVariant = async (
         type: productType,
       },
     };
-    console.log("Add to cart without variant payload:", payload);
     const resp = await axios.post(`${API_URL}/cart/add`, payload, {
       headers: { Authorization: `Bearer ${token}` },
     });

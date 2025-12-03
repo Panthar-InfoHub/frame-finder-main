@@ -113,7 +113,6 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
           color: "#3399cc",
         },
         handler: async function (response: any) {
-          console.log("Razorpay payment response:", response);
           toast.success("Order Placed Successfully! 🎉");
           router.push("/account?tab=orders");
         },
@@ -193,7 +192,6 @@ export function CheckoutPageClient({ initialCheckoutData }: CheckoutPageClientPr
       if (result.success) {
         // Order created successfully, now initiate payment
         const orders = result.data.orders;
-        console.log("📍 Created orders:", orders);
 
         // Check if Razorpay is loaded (check window.Razorpay directly)
         if (!window.Razorpay) {

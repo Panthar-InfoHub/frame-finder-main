@@ -36,7 +36,6 @@ export default function AddToCartFormColorContactLens({ product }: { product: an
       },
     };
 
-    console.log("Final Payload:", payload);
     setIsSubmitting(true);
     try {
       const resp = await addItemToCart(payload);

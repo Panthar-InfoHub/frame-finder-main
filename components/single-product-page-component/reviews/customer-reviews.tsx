@@ -114,9 +114,7 @@ export function CustomerReviews({ allReviews, averageRating, totalReviews, distr
               setShowWriteReview={setShowWriteReview}
               variantId={variantId}
             // afterSubmit={(review) => {
-            //   console.log('review is here', review)
             //   setAllReviews([review, ...allReviews,])
-            //   console.log('New reviews array', [review, ...allReviews])}}
             />
           )}
         </div>

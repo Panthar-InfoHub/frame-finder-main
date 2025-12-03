@@ -7,7 +7,6 @@ const SearchReset = () => {
 
     const reset = () => {
         const form: any = document.querySelector('.search-form')
-        console.log('form', form)
         if (form) form.reset();
     }
 

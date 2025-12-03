@@ -45,7 +45,6 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   if (!variant) {
     const newVariantId = product.variants[0]._id;
-    console.log("variant not found", "redirecting to", newVariantId);
     return redirect(`/frames/${id}?variantId=${newVariantId}`);
   }
 

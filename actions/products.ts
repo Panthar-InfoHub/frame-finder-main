@@ -1,16 +1,19 @@
-"use server"
+"use server";
 import { API_URL } from "@/lib/apiUtils";
 import { auth } from "@/lib/auth";
 import { getProductUrlType } from "@/lib/utils";
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { getAccessToken } from "./auth";
+import { buildQueryUrl } from "@/lib/filters/filter-utils";
 
 // From here till line 128 these are all the get fuctions of the product
 // This is the get request for the frames
 export const getAllFrames = async (params: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/products/`, { params });
+    const url = buildQueryUrl(`${API_URL}/products/`, params);
+    const resp = await axios.get(url);
+
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -18,8 +21,7 @@ export const getAllFrames = async (params: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -28,9 +30,10 @@ export const getAllFrames = async (params: any) => {
 };
 
 // This is the get request for the sunglasses
-export const getAllSunglasses = async (payload?: any) => {
+export const getAllSunglasses = async (params?: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/sunglass/`);
+    const url = buildQueryUrl(`${API_URL}/sunglass/`, params || {});
+    const resp = await axios.get(url);
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -38,8 +41,7 @@ export const getAllSunglasses = async (payload?: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -51,7 +53,8 @@ export const getAllSunglasses = async (payload?: any) => {
 
 export const getAllAccessories = async (params: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/accessories/`, { params });
+    const url = buildQueryUrl(`${API_URL}/accessories/`, params);
+    const resp = await axios.get(url);
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -59,8 +62,7 @@ export const getAllAccessories = async (params: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -71,7 +73,8 @@ export const getAllAccessories = async (params: any) => {
 // This is the get request for the Reader glasses
 export const getAllReadingGlass = async (params: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/reader/`, { params });
+    const url = buildQueryUrl(`${API_URL}/reader/`, params);
+    const resp = await axios.get(url);
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -79,8 +82,7 @@ export const getAllReadingGlass = async (params: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -92,7 +94,8 @@ export const getAllReadingGlass = async (params: any) => {
 
 export const getAllContactLens = async (params: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/contact-lens`, { params });
+    const url = buildQueryUrl(`${API_URL}/contact-lens`, params);
+    const resp = await axios.get(url);
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -100,8 +103,7 @@ export const getAllContactLens = async (params: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -113,7 +115,8 @@ export const getAllContactLens = async (params: any) => {
 
 export const getAllColorContactLens = async (params: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/color-contact-lens`, { params });
+    const url = buildQueryUrl(`${API_URL}/color-contact-lens`, params);
+    const resp = await axios.get(url);
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -121,8 +124,7 @@ export const getAllColorContactLens = async (params: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -130,9 +132,10 @@ export const getAllColorContactLens = async (params: any) => {
   }
 };
 
-export const getAllLensSolution = async () => {
+export const getAllLensSolution = async (params?: any) => {
   try {
-    const resp = await axios.get(`${API_URL}/lens-solution`);
+    const url = buildQueryUrl(`${API_URL}/lens-solution`, params || {});
+    const resp = await axios.get(url);
     const data = resp.data;
 
     if (resp.status != 200 || !data.success) {
@@ -140,8 +143,7 @@ export const getAllLensSolution = async () => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -152,7 +154,6 @@ export const getAllLensSolution = async () => {
 
 export const getFrameById = async (id: any) => {
   try {
-
     const resp = await axios.get(`${API_URL}/products/${id}`);
     const data = resp.data;
 
@@ -161,8 +162,7 @@ export const getFrameById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -179,8 +179,7 @@ export const getSunglassesById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -198,8 +197,7 @@ export const getAccessoryById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -217,8 +215,7 @@ export const getReaderById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -238,8 +235,7 @@ export const getAccessoriesById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -259,8 +255,7 @@ export const getColorContactLensById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -278,8 +273,7 @@ export const getContactLensById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -297,8 +291,7 @@ export const getReadingGlassById = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -316,8 +309,7 @@ export const getLensSolutionId = async (id: any) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -337,8 +329,7 @@ export const getbestseller = async () => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Fialed to load the reasource";
+    const message = error instanceof Error ? error.message : "Fialed to load the reasource";
     return {
       success: false,
       message,
@@ -364,8 +355,7 @@ export const getFramePkgByVendorId = async (id: string, lensType?: string) => {
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     console.error("Error in getFramePkgByVendorId:", message);
     return {
       success: false,
@@ -374,10 +364,7 @@ export const getFramePkgByVendorId = async (id: string, lensType?: string) => {
   }
 };
 
-export const getSunglassesPkgByVendorId = async (
-  id: string,
-  lensType?: string
-) => {
+export const getSunglassesPkgByVendorId = async (id: string, lensType?: string) => {
   try {
     const token = await getAccessToken();
     if (!token) {
@@ -395,8 +382,7 @@ export const getSunglassesPkgByVendorId = async (
     }
     return data;
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     console.error("Error in getSunglassesPkgByVendorId:", message);
     return {
       success: false,
@@ -417,15 +403,12 @@ export const getProductReview = async (id: any) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = resp.data;
-    // console.log(data);
     if ((resp.status !== 200 && resp.status !== 201) || !data.success) {
       throw new Error("Failed to load the page");
     }
     return data;
   } catch (error) {
-    // console.log("Error : ", error.response);
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -435,12 +418,12 @@ export const getProductReview = async (id: any) => {
 
 export const postProductReview = async (payload: any, variantId?: string) => {
   try {
-    // first we will get the user and token -> here since we are using the auth js we will do it using the meathod given below 
-    const session = await auth()
+    // first we will get the user and token -> here since we are using the auth js we will do it using the meathod given below
+    const session = await auth();
     if (!session) {
       throw new Error("Was not able to get the session");
     }
-    const userId = session.user.id
+    const userId = session.user.id;
     const token = await getAccessToken();
     if (!token) {
       throw new Error("No access token found");
@@ -453,8 +436,8 @@ export const postProductReview = async (payload: any, variantId?: string) => {
       onModel: payload.onModel,
       rating: payload.rating,
       comment: payload.comment,
-      images: payload.images || []
-    }
+      images: payload.images || [],
+    };
     const resp = await axios.post(`${API_URL}/review`, finalData, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -464,12 +447,12 @@ export const postProductReview = async (payload: any, variantId?: string) => {
     }
 
     revalidatePath(`/${getProductUrlType(data.data.onModel)}/${data.data.product}`);
-    revalidatePath(`/${getProductUrlType(data.data.onModel)}/${data.data.product}?variantId=${variantId || ''}`);
+    revalidatePath(
+      `/${getProductUrlType(data.data.onModel)}/${data.data.product}?variantId=${variantId || ""}`
+    );
     return data;
   } catch (error) {
-    console.log("Error : ", error.response);
-    const message =
-      error instanceof Error ? error.message : "Failed to load the page";
+    const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
@@ -478,7 +461,6 @@ export const postProductReview = async (payload: any, variantId?: string) => {
 };
 
 export const deleteReview = async (payload: any) => {
-  // console.log(payload)
   try {
     const token = await getAccessToken();
     if (!token) {
@@ -487,36 +469,34 @@ export const deleteReview = async (payload: any) => {
     const id = payload.reviewId;
     const finalData = {
       vendorId: payload.vendorId,
-    }
-    // console.log('Data for deleting review', { reviewId: id, vendorId: payload.vendorId, accessToken: token })
+    };
+ 
     const resp = await fetch(`${API_URL}/review/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(finalData),
-
     });
     const data = await resp.json();
-    // console.log('if the data is posted', data)
-    if ((!resp.ok) || !data.success) {
-      console.log('Failed to delete review', data)
+    if (!resp.ok || !data.success) {
       throw new Error("Failed to load the page");
     }
 
     revalidatePath(`/${getProductUrlType(data.data.onModel)}/${data.data.product}`);
-    revalidatePath(`/${getProductUrlType(data.data.onModel)}/${data.data.product}?variantId=${payload?.variantId || ''}`);
+    revalidatePath(
+      `/${getProductUrlType(data.data.onModel)}/${data.data.product}?variantId=${
+        payload?.variantId || ""
+      }`
+    );
     return data;
-  }
-  catch (error) {
-    console.log("Network or unexpected error:", error);
+  } catch (error) {
     const message = error instanceof Error ? error.message : "Failed to load the page";
     return {
       success: false,
       message,
     };
   }
-}
-
+};

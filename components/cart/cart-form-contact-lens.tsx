@@ -77,7 +77,6 @@ export default function AddToCartFormContactLens({ product }: { product: any }) 
       },
     };
 
-    console.log("Final Payload:", payload);
     setIsSubmitting(true);
     try {
       const resp = await addItemToCart(payload);

@@ -8,29 +8,29 @@ import { Suspense } from "react";
 
 interface searchParamsProps {
   searchParams: Promise<{
-    gender: string | string[]
-    style: string | string[]
-    material: string | string[]
-    brand: string | string[]
-
-  }>
+    gender: string | string[];
+    style: string | string[];
+    material: string | string[];
+    brand: string | string[];
+  }>;
 }
 
 export default async function AllContactlens({ searchParams }: searchParamsProps) {
-  const { gender, style, material, brand } = await searchParams;
+  const params = await searchParams;
 
-  const filters = {
-    gender: gender as string || null,
-    style: style as string || null,
-    material: material as string || null,
-    brand: brand as string || null,
-  };
+  // Build filters object from all possible params
+  const filters: Record<string, string | string[]> = {};
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) {
+      filters[key] = value;
+    }
+  });
 
   const category = [
-  { label: "Spherical/Non-Toric", value: "spherical-non-toric" },
-  { label: "Toric", value: "toric" },
-  { label: "Multifocal", value: "multifocal" },
-];
+    { label: "Spherical/Non-Toric", value: "spherical-non-toric" },
+    { label: "Toric", value: "toric" },
+    { label: "Multifocal", value: "multifocal" },
+  ];
 
   return (
     <ProductFetchingLayout
@@ -38,6 +38,8 @@ export default async function AllContactlens({ searchParams }: searchParamsProps
       heroImageSrc="/images/bg/cl_bg.png"
       category={category}
       productType="contactLens"
+      searchParams={params}
+      basePath="/contactLens"
     >
       {/* Product Grid with streaming */}
       <Suspense fallback={<LoadingSkeleton />}>
@@ -48,7 +50,7 @@ export default async function AllContactlens({ searchParams }: searchParamsProps
 }
 
 // DATA FETCHING SEPARATED COMPONENT : FOR PPR
-async function ProductList({ filters }: { filters: any }) {
+async function ProductList({ filters }: { filters: Record<string, string | string[]> }) {
   const response = await getAllContactLens(filters);
 
   if (!response.success) {
@@ -60,14 +62,12 @@ async function ProductList({ filters }: { filters: any }) {
   return (
     <>
       <div className="flex items-center gap-4 flex-1 justify-center lg:justify-start mb-6">
-        <span className="font-semibold">
-          {transformedData.length} PRODUCTS
-        </span>
+        <span className="font-semibold">{transformedData.length} PRODUCTS</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         {transformedData.map((product: any) => (
-            <ProductCard key={product._id} product={product} productType="contactLens" />
+          <ProductCard key={product._id} product={product} productType="contactLens" />
         ))}
       </div>
     </>

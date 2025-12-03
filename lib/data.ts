@@ -1,3 +1,5 @@
+import { FilterOption } from "./filters/filter-data";
+
 export const siteConfig = {
   name: "Frame Finder",
   description: "Premium eyewear collection",
@@ -43,7 +45,6 @@ export const navigationLinks = [
   { label: "CONTACT LENSES SOLUTIONS", href: "/contactLensSolution" },
   { label: "ACCESSORIES", href: "/accessories" },
 ];
-
 
 export const productCategories = [
   {
@@ -212,13 +213,11 @@ export const navigationMenuData = {
   },
   "CONTACT LENSES": {
     type: "simple-categories",
-    categories: [
-      { name: "By Disposibility", href: "/contactLens?disposibility=disposibility" },
-    ],
+    categories: [{ name: "By Disposibility", href: "/contactLens?disposibility=disposibility" }],
   },
   ACCESSORIES: {
     type: "simple-categories",
-    categories: [ 
+    categories: [
       { name: "Chains", href: "/accessories?name=chains" },
       { name: "Packaging Case", href: "/accessories?name=packaging" },
     ],
@@ -322,11 +321,6 @@ export interface Stock {
   minimum: number;
 }
 
-export interface FilterOption {
-  label: string;
-  value: string;
-  count?: number;
-}
 
 export const categories: FilterOption[] = [
   { label: "Eyeglasses", value: "eyeglasses" },
@@ -387,10 +381,30 @@ export const socialLinks = [
 ];
 
 export const sunglassesCategories = [
-  { id: 1, name: "Rimless Glasses", href: "/sunglasses?style=rimless", icon: "/sunglasses/sun_1.jpg" },
-  { id: 2, name: "Transparent Frame", href: "/sunglasses?style=transparent", icon: "/sunglasses/sun_2.jpg" },
-  { id: 3, name: "Rich Acetate eyeglass", href: "/sunglasses?style=rich-acetate", icon: "/sunglasses/sun_3.jpg" },
-  { id: 4, name: "Blue Computer Glasses", href: "/sunglasses?style=blue-computer", icon: "/sunglasses/sun_1.jpg" },
+  {
+    id: 1,
+    name: "Rimless Glasses",
+    href: "/sunglasses?style=rimless",
+    icon: "/sunglasses/sun_1.jpg",
+  },
+  {
+    id: 2,
+    name: "Transparent Frame",
+    href: "/sunglasses?style=transparent",
+    icon: "/sunglasses/sun_2.jpg",
+  },
+  {
+    id: 3,
+    name: "Rich Acetate eyeglass",
+    href: "/sunglasses?style=rich-acetate",
+    icon: "/sunglasses/sun_3.jpg",
+  },
+  {
+    id: 4,
+    name: "Blue Computer Glasses",
+    href: "/sunglasses?style=blue-computer",
+    icon: "/sunglasses/sun_1.jpg",
+  },
   { id: 5, name: "Metalwork", href: "/sunglasses?style=metalwork", icon: "/sunglasses/sun_2.jpg" },
 ];
 
