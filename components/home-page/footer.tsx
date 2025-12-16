@@ -14,7 +14,7 @@ export function Footer() {
     <footer className=" h-[800px] md:h-screen bg-emerald-500 text-white py-12">
       <div className="container mx-auto px-4">
         <div className= " flex justify-center items-center mb-8 w-full">
-          <h2 className="text-4xl md:text-[150px]  font-normal mb-8 font-(family-name:--font-bona_nova)">FRAME FINDER</h2>
+          <h2 className="text-4xl md:text-[150px]  font-normal mb-8 font-(family-name:--font-poppins)">FRAME FINDER</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

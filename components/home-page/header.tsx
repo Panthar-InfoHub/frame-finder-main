@@ -107,7 +107,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
       </div>
 
       {/* Navigation - Made sticky with blur effect when scrolled */}
-      <nav className={`sticky top-0  left-0  z-50  right-0 bg-emerald-500`}>
+      <nav className={`sticky top-0  left-0  z-50  right-0 bg-white`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link href="/" className="shrink-0">
@@ -124,19 +124,19 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
               <NavigationMenu viewport={false}>
                 <NavigationMenuList className="gap-2">
                   {navigationLinks.map((link) => {
-                    const textColorClass = shouldBlur
-                      ? "text-black hover:text-black/70"
-                      : "text-white hover:text-white/80";
-                    const bgClass = shouldBlur
-                      ? "bg-transparent hover:bg-emerald-500 data-[state=open]:bg-emerald-500"
-                      : "bg-transparent hover:bg-transparent data-[state=open]:bg-transparent";
+                    // const textColorClass = shouldBlur
+                    //   ? "text-black hover:text-black/70"
+                    //   : "text-white hover:text-white/80";
+                    // const bgClass = shouldBlur
+                    //   ? "bg-transparent hover:bg-emerald-500 data-[state=open]:bg-emerald-500"
+                    //   : "bg-transparent hover:bg-transparent data-[state=open]:bg-transparent";
 
                     if (link.label === "EYEGLASSES") {
                       return (
                         <NavigationMenuItem key={link.href}>
                           <Link href="/frames">
                             <NavigationMenuTrigger
-                              className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                              className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide text-black hover:text-white`}
                             >
                               {link.label}
                             </NavigationMenuTrigger>
@@ -153,7 +153,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                         <NavigationMenuItem key={link.href}>
                           <Link href="/sunglasses">
                             <NavigationMenuTrigger
-                              className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide ${textColorClass} ${bgClass}`}
+                              className={`text-[9px] md:text-[10px] lg:text-xs font-medium transition-colors uppercase tracking-wide text-black hover:text-white bg-`}
                             >
                               {link.label}
                             </NavigationMenuTrigger>
@@ -169,7 +169,7 @@ export function Header({ alwaysBlurred = false }: HeaderProps) {
                         <Link href={link.href}>
                           <NavigationMenuLink
                             asChild
-                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium ${textColorClass} transition-colors uppercase tracking-wide hover:bg-accent hover:text-accent-foreground`}
+                            className={`text-[9px] md:text-[10px] lg:text-xs font-medium  text-black hover:text-white transition-colors uppercase tracking-wide hover:bg-accent hover:text-accent-foreground`}
                           >
                             <span>{link.label}</span>
                           </NavigationMenuLink>

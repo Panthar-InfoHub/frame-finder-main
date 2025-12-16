@@ -1,16 +1,20 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { heroSlides } from "@/lib/data"
-import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
-import { useRef } from "react"
-import Autoplay from 'embla-carousel-autoplay'
+import Image from "next/image";
+import { heroSlides } from "@/lib/data";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { useRef } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 export function HeroSection() {
-  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }))
+  const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
   return (
-    <section className="absolute top-0 left-0 right-0 h-[100dvh] w-full overflow-hidden z-0">
+    <section className="relative h-screen w-full overflow-hidden">
       <Carousel
         opts={{
           align: "start",
@@ -35,12 +39,13 @@ export function HeroSection() {
                     <h1 className="text-5xl md:text-7xl font-bold mb-4">{slide.title}</h1>
                     <p className="text-xl md:text-2xl">{slide.subtitle}</p>
                   </div>
-                </div> */}x
+                </div> */}
+                x
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
     </section>
-  )
+  );
 }

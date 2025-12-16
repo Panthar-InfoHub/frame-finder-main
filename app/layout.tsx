@@ -2,7 +2,7 @@
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Bona_Nova, Geist, Geist_Mono, Lexend_Deca } from "next/font/google";
+import { Bona_Nova, Geist, Geist_Mono, Lexend_Deca, Poppins  } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 
@@ -26,6 +26,12 @@ const bona_nova = Bona_Nova({
   weight: ["400", "700"],
   variable: "--font-bona_nova",
 });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
+});
+
 
 export const metadata: Metadata = {
   title: "Frame Finder - Premium Eyewear Collection",
@@ -41,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} `}
+        className={`font-sans ${geistSans.variable} ${geistMono.variable} ${lexend_deca.variable} ${bona_nova.variable} ${poppins.variable} `}
       >
         <Providers>
           {/* <Header /> */}
